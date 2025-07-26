@@ -19,14 +19,10 @@ class HomeController extends Controller
         // Slides
         $slides = Slide::get()
             ->map(function ($slide) use ($appLang) {
-                $title = $slide->getTranslation('title', $appLang);
-                $content = $slide->getTranslation('content', $appLang);
                 $image = Storage::url($slide->image);
                 $str_btn = $slide->getTranslation('str_btn', $appLang);
                 return [
                     'id' => $slide->id,
-                    'title' => $title,
-                    'content' => $content,
                     'image' => $image,
                     'active_btn' => $slide->active_btn,
                     'str_btn' => $str_btn,

@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slides', function (Blueprint $table) {
+        Schema::create('newsletters', function (Blueprint $table) {
             $table->id();
-            $table->json('title');
-            $table->json('content')->nullable();
-            $table->string('image');
-            $table->boolean('active_btn')->default(false);
-            $table->json('str_btn')->nullable();
-            $table->text('link')->default('welcome');
+            $table->string('email');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('slides');
+        Schema::dropIfExists('newsletters');
     }
 };

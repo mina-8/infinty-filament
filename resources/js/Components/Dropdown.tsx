@@ -9,34 +9,52 @@ import {
     useState,
 } from 'react';
 
+type TriggerType = 'hover' | 'click' | 'both';
+
 const DropDownContext = createContext<{
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
     toggleOpen: () => void;
-}>( {
+}>({
     open: false,
     setOpen: () => {},
     toggleOpen: () => {},
-} );
+});
 
-const Dropdown = ( { children }: PropsWithChildren ) => {
-    const [open, setOpen] = useState( false );
+interface DropdownProps extends PropsWithChildren {
+    triggerType?: TriggerType;
+}
 
-    const toggleOpen = () => {
-        setOpen( ( prev ) => !prev );
+const Dropdown = ({ children, triggerType = 'hover' }: DropdownProps) => {
+    const [open, setOpen] = useState(false);
+
+    const toggleOpen = () => setOpen((prev) => !prev);
+
+    const handleMouseEnter = () => {
+        if (triggerType === 'hover' || triggerType === 'both') {
+            setOpen(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (triggerType === 'hover' || triggerType === 'both') {
+            setOpen(false);
+        }
+    };
+
+    const handleClick = () => {
+        if (triggerType === 'click' || triggerType === 'both') {
+            toggleOpen();
+        }
     };
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            {/*
-              Wrap the entire dropdown in a div that listens for hover events.
-              onMouseEnter = open
-              onMouseLeave = close
-            */}
             <div
                 className="relative"
-                onMouseEnter={() => setOpen( true )}
-                onMouseLeave={() => setOpen( false )}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
             >
                 {children}
             </div>
@@ -44,37 +62,36 @@ const Dropdown = ( { children }: PropsWithChildren ) => {
     );
 };
 
-const Trigger = ( { children }: PropsWithChildren ) => {
-    return (
-        <div className="cursor-pointer">
-            {children}
-        </div>
-    );
+const Trigger = ({ children }: PropsWithChildren) => {
+    return <div className="cursor-pointer">{children}</div>;
 };
 
-const Content = ( {
+const Content = ({
     align = 'right',
-    width = '48',
+    width = 'w-auto', // ✅ الآن يمكنك تمرير أي class للعرض
     contentClasses = 'py-1 bg-white',
+    positionClasses, // ✅ خيار جديد لوضعه في أي مكان بحرية
     children,
 }: PropsWithChildren<{
     align?: 'left' | 'right' | 'center';
-    width?: '48';
+    width?: string; // ✅ مرن (يمكن تمرير أي Tailwind width)
     contentClasses?: string;
-}> ) => {
-    const { open } = useContext( DropDownContext );
+    positionClasses?: string; // ✅ يسمح بوضع مخصص
+}>) => {
+    const { open } = useContext(DropDownContext);
 
-    let alignmentClasses = 'origin-top';
-    if ( align === 'left' ) {
-        alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
-    } else if ( align === 'right' ) {
-        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
-    }else if (align === 'center') {
-        alignmentClasses =
-            'left-1/2 -translate-x-1/2 origin-top'; // ✅ center
+    let alignmentClasses = '';
+    if (!positionClasses) {
+        if (align === 'left') {
+            alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
+        } else if (align === 'right') {
+            alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
+        } else if (align === 'center') {
+            alignmentClasses = 'left-1/2 -translate-x-1/2 origin-top';
+        }
+    } else {
+        alignmentClasses = positionClasses; // ✅ استخدام position مخصص
     }
-
-    let widthClasses = width === '48' ? 'w-48' : '';
 
     return (
         <Transition
@@ -87,13 +104,10 @@ const Content = ( {
             leaveTo="opacity-0 scale-95"
         >
             <div
-                className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
+                className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${width}`}
             >
                 <div
-                    className={
-                        `rounded-md ring-1 ring-black ring-opacity-5 ` +
-                        contentClasses
-                    }
+                    className={`rounded-md ring-1 ring-black ring-opacity-5 ${contentClasses}`}
                 >
                     {children}
                 </div>
@@ -102,11 +116,11 @@ const Content = ( {
     );
 };
 
-const DropdownLink = ( {
+const DropdownLink = ({
     className = '',
     children,
     ...props
-}: InertiaLinkProps ) => {
+}: InertiaLinkProps) => {
     return (
         <Link
             {...props}

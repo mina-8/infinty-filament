@@ -23,6 +23,9 @@ import WorkusNav from '@/Components/NavList/WorkusNav';
 import { MdOutlineWbSunny } from 'react-icons/md';
 import ChangeLang from '@/Components/ChangeLang/ChangeLang';
 import { FaCartShopping } from 'react-icons/fa6';
+import { BsCart4 } from 'react-icons/bs';
+import { totalQuantity } from '@/utils/cartUtils';
+import CartNav from '@/Components/NavList/CartNav';
 
 
 export default function AuthWelcome({
@@ -35,72 +38,69 @@ export default function AuthWelcome({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-
+    const [isnavbar, setIsnavbar] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
 
     const { t, i18n } = useTranslation();
-
+    const [CartCount , setCartCount] = useState(0);
     useEffect(() => {
+
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 500);
         };
 
+        const handlnav = () => {
+            setIsnavbar(window.scrollY > 100);
+        }
+
+        const updateCountItems = ()=>{
+            setCartCount(totalQuantity());
+        }
+
+        updateCountItems();
 
         window.addEventListener('scroll', handleScroll);
 
+        window.addEventListener('scroll', handlnav);
+
+        window.addEventListener("cartUpdated", updateCountItems);
         return () => {
             window.removeEventListener('scroll', handleScroll);
-
+            window.removeEventListener('scroll', handlnav);
+            window.removeEventListener("cartUpdated", updateCountItems);
         };
-
-
     }, []);
-
 
     return (
         <LangWraper>
             <div className="min-h-screen " dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                 <nav
-                    className={`${isScrolled ? 'fixed' : ''}  top-0 left-0 w-full z-50 transition-colors duration-300 `}
+                    className={` fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${isnavbar ? 'bg-black bg-opacity-50' : 'bg-transparent'} `}
                 >
-                    <div
-                        className='bg-primary-color '
-                    >
-                        {/* top bar */}
+                    {!isnavbar && (
+
                         <div
-                            className='flex items-center justify-between max-w-7xl mx-auto px-4 py-4'
+                            className='bg-primary-color relative after:absolute after:w-full after:h-10 after:bg-primary-color after:-z-10'
                         >
+                            {/* top bar */}
                             <div
-                                className='flex items-center gap-4'
+                                className='flex items-center justify-between max-w-7xl mx-auto px-4 py-4'
                             >
-                                <a
-                                    className={`text-white cursor-pointer ${i18n.language == 'ar' ? 'border-l-2 px-4' : 'border-r-2 px-4'} flex items-center gap-2`}
-                                    target='_blank'
-                                    href={site_setting?.shop_link || '#'}
+
+                                <div
+                                    className='text-white'
                                 >
-                                    <FaCartShopping />
-                                    {t('navbar-links.shop')}
-                                </a>
-
-                                <Link
-                                    className={`text-white cursor-pointer flex items-center gap-2 `}
-
-                                    href={route('delivery', { lang: i18n.language })}
-                                >
-                                    <FaTruck />
-                                    {t('navbar-links.delivery')}
-                                </Link>
-
-
+                                    Free Shipping on all orders
+                                </div>
+                                <ChangeLang />
                             </div>
-                            <ChangeLang />
                         </div>
-                    </div>
+                    )}
                     {/* navbar */}
                     <div
-                        className='bg-white'
+                        className={`bg-white ${isnavbar ? 'rounded-none' : 'rounded-full mx-5 shadow-lg'} `}
                     >
-                        <div className={`mx-auto py-4  px-4 sm:px-6 lg:px-8  max-w-7xl `}>
+                        <div className={`mx-auto py-4 w-full max-w-screen-xl `}>
                             <div className="flex h-16 ">
                                 <div className="flex relative">
                                     <div className="flex shrink-0 items-center">
@@ -115,15 +115,10 @@ export default function AuthWelcome({
                                 <div className={`hidden xl:ms-6 xl:flex xl:items-center relative justify-between w-full`}>
                                     <div className="hidden gap-1 sm:-my-px sm:ms-10 sm:flex">
 
-                                        <NavLink
-                                            href={route('welcome', { lang: i18n.language })}
-                                            active={currentRoute === 'welcome'}
-                                            className='uppercase inline-flex items-center '
-                                        >
-                                            {t('home.home')}
-                                        </NavLink>
 
-                                        <Dropdown>
+                                        <Dropdown
+                                            triggerType="hover"
+                                        >
                                             <NavLink
                                                 href={route('about-us', { lang: i18n.language })}
                                                 active={currentRoute === 'about-us'}>
@@ -143,84 +138,27 @@ export default function AuthWelcome({
                                             </NavLink>
                                             <Dropdown.Content
                                                 align='center'
+                                                width='w-48'
                                             >
                                                 <AboutNav />
 
                                             </Dropdown.Content>
                                         </Dropdown>
 
-                                        <Dropdown>
-                                            <NavLink
-                                                href={route('how-make', { lang: i18n.language })}
-                                                active={currentRoute === 'how-make'}
-                                            >
-                                                {t('home.how_build')}
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </NavLink>
-                                            <Dropdown.Content
-                                                align='center'
-                                            >
-                                                <ServiceNav />
-                                            </Dropdown.Content>
-                                        </Dropdown>
 
 
-                                        <Dropdown>
-                                            <NavLink
-                                                href={route('mainproduct', { lang: i18n.language })}
-                                                active={currentRoute === 'mainproduct'}
-                                            >
-                                                {t('home.products')}
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </NavLink>
-                                            <Dropdown.Content
-                                                align='center'
-                                            >
-                                                {/* <ProductNav /> */}
-                                            </Dropdown.Content>
-                                        </Dropdown>
-
-
-                                        <NavLink
-                                            href={route('work-us', { lang: i18n.language })}
-                                            active={currentRoute === 'work-us'}
-                                            className='uppercase'
+                                        <a
+                                            // className={`text-white cursor-pointer ${i18n.language == 'ar' ? 'border-l-2 px-4' : 'border-r-2 px-4'} flex items-center gap-2`}
+                                            className='uppercase inline-flex items-center font-bold hover:text-primary-color'
+                                            target='_blank'
+                                            href={site_setting?.shop_link || '#'}
                                         >
-                                            {t('home.carreer')}
-                                        </NavLink>
-
-                                        <NavLink
-                                            href={route('contact-us', { lang: i18n.language })}
-                                            active={currentRoute === 'contact-us'}
-                                            className='uppercase'
-                                        >
-                                            {t('home.contact_us')}
-                                        </NavLink>
+                                            <ApplicationLogo height='h-6' />
+                                            {t('navbar-links.shop')}
+                                        </a>
 
                                     </div>
-                                    <div className="relative ms-3">
+                                    <div className="relative ms-3 flex items-center gap-4">
                                         <button
                                             name='search'
                                             type="button"
@@ -229,6 +167,25 @@ export default function AuthWelcome({
                                         >
                                             <IoSearch size={24} />
                                         </button>
+
+                                        <Dropdown
+                                            triggerType="click"
+                                        >
+                                            <div
+                                            className='flex items-center gap-2 cursor-pointer group'
+                                            >
+                                                <BsCart4 size={24} className='group-hover:text-primary-color'/>
+                                                <span>{CartCount}</span>
+                                                <span>{t('home.items')}</span>
+                                            </div>
+                                            <Dropdown.Content
+                                                align='right'
+                                                width='w-60'
+                                            >
+                                                <CartNav/>
+
+                                            </Dropdown.Content>
+                                        </Dropdown>
                                     </div>
 
                                 </div>

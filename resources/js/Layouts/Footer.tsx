@@ -17,11 +17,6 @@ interface SocialLink {
     link: string;
     icon_path: string;
 }
-interface ProductInfoNav {
-    id: number;
-    nav_title: string;
-    slug: string;
-}
 interface OfficeRegional {
     id: number;
     state: string;
@@ -35,7 +30,6 @@ interface CustomBrand extends PageProps {
 
 
     socialicons: SocialLink[];
-    productinfo_nav: ProductInfoNav[];
     office_reginal: OfficeRegional[]
 }
 
@@ -268,14 +262,7 @@ const Footer = () => {
                             href={route('about-us')}
                             className="text-xl text-black font-bold">{t('footer.services')}</Link>
                         <ul className="space-y-1 whitespace-nowrap">
-                            {productinfo_nav.map((item, index) => (
 
-                                <li
-                                    key={index}
-                                ><Link
-                                    href={route('how-make.show', { lang: i18n.language, slug: item.slug })}
-                                    className="hover:text-primary-color">{item.nav_title}</Link></li>
-                            ))}
 
                         </ul>
                     </div>

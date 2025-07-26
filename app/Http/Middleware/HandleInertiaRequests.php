@@ -47,15 +47,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'applang' =>  $appLang,
             'currentRoute' => Route::currentRouteName(),
-            'productinfo_nav' => fn()=> ProductInfo::select('id' , 'nav_title' , 'slug')
-                                    ->get()
-                                    ->map(function ($proinfo) use($appLang){
-                                        return [
-                                            'id' => $proinfo->id,
-                                            'nav_title' => $proinfo->nav_title,
-                                            'slug' => $proinfo->slug
-                                        ];
-                                    }),
+            
             'office_reginal' => fn() => OurRegionalOffice::get()
             ->map(function ($office) use($appLang){
                 return [

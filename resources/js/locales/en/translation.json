@@ -10,14 +10,35 @@
         "testimonials": "Testimonials",
         "faq": "FAQ",
         "privacy_policy": "Privacy Policy",
-        "terms_of_service": "Terms of Service"
+        "terms_of_service": "Terms of Service",
+        "newsletter": "Subscribe to the newsletter",
+        "exhibition": "Featured",
+        "items" : "Items"
+    },
+    "exhibition": {
+        "special_promtion": "Special Offers",
+        "new_products": "Latest Products",
+        "top_seller": "Best Sellers",
+        "kid_range": "Kids' Juice",
+        "add_to_cart" : "add cart",
+        "wich_list" : "add to wich list",
+        "new": "new",
+        "special": "special promotion"
+    },
+    "notify" :{
+        "add_cart" : "success added product to your cart",
+        "remove_cart" : "success removed product to your cart",
+        "wish_list" : "success product to wich list"
     },
     "navbarlist": {
         "service": {
             "sustainability": "Sustainability",
             "projects": "Projects",
             "innovation": "Innovation"
-        }
+        },
+        "cartnav": {
+"no_product": "Your cart is empty"
+}
     },
     "slides": {
         "title_1": "Welcome to Our Site",
@@ -205,10 +226,10 @@
         "delivery": "Home Delivery",
         "shop": "Visit Our Shop"
     },
-    "ourdelivery" :{
-"title" : "Delivery Service",
-"shop" : "Visit our website"
-},
+    "ourdelivery": {
+        "title": "Delivery Service",
+        "shop": "Visit our website"
+    },
     "contact": {
         "query": "Message Purpose",
         "types": {

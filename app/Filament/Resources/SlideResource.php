@@ -76,27 +76,9 @@ class SlideResource extends Resource
 
                         ]),
 
-                        Forms\Components\Select::make('link')
+                        Forms\Components\TextInput::make('link')
                             ->label(__('filament-panels::resources/pages/slide.fields.link'))
-                            ->options([
-                                'welcome' => 'Home',
-                                'our-story' => 'our story',
-                                'our-promise' => 'our promise',
-                                'our-culture' => 'our culture',
-                                'building-best' => 'bulid best',
-                                'Sustainability' => 'Sustainability',
-                                'projects' => 'projects',
-                                'innovation' => 'innovation',
-                                'contact-us' => 'contact-us',
-                                'mainproduct' => 'mainproduct',
-                                'product-search' => 'product',
-                                'news' => 'news',
-                                'work-us' => 'work-us',
-                                'build-information' => 'build information',
-
-                            ])
-                            ->searchable()
-                            ->default('welcome')
+                            
                             ->disabled(fn(callable $get) => !$get('active_btn')),
 
 

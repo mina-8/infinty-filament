@@ -5,6 +5,8 @@ import { Head } from '@inertiajs/react';
 import React, { Suspense } from 'react';
 import Sliders from './Welcome/Sliders/Sliders';
 import Loading from '@/Components/Loading';
+import NewsLetter from '@/Components/NewsLetter';
+import Exhibition from './Welcome/Exhibition/Exhibition';
 
 
 
@@ -17,9 +19,11 @@ export default function Welcome({
     return (
         <>
             <Head title="Home" />
-            
+
             <Sliders slides={slides} />
 
+            <Exhibition/>
+            <NewsLetter />
         </>
     );
 }

@@ -20,7 +20,7 @@ const ServiceNav = () => {
     return (
         <div className='flex flex-col whitespace-nowrap px-2'>
 
-            {productinfo_nav.map((item , index)=>(
+            {/* {productinfo_nav.map((item , index)=>(
                 <Link
                 className='hover:!bg-gray-300 text-primary-color !pt-2 !pb-2 mt-2 group'
                 key={index}
@@ -29,7 +29,7 @@ const ServiceNav = () => {
                 >
                     {item.nav_title}
                 </Link>
-            ))}
+            ))} */}
 
         </div>
     )

@@ -8,15 +8,37 @@
         "products": "منتجات ",
         "contactform": "نموذج الاتصال",
         "privacy_policy": "سياسة الخصوصية",
-        "terms_of_service": "شروط الخدمة"
+        "terms_of_service": "شروط الخدمة",
+        "newsletter" : "الاشتراك في النشرة الإخبارية",
+        "exhibition" : "المعروض",
+        "items" : "عناصر"
+    },
+    "exhibition" :{
+        "special_promtion" : "عروض خاصة",
+        "new_products" : "أحدث المنتجات",
+        "top_seller" : "الأكثر مبيعاً",
+        "kid_range" : "عصير الاطفال",
+        "add_to_cart" : "اضف الي السلة",
+        "wich_list" : "اضف الي قائمة الامنيات",
+        "new" : "جديد",
+        "special" : "ترويج خاص"
+    },
+    "notify" :{
+        "add_cart" : "تمت إضافة المنتج إلى سلة التسوق بنجاح",
+        "remove_cart" : "تمت إزالة المنتج من سلة التسوق بنجاح",
+        "wish_list" : "تم تحديث قائمة الامنيات بنجاح"
     },
     "navbarlist": {
         "service": {
             "sustainability": "الاستدامة",
             "projects": "المشاريع",
             "innovation": "الابتكار"
+        },
+        "cartnav" : {
+            "no_product" : "سلة السوق الخاصة بك فارغة"
         }
     },
+
     "slides": {
         "title_1": "مرحبًا بك في موقعنا",
         "title_2": "نحن نقدم أفضل الخدمات",
