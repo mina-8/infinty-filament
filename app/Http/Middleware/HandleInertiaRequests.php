@@ -2,14 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\MainProduct;
-use App\Models\OurBrand;
+use App\Models\Category;
 use App\Models\OurRegionalOffice;
-use App\Models\ProductInfo;
 use App\Models\SettingSite;
 use App\Models\SocialLink;
-use App\Models\SolveBrand;
-use App\Models\Sustainability;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -47,20 +43,38 @@ class HandleInertiaRequests extends Middleware
             ],
             'applang' =>  $appLang,
             'currentRoute' => Route::currentRouteName(),
-            
+            'categories' => fn() => Category::with([
+                'subcategory' => fn($q) => $q->withcount('products')
+            ])
+                ->select('id', 'title', 'icon', 'slug')
+                ->get()
+                ->map(function ($category) use ($appLang) {
+                    return [
+                        'id' => $category->id,
+                        'title' => $category->getTranslation('title', $appLang),
+                        'icon' => Storage::url($category->icon),
+                        'slug' => $category->getTranslation('slug', $appLang),
+                        'subcategory' => $category->subcategory->map(fn($sub)=>[
+                            'id' => $sub->id,
+                            'title' => $sub->getTranslation('title' , $appLang),
+                            'slug' => $sub->getTranslation('slug' , $appLang),
+                            'proudct_count' => $sub->products_count
+                        ])
+                    ];
+                }),
             'office_reginal' => fn() => OurRegionalOffice::get()
-            ->map(function ($office) use($appLang){
-                return [
-                    'id'=> $office->id,
-                    'state' => $office->getTranslation('state' , $appLang),
-                    'address' => $office->getTranslation('address' , $appLang),
-                    'fax' => $office->fax,
-                    'phone' => $office->phone,
-                    'phone_free' => $office->phone_free,
-                    'email' => $office->email
-                ];
-            }),
-            'socialicons' => fn()=> SocialLink::get(),
+                ->map(function ($office) use ($appLang) {
+                    return [
+                        'id' => $office->id,
+                        'state' => $office->getTranslation('state', $appLang),
+                        'address' => $office->getTranslation('address', $appLang),
+                        'fax' => $office->fax,
+                        'phone' => $office->phone,
+                        'phone_free' => $office->phone_free,
+                        'email' => $office->email
+                    ];
+                }),
+            'socialicons' => fn() => SocialLink::get(),
             'site_setting' => fn() => SettingSite::first(),
             'flash' => function () {
                 return [

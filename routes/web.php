@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BlogController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactformController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\DeliveryController;
@@ -46,32 +47,22 @@ Route::group(
 
         Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
-        // about us
-        Route::get('about-us', [AboutUsController::class, 'index'])->name('about-us');
-        // our story
-        Route::get('our-story', [OurStoryController::class, 'index'])->name('our-story');
-        // our proimse
-        Route::get('our-promise', [OurPromiseController::class, 'index'])->name('our-promise');
-        Route::get('pdf-review/{id}', [OurPromiseController::class, 'show'])->name('pdf-review');
-        // How Make
-        Route::get('how-make', [HowMakeController::class, 'index'])->name('how-make');
-        Route::get('how-make/{slug}', [HowMakeController::class, 'show'])->name('how-make.show');
+        // category
+        Route::get('category/{slug}' , [CategoryController::class , 'index'])->name('category');
 
-        // main product
-        Route::get('mainproduct', [MainProductController::class, 'index'])->name('mainproduct');
+        // sub category
+        Route::get('{category}/{subcategory}' , [CategoryController::class , 'subcategory'])->name('subcategory');
 
+        // product
+        Route::get('product' , [ProductController::class , 'index'])->name('product');
 
-        // delivery
-        Route::get('delivery' , [DeliveryController::class , 'index'])->name('delivery');
+        // product category
+        Route::get('c/{category}/{product}' , [ProductController::class , 'productcategory'])->name('product-category');
+        // product subcategory
+        Route::get('c/{category}/s/{subcategory}/{product}' , [ProductController::class , 'productsubcategory'])->name('product-subcategory');
 
-        // products
-        // Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.show');
-
-
-
-        // news
-        Route::get('news', [BlogController::class, 'index'])->name('news');
-        Route::get('news/{slug}', [BlogController::class, 'show'])->name('news.show');
+        // Cart
+        Route::get('my-cart' , [CartController::class , 'view'])->name('my-cart');
 
         // contact us
         Route::get('contact-us', [ContactUsController::class, 'index'])->name('contact-us');
@@ -79,9 +70,6 @@ Route::group(
 
         // contact form
         Route::post('contact-form', [ContactformController::class, 'store'])->name('contact-form');
-        // work us
-        Route::get('work-us', [WorkUsController::class, 'index'])->name('work-us');
-        // Route::get('jobads/{slug}', [WorkUsController::class, 'show'])->name('work-us.jobads.show');
 
 
 

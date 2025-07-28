@@ -35,7 +35,9 @@
             "innovation": "الابتكار"
         },
         "cartnav" : {
-            "no_product" : "سلة السوق الخاصة بك فارغة"
+            "no_product" : "سلة السوق الخاصة بك فارغة",
+            "sub_total" : "الاجمالي",
+            "total" : "الاجمالي النهائي"
         }
     },
 
@@ -71,14 +73,13 @@
         "otherblogs": "استكشف المزيد"
     },
     "products": {
-        "ourproducts": "منتجاتنا",
-        "products-search": "استكشف جميع المتجات",
-        "products-video": "فيديوهات تطبيق المنتجات",
-        "uses": "الاستخدامات",
-        "advantages": "المزايا",
-        "instruction-uses": "تعليمات الاستخدام",
-        "downloadpdf": "تحميل",
-        "pdf-file": "ورقة البيانات الفنية",
+        "comment" : "اكتب رايك",
+        "review" : "عدد الاستعراضات",
+        "product_code": "كود المنتج",
+        "available": "التوفر",
+        "no_stock" : "غير متوفر حاليا",
+        "stock" : "متوفر",
+        "select_price" : "الخيارات المتاحة",
         "explore-more": "استكشف المزيد من المنتجات"
     },
     "product-search": {

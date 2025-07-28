@@ -26,6 +26,7 @@ import { FaCartShopping } from 'react-icons/fa6';
 import { BsCart4 } from 'react-icons/bs';
 import { totalQuantity } from '@/utils/cartUtils';
 import CartNav from '@/Components/NavList/CartNav';
+import CategoryNav from '@/Components/NavList/CategoryNav';
 
 
 export default function AuthWelcome({
@@ -42,7 +43,7 @@ export default function AuthWelcome({
     const [showSearch, setShowSearch] = useState(false);
 
     const { t, i18n } = useTranslation();
-    const [CartCount , setCartCount] = useState(0);
+    const [CartCount, setCartCount] = useState(0);
     useEffect(() => {
 
         const handleScroll = () => {
@@ -53,7 +54,7 @@ export default function AuthWelcome({
             setIsnavbar(window.scrollY > 100);
         }
 
-        const updateCountItems = ()=>{
+        const updateCountItems = () => {
             setCartCount(totalQuantity());
         }
 
@@ -116,39 +117,9 @@ export default function AuthWelcome({
                                     <div className="hidden gap-1 sm:-my-px sm:ms-10 sm:flex">
 
 
-                                        <Dropdown
-                                            triggerType="hover"
-                                        >
-                                            <NavLink
-                                                href={route('about-us', { lang: i18n.language })}
-                                                active={currentRoute === 'about-us'}>
-                                                {t('home.about')}
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </NavLink>
-                                            <Dropdown.Content
-                                                align='center'
-                                                width='w-48'
-                                            >
-                                                <AboutNav />
-
-                                            </Dropdown.Content>
-                                        </Dropdown>
-
-
+                                        <CategoryNav />
 
                                         <a
-                                            // className={`text-white cursor-pointer ${i18n.language == 'ar' ? 'border-l-2 px-4' : 'border-r-2 px-4'} flex items-center gap-2`}
                                             className='uppercase inline-flex items-center font-bold hover:text-primary-color'
                                             target='_blank'
                                             href={site_setting?.shop_link || '#'}
@@ -162,7 +133,7 @@ export default function AuthWelcome({
                                         <button
                                             name='search'
                                             type="button"
-                                            className="inline-flex items-center rounded-full bg-primary-color hover:bg-yellow-700 border border-transparent text-white px-2 py-2 text-sm font-medium leading-4 transition duration-150 ease-in-out hover:text-white focus:outline-none"
+                                            className="inline-flex items-center rounded-full px-2 py-2 text-sm font-medium leading-4 transition duration-150 ease-in-out "
                                             onClick={() => setShowSearch(true)}
                                         >
                                             <IoSearch size={24} />
@@ -172,9 +143,9 @@ export default function AuthWelcome({
                                             triggerType="click"
                                         >
                                             <div
-                                            className='flex items-center gap-2 cursor-pointer group'
+                                                className='flex items-center gap-2 cursor-pointer group'
                                             >
-                                                <BsCart4 size={24} className='group-hover:text-primary-color'/>
+                                                <BsCart4 size={24} className='group-hover:text-primary-color' />
                                                 <span>{CartCount}</span>
                                                 <span>{t('home.items')}</span>
                                             </div>
@@ -182,7 +153,7 @@ export default function AuthWelcome({
                                                 align='right'
                                                 width='w-60'
                                             >
-                                                <CartNav/>
+                                                <CartNav />
 
                                             </Dropdown.Content>
                                         </Dropdown>

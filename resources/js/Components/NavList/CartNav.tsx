@@ -1,5 +1,6 @@
-import { getCart, removeFormCart, totalQuantity } from '@/utils/cartUtils'
-import React, { useState } from 'react'
+import { getCart, removeFormCart, totalPrice, totalQuantity } from '@/utils/cartUtils'
+import { Link } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoClose } from 'react-icons/io5';
 
@@ -9,6 +10,7 @@ const CartNav = () => {
     const handelDecressCart = (productId: number, optionId: number) => {
         removeFormCart(productId, optionId, 1);
     }
+
     if (totalQuantity() > 0) {
         return (
             <div
@@ -56,6 +58,37 @@ const CartNav = () => {
 
                     </div>
                 )}
+
+                <table
+                    className='w-full'
+                >
+                    <tbody
+                        className='border'
+                    >
+                        <tr>
+                            <td className='border p-1'>{t('navbarlist.cartnav.sub_total')}</td>
+                            <td className='border p-1'>{totalPrice()} KD</td>
+                        </tr>
+                        <tr>
+                            <td className='border p-1'>{t('navbarlist.cartnav.total')}</td>
+                            <td className='border p-1'>{totalPrice()} KD</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <Link
+                    href={route('my-cart' , {lang : i18n.language})}
+                    >
+                        View cart
+                    </Link>
+                    <Link
+                    href={route('my-cart' , {lang : i18n.language})}
+                    >
+                        Checkout
+                    </Link>
+                </div>
+
             </div>
         )
     } else {

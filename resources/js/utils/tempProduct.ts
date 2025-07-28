@@ -6,7 +6,8 @@ export const tempproducts = [
             category: "special",
             image: product,
             rating: 3, // تقييم من 5
-            basePrice: 1.620,
+
+            available: true,
             options: [
                 { id: 1, label: "كرتون - 18 حبة", price: 1.620 },
                 { id: 2, label: "حبة", price: 0.090 },
@@ -19,7 +20,7 @@ export const tempproducts = [
             category: "new",
             image: product,
             rating: 4.0,
-            basePrice: 2.300,
+            available: false,
             options: [
                 { id: 1, label: "كرتون - 18 حبة", price: 2.300 },
                 { id: 2, label: "حبة", price: 0.150 },

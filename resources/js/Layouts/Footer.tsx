@@ -46,7 +46,7 @@ const Footer = () => {
 
         {
 
-            href: 'work-us',
+            href: 'welcome',
             title: t('footer.work-us')
         },
 
@@ -245,13 +245,11 @@ const Footer = () => {
                     {/* Section: About */}
                     <div className="flex flex-col gap-4">
                         <Link
-                            href={route('about-us')}
+                            href={route('welcome')}
                             className="text-xl text-black font-bold">{t('footer.about_us')}</Link>
                         <ul className="space-y-1">
-                            <li><Link href={route('our-story', { lang: i18n.language })} className="hover:text-primary-color">{t('footer.ourstory')}</Link></li>
-                            <li><Link href={route('our-promise', { lang: i18n.language })} className="hover:text-primary-color">{t('footer.ourpromise')}</Link></li>
-                            <li><Link href={route('news', { lang: i18n.language })} className="hover:text-primary-color">{t('footer.ournews')}</Link></li>
-                            <li><Link href={`${route('about-us', { lang: i18n.language })}#certif`} className="hover:text-primary-color">{t('footer.certif')}</Link></li>
+
+                            <li><Link href={`${route('welcome', { lang: i18n.language })}#certif`} className="hover:text-primary-color">{t('footer.certif')}</Link></li>
                         </ul>
                     </div>
 
@@ -259,7 +257,7 @@ const Footer = () => {
                     {/* Section: Products */}
                     <div className="flex flex-col gap-4">
                         <Link
-                            href={route('about-us')}
+                            href={route('welcome')}
                             className="text-xl text-black font-bold">{t('footer.services')}</Link>
                         <ul className="space-y-1 whitespace-nowrap">
 
@@ -270,10 +268,10 @@ const Footer = () => {
                     {/* Section: Build */}
                     <div className="flex flex-col gap-4">
                         <Link
-                            href={route('mainproduct', { lang: i18n.language })}
+                            href={route('welcome', { lang: i18n.language })}
                             className="text-xl text-black font-bold">{t('footer.products')}</Link>
                         <ul className="space-y-1 whitespace-nowrap">
-                            <li><Link href={route('mainproduct', { lang: i18n.language })} className="hover:text-primary-color">
+                            <li><Link href={route('welcome', { lang: i18n.language })} className="hover:text-primary-color">
                                 {t('mainproduct.title')}
                             </Link></li>
 

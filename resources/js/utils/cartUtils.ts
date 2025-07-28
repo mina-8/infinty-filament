@@ -86,8 +86,6 @@ export function getCartItemQuantity (productId: number, optionId: number) :numbe
     const cart = getCart();
   const item = cart.find(p => p.productId === productId && p.optionId === optionId);
 
-  triggerCartUpdateEvent();
-  
   return item ? item.quantity : 0;
 }
 
@@ -98,6 +96,15 @@ export function totalQuantity (){
     } , 0);
 
     return totalItems;
+}
+
+export function totalPrice(){
+    const cart = getCart();
+    const totalPrice = cart.reduce((sum :number , item:{price:number , quantity:number})=>{
+        return sum + ((item.price * item.quantity) || 0);
+    } , 0);
+
+    return totalPrice;
 }
 // ====================== WishList ======================
 

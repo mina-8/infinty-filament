@@ -13,22 +13,22 @@
         "terms_of_service": "Terms of Service",
         "newsletter": "Subscribe to the newsletter",
         "exhibition": "Featured",
-        "items" : "Items"
+        "items": "Items"
     },
     "exhibition": {
         "special_promtion": "Special Offers",
         "new_products": "Latest Products",
         "top_seller": "Best Sellers",
         "kid_range": "Kids' Juice",
-        "add_to_cart" : "add cart",
-        "wich_list" : "add to wich list",
+        "add_to_cart": "add cart",
+        "wich_list": "add to wich list",
         "new": "new",
         "special": "special promotion"
     },
-    "notify" :{
-        "add_cart" : "success added product to your cart",
-        "remove_cart" : "success removed product to your cart",
-        "wish_list" : "success product to wich list"
+    "notify": {
+        "add_cart": "success added product to your cart",
+        "remove_cart": "success removed product to your cart",
+        "wish_list": "success product to wich list"
     },
     "navbarlist": {
         "service": {
@@ -37,8 +37,10 @@
             "innovation": "Innovation"
         },
         "cartnav": {
-"no_product": "Your cart is empty"
-}
+            "no_product": "Your cart is empty",
+            "sub_total": "sub-total",
+            "total": "total"
+        }
     },
     "slides": {
         "title_1": "Welcome to Our Site",
@@ -72,14 +74,13 @@
         "otherblogs": "Explore More"
     },
     "products": {
-        "ourproducts": "Our Products",
-        "products-search": "Explore All Products",
-        "products-video": "Product App Videos",
-        "uses": "Uses",
-        "advantages": "Advantages",
-        "instruction-uses": "Instructions for use",
-        "downloadpdf": "Download Pdf",
-        "pdf-file": "Technical Data Sheet",
+        "comment": "Write your opinion",
+        "review": "Number of events",
+        "product_code": "Product Code",
+        "available": "Available",
+        "no_stock" : "not available",
+        "stock" : "available on stock",
+        "select_price": "Available options",
         "explore-more": "Explore more products"
     },
     "product-search": {
