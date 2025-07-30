@@ -1,7 +1,8 @@
+import ContentRenderer from '@/Components/ContentRenderer';
 import ImageZoomBox from '@/Components/ImageZoom/ImageZoomBox';
 import StarRating from '@/Components/StarRating';
 import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList } from '@/utils/cartUtils';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { notification, Tooltip } from 'antd';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -36,6 +37,8 @@ interface props {
 }
 const Index = ({ product }: props) => {
     const { t, i18n } = useTranslation();
+
+    const [review, setReview] = useState(false)
     // filter option price
     const [selectedOptions, setSelectedOptions] = useState<{ [productId: number]: number }>({});
 
@@ -106,6 +109,33 @@ const Index = ({ product }: props) => {
     const getQuantity = (productId: number, optionId: number) => {
         return getCartItemQuantity(productId, optionId)
     }
+
+
+    const [rating, setRating] = useState<number>(0);
+
+    const [formdata, setFormData] = useState({
+        username: '',
+        reviews: '',
+        rate: 0
+    });
+
+    const handelInputChange = (field: string, value: string | number) => {
+        setFormData((prev) => (
+            {
+                ...prev,
+                [field]: value
+            }
+        ))
+    }
+
+    const handleRatingClick = (value: number) => {
+        setRating(value);
+        handelInputChange('rate', value)
+    };
+    const HandelSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+    }
     return (
         <>
             <Head title={product.title} />
@@ -124,10 +154,28 @@ const Index = ({ product }: props) => {
                     </Link>
                     <Link
                         href={route('category', { lang: i18n.language, slug: product.category_slug })}
-                        className='text-primary-color'
+
                     >
                         {product.category_title}
                     </Link>
+                    {
+                        product.subcategory_title &&
+                        <Link
+                            href={route('subcategory', { lang: i18n.language, category: product.category_slug, subcategory: product.subcategory_slug })}
+
+                        >
+                            {product.subcategory_title}
+                        </Link>
+
+                    }
+
+                    <a
+                        href={`${usePage().url}`}
+                        className='text-primary-color'
+                    >
+                        {product.title}
+                    </a>
+
 
 
                 </div>
@@ -158,12 +206,28 @@ const Index = ({ product }: props) => {
 
                                 <div
                                     className='border-r-2 border-l-2 px-8 hover:text-primary-color cursor-pointer'
+                                    onClick={() => {
+                                        setReview(true)
+                                        const element = document.getElementById('reviews-comment');
+                                        if (element) {
+
+                                            element.scrollIntoView({ behavior: 'smooth' })
+                                        }
+                                    }}
                                 >
                                     {t('products.review')}
                                 </div>
 
                                 <p
                                     className='hover:text-primary-color cursor-pointer'
+                                    onClick={() => {
+                                        setReview(true)
+                                        const element = document.getElementById('reviews-comment');
+                                        if (element) {
+
+                                            element.scrollIntoView({ behavior: 'smooth' })
+                                        }
+                                    }}
                                 >
                                     {t('products.comment')}
                                 </p>
@@ -318,57 +382,113 @@ const Index = ({ product }: props) => {
 
                 {/* section of subcateogry and products */}
                 <section
-                    className='grid grid-cols-1 lg:grid-cols-[20%_1fr] gap-4 my-4'
+                    className='grid grid-cols-1 lg:grid-cols-1 gap-4 my-4'
                 >
-                    <div></div>
+
 
                     <div
-                        className='flex flex-col gap-4'
+                        className='border-[1px] rounded-lg'
                     >
-                        {/* <div
-                        className='flex items-center gap-4'
-                    >
-                        {category.subcategory.map((item, index) =>
-                            <Link
-                                href={route('subcategory', { lang: i18n.language, category: category.slug, subcategory: item.slug })}
-                                className='border-[1px] p-2 rounded-lg hover:text-primary-color'
-                            >
-                                {`${item.title} (${item.product_count})`}
-                            </Link>
-                        )}
-
-                    </div> */}
 
                         <div
-                            className='border-[1px] px-4 py-2 rounded-lg'
+                            className='border-b-2 px-4 py-2 flex gap-6 items-center'
                         >
-                            <div
-                                className='flex gap-4 items-center'
-                            >
-                                {/* <button
-                                type='button'
-                                onClick={() => setGridView(false)}
-                            >
-                                <FaList size={24} />
-                            </button>
                             <button
-                                type='button'
-                                onClick={() => setGridView(true)}
+                                className={`capitalize lg:text-xl text-lg ${review ? 'text-black' : 'text-primary-color'}`}
+                                onClick={() => setReview(false)}
+                            >{t('products.description')}</button>
+                            <button
+                                className={`capitalize lg:text-xl text-lg ${review ? 'text-primary-color' : 'text-black'}`}
+                                onClick={() => setReview(true)}
                             >
-                                <RiLayoutGrid2Fill size={24} />
-                            </button> */}
-                            </div>
+                                {t('products.reviews')}
+                            </button>
                         </div>
 
-                        {/* products show grid or flex */}
                         <div
-                        // className={`${GridView ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'flex flex-col gap-6'}`}
+                            id='reviews-comment'
+                            className='px-4 py-4'
                         >
-                            {/* {GridView ?
-                            <GridCard products={category.all_products.data} />
-                            :
-                            <FlexCard products={category.all_products.data} />
-                        } */}
+                            {review ?
+                                <div
+
+                                >
+                                    <div
+                                        className='text-xl py-4'
+                                    >{t('products.form.title')}</div>
+                                    <form
+                                        onSubmit={HandelSubmitForm}
+                                        noValidate={false}
+
+                                        className='flex flex-col gap-4'
+                                    >
+                                        <div
+                                            className='flex flex-col w-full gap-2'
+                                        >
+                                            <label htmlFor="username">
+                                                {t('products.form.name')}
+                                                <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name='username'
+                                                required
+                                                id='username'
+                                                value={formdata.username}
+                                                onChange={(e) => handelInputChange('username', e.target.value)}
+                                                className='rounded-xl'
+                                            />
+                                        </div>
+                                        <div
+                                            className='flex flex-col w-full gap-2'
+                                        >
+                                            <label htmlFor="reviews">
+                                                {t('products.form.reviews')}
+                                                <span className="text-red-500">*</span>
+                                            </label>
+                                            <textarea
+                                                name="reviews"
+                                                id="reviews"
+                                                required
+                                                rows={4}
+                                                value={formdata.reviews}
+                                                onChange={(e) => handelInputChange('reviews', e.target.value)}
+                                                className='rounded-xl'
+                                            ></textarea>
+                                        </div>
+
+                                        <div className="flex flex-col w-full gap-2">
+                                            <label>
+                                                {t('products.form.rate')}
+                                                <span className="text-red-500">*</span>
+                                            </label>
+                                            <div className="flex gap-1">
+                                                {[1, 2, 3, 4, 5].map((value) => (
+                                                    <span
+                                                        key={value}
+                                                        className={`text-2xl cursor-pointer ${value <= rating ? 'text-yellow-400' : 'text-gray-300'
+                                                            }`}
+                                                        onClick={() => handleRatingClick(value)}
+                                                    >
+                                                        ★
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button
+                                                type='submit'
+                                                className='bg-primary-color px-4 py-2 rounded-lg text-white'
+                                            >
+                                                {t('products.form.submit')}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <ContentRenderer content={product.content} />
+                            }
                         </div>
 
                     </div>

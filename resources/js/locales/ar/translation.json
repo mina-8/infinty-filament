@@ -11,7 +11,13 @@
         "terms_of_service": "شروط الخدمة",
         "newsletter" : "الاشتراك في النشرة الإخبارية",
         "exhibition" : "المعروض",
-        "items" : "عناصر"
+        "items" : "عناصر",
+        "login" : "الدخول",
+        "logout" : "تسجيل الخروج",
+        "regitser_page" : "سجل",
+        "login_page" : "تسجيل دخول",
+        "wish_list" : "قوائم الامنيات",
+        "delivery" : "توصيل مجاني على كل الطلبات"
     },
     "exhibition" :{
         "special_promtion" : "عروض خاصة",
@@ -37,10 +43,49 @@
         "cartnav" : {
             "no_product" : "سلة السوق الخاصة بك فارغة",
             "sub_total" : "الاجمالي",
-            "total" : "الاجمالي النهائي"
+            "total" : "الاجمالي النهائي",
+            "view_cart" : "عرض العربة",
+            "check_out" : "الدفع",
+            "continue" : "مواصلة التسوف"
+
         }
     },
-
+    "login_page":{
+        "login" : "تسجيل الدخول",
+        "email_or_phone" :"البريد الالكتروني او الهاتف",
+        "password" :"كلمة المرور",
+        "remember_me" : "تذكرني",
+        "forgot_password" : "نسيت كلمة المرور؟"
+    },
+    "reg_page" : {
+        "register_title" : "تسجيل حساب",
+        "register_content" : "إذا كان لديك بالفعل حساب معنا، فيرجى تسجيل الدخول عند صفحة تسجيل الدخول .",
+        "register_details" : "تفاصيلك الشخصية",
+        "form":{
+            "name" : "الاسم الأول",
+            "last_name" : "العائلة",
+            "email" : "البريد الإلكتروني",
+            "phone" : "رقم المحمول",
+            "password" : "كلمة المرور",
+            "confirm_password" :"تأكيد كلمة المرور",
+            "area" : "المنطقة",
+            "street" : "شارع",
+            "block" : "القطعة",
+            "building" :"بناء / فيلا",
+            "complex" : "مجمع",
+            "floore_number" : "الدور",
+            "flate_number" : "شقة",
+            "land_mark" : "معلم معروف",
+            "register" : "اكمل"
+        }
+    },
+    "guest" :{
+        "guest" : "الزبون العائد",
+        "new_guest" : "عميل جديد",
+        "add_accout" : "تسجيل ",
+        "add_accout_guest" : "تسجيل كزائر ",
+        "accout_content" : "من خلال إنشاء حساب، ستتمكن من التسوق بشكل أسرع، كن محدثا على حالة الطلب، وتتبع الطلبات التي قمت بها سابقا."
+    },
     "slides": {
         "title_1": "مرحبًا بك في موقعنا",
         "title_2": "نحن نقدم أفضل الخدمات",
@@ -73,6 +118,7 @@
         "otherblogs": "استكشف المزيد"
     },
     "products": {
+        "category" : "الفئة",
         "comment" : "اكتب رايك",
         "review" : "عدد الاستعراضات",
         "product_code": "كود المنتج",
@@ -80,6 +126,15 @@
         "no_stock" : "غير متوفر حاليا",
         "stock" : "متوفر",
         "select_price" : "الخيارات المتاحة",
+        "description" : "وصف",
+        "reviews" : "تقييمات",
+        "form":{
+            "title" : "أكتب رايك بالمنتج",
+            "name" : "الاسم",
+            "reviews" : "مراجعات",
+            "rate" : "تقييم",
+            "submit" : "اكمل"
+        },
         "explore-more": "استكشف المزيد من المنتجات"
     },
     "product-search": {
@@ -273,10 +328,12 @@
         "description": "أكبر شركة محلية مصنّعة للمنتجات والحلول العالمية في منطقة الشرق الأوسط وشمال إفريقيا.",
         "about_us": "عن الشركة",
         "ourpromise" : "التزامنا بالاستدامة",
-        "services": "كيف يتم صنعها",
-        "products": "منتجات",
+        "information": "معلومة",
+        "my_account": "حسابي",
+        "customer_service" : "خدمة العملاء",
         "work-us": "الوظائف",
         "contact-us": "اتصل بنا",
+        "map" : "خريطة الموقع",
         "ourstory": "تاريخنا",
         "ournews" : "اخبار اوركا",
         "certif" : "شهادات",

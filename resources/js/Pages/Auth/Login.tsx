@@ -4,8 +4,10 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
+import LangWraper from '@/Layouts/LangWraper';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Login({
     status,
@@ -14,10 +16,11 @@ export default function Login({
 }: {
     status?: string;
     canResetPassword: boolean;
-    
+
 }) {
+    const {t} = useTranslation()
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
+        email_or_phone: '',
         password: '',
         remember: false as boolean,
     });
@@ -32,7 +35,7 @@ export default function Login({
     };
 
     return (
-        <GuestLayout>
+        <LangWraper>
             <Head title="Log in" />
 
             {status && (
@@ -43,24 +46,24 @@ export default function Login({
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email_or_phone" value={t('login_page.email_or_phone')} />
 
                     <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        id="email_or_phone"
+                        type="text"
+                        name="email_or_phone"
+                        value={data.email_or_phone}
                         className="mt-1 block w-full"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => setData('email_or_phone', e.target.value)}
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
+                    <InputError message={errors.email_or_phone} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value={t('login_page.password')} />
 
                     <TextInput
                         id="password"
@@ -88,7 +91,7 @@ export default function Login({
                             }
                         />
                         <span className="ms-2 text-sm text-gray-600">
-                            Remember me
+                            {t('login_page.remember_me')}
                         </span>
                     </label>
                 </div>
@@ -99,15 +102,15 @@ export default function Login({
                             href={route('password.request')}
                             className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
-                            Forgot your password?
+                            {t('login_page.forgot_password')}
                         </Link>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
+                    <PrimaryButton className="ms-4 !bg-primary-color" disabled={processing}>
+                        {t('login_page.login')}
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+        </LangWraper>
     );
 }

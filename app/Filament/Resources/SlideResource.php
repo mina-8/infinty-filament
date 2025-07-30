@@ -61,7 +61,8 @@ class SlideResource extends Resource
                                 ->label(__('filament-panels::resources/pages/slide.fields.title'))
                                 ->required(),
                             QuillEditor::make('content')
-                                ->label(__('filament-panels::resources/pages/slide.fields.content')),
+                                ->label(__('filament-panels::resources/pages/slide.fields.content'))
+                                ->required(),
 
                         ]),
 
@@ -78,7 +79,7 @@ class SlideResource extends Resource
 
                         Forms\Components\TextInput::make('link')
                             ->label(__('filament-panels::resources/pages/slide.fields.link'))
-                            
+
                             ->disabled(fn(callable $get) => !$get('active_btn')),
 
 

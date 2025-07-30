@@ -14,6 +14,7 @@ export default function InputLabel({
                 className
             }
         >
+            
             {value ? value : children}
         </label>
     );

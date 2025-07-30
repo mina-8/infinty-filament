@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactformController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\DeliveryController;
@@ -47,23 +48,6 @@ Route::group(
 
         Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
-        // category
-        Route::get('category/{slug}' , [CategoryController::class , 'index'])->name('category');
-
-        // sub category
-        Route::get('{category}/{subcategory}' , [CategoryController::class , 'subcategory'])->name('subcategory');
-
-        // product
-        Route::get('product' , [ProductController::class , 'index'])->name('product');
-
-        // product category
-        Route::get('c/{category}/{product}' , [ProductController::class , 'productcategory'])->name('product-category');
-        // product subcategory
-        Route::get('c/{category}/s/{subcategory}/{product}' , [ProductController::class , 'productsubcategory'])->name('product-subcategory');
-
-        // Cart
-        Route::get('my-cart' , [CartController::class , 'view'])->name('my-cart');
-
         // contact us
         Route::get('contact-us', [ContactUsController::class, 'index'])->name('contact-us');
         Route::post('contact-us', [ContactUsController::class, 'store'])->name('contact-us');
@@ -79,8 +63,37 @@ Route::group(
         Route::middleware('auth')->group(function () {
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+            // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+            Route::get('/dashboard' , [HomeController::class, 'index'])->name('dashboard');
         });
+
+        // Cart
+        Route::get('my-cart' , [CartController::class , 'mycart'])->name('my-cart');
+
+        // guest-cart
+        Route::post('guest-cart' , [CartController::class , 'guestcart'])->name('guest-cart');
+        // check out
+        Route::get('check-out' , [CheckoutController::class , 'checkout'])->name('check-out');
+
+        // wish list
+        Route::get('wish-list' , [CartController::class , 'index'])->name('wish-list');
+        // category
+        Route::get('category/{slug}' , [CategoryController::class , 'index'])->name('category');
+
+        // sub category
+        Route::get('{category}/{subcategory}' , [CategoryController::class , 'subcategory'])->name('subcategory');
+
+        // product
+        Route::get('product/{state}/{product}' , [ProductController::class , 'show'])->name('product-show');
+        // filter product
+        Route::get('filter-products' , [ProductController::class , 'filter'])->name('filter-products');
+
+        // product category
+        Route::get('c/{category}/{product}' , [ProductController::class , 'productcategory'])->name('product-category');
+        // product subcategory
+        Route::get('c/{category}/s/{subcategory}/{product}' , [ProductController::class , 'productsubcategory'])->name('product-subcategory');
+
+
     }
 
 );

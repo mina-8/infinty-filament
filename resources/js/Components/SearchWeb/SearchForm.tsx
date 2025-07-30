@@ -10,25 +10,7 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ onClose }) => {
     const { t, i18n } = useTranslation()
-    const LinksSearch = [
-        {
-            href: 'our-story',
-            title: t('footer.ourstory')
-        },
-        {
-            href: 'our-promise',
-            title: t('footer.ourpromise')
-        },
-        {
-            href: 'our-culture',
-            title: t('footer.ourculture')
-        },
-        {
-            href: 'our-goal',
-            title: t('footer.ourgoal')
-        },
 
-    ];
     const [query, setQuery] = useState('');
     const [Loading, setLoading] = useState(false)
     const handleSearch = (e: React.FormEvent) => {
@@ -67,45 +49,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onClose }) => {
                         {t('search-form.search-btn')}
                     </button>
                 </form>
-                <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 w-full'>
-                    <div>
-                        <h2 className='text-2xl font-bold text-primary-color'>{t('search-form.search-latest')}</h2>
-                        <ul>
-                            {LinksSearch.map((item, index) => (
-                                <li
-                                    key={index}
-                                    className='flex items-center gap-2 hover:text-primary-color transition'
-                                >
-                                    <IoMdCheckmark className='text-primary-color' />
-                                    <Link
-                                        href={route(item.href, { lang: i18n.language })}
-                                    >
-                                        {item.title}
-                                    </Link>
-                                </li>
-                            ))}
-
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 className='text-2xl font-bold text-primary-color'>{t('search-form.search-fastlink')}</h2>
-                        <ul>
-                            {LinksSearch.map((item, index) => (
-                                <li
-                                    key={index}
-                                    className='flex items-center gap-2 hover:text-primary-color transition'
-                                >
-                                    <IoMdCheckmark className='text-primary-color' />
-                                    <Link
-                                        href={route(item.href, { lang: i18n.language })}
-                                    >
-                                        {item.title}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
+                
             </div>
         </div>
     );

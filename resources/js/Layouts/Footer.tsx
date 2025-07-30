@@ -44,19 +44,14 @@ const Footer = () => {
 
     const Spotlight = [
 
-        {
 
+        {
             href: 'welcome',
-            title: t('footer.work-us')
-        },
-
-        {
-            href: 'contact-us',
-            title: t('footer.delivery')
+            title: t('footer.contact-us')
         },
         {
-            href: 'contact-us',
-            title: t('home.contact_us')
+            href: 'welcome',
+            title: t('footer.map')
         },
 
     ];
@@ -243,22 +238,14 @@ const Footer = () => {
                 {/* Links Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                     {/* Section: About */}
-                    <div className="flex flex-col gap-4">
-                        <Link
-                            href={route('welcome')}
-                            className="text-xl text-black font-bold">{t('footer.about_us')}</Link>
-                        <ul className="space-y-1">
 
-                            <li><Link href={`${route('welcome', { lang: i18n.language })}#certif`} className="hover:text-primary-color">{t('footer.certif')}</Link></li>
-                        </ul>
-                    </div>
 
 
                     {/* Section: Products */}
                     <div className="flex flex-col gap-4">
-                        <Link
-                            href={route('welcome')}
-                            className="text-xl text-black font-bold">{t('footer.services')}</Link>
+                        <p
+
+                            className="text-xl text-black font-bold">{t('footer.information')}</p>
                         <ul className="space-y-1 whitespace-nowrap">
 
 
@@ -267,13 +254,13 @@ const Footer = () => {
 
                     {/* Section: Build */}
                     <div className="flex flex-col gap-4">
-                        <Link
-                            href={route('welcome', { lang: i18n.language })}
-                            className="text-xl text-black font-bold">{t('footer.products')}</Link>
+                        <p
+
+                            className="text-xl text-black font-bold">{t('footer.my_account')}</p>
                         <ul className="space-y-1 whitespace-nowrap">
-                            <li><Link href={route('welcome', { lang: i18n.language })} className="hover:text-primary-color">
+                            {/* <li><Link href={route('welcome', { lang: i18n.language })} className="hover:text-primary-color">
                                 {t('mainproduct.title')}
-                            </Link></li>
+                            </Link></li> */}
 
 
                         </ul>
@@ -281,7 +268,9 @@ const Footer = () => {
 
                     {/* Section: Quick Links */}
                     <div className="flex flex-col gap-4">
-                        {/* <h2 className="text-xl text-primary-color">{t('footer.quick_link')}</h2> */}
+                        <p
+                        className="text-xl text-black font-bold"
+                        >{t('footer.customer_service')}</p>
                         <ul className="space-y-1 whitespace-nowrap">
                             {Spotlight.map((item, index) => (
 

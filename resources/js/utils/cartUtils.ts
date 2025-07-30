@@ -95,7 +95,7 @@ export function totalQuantity (){
         return sum + (item.quantity || 0)
     } , 0);
 
-    return totalItems;
+    return parseFloat(totalItems.toFixed(2)) ;
 }
 
 export function totalPrice(){
@@ -104,7 +104,7 @@ export function totalPrice(){
         return sum + ((item.price * item.quantity) || 0);
     } , 0);
 
-    return totalPrice;
+    return parseFloat(totalPrice.toFixed(2)) ;
 }
 // ====================== WishList ======================
 

@@ -26,8 +26,12 @@ class EditProduct extends EditRecord
                     $record = $this->record;
 
                     // Delete associated image
-                    if (!empty($record->images) && Storage::disk('public')->exists($record->images)) {
-                        Storage::disk('public')->delete($record->images);
+                    if (!empty($record->images) && is_array($record->images)) {
+                        foreach($record->images as $image){
+                            if(Storage::disk('public')->exists($image)){
+                                Storage::disk('public')->delete($image);
+                            }
+                        }
                     }
 
                     // Delete associated main_image
@@ -48,6 +52,20 @@ class EditProduct extends EditRecord
                 ->description(__('filament-panels::resources/pages/product.fields.description'))
                 ->schema([
                     Components\Group::make([
+                                            Components\TextInput::make('product_code')
+                                ->label(__('filament-panels::resources/pages/product.fields.product_code'))
+                                ->required()
+                                ->suffixAction(
+                                    Components\Actions\Action::make('generatecode')
+                                    ->label(__('filament-panels::resources/pages/product.fields.generatecode'))
+                                    ->icon('heroicon-o-pencil-square')
+                                    ->action( function($livewire , $state){
+                                        $livewire->form->fill([
+                                            'product_code' => strtoupper(Str::random(14))
+                                        ]);
+                                    })
+                                ),
+
                         Components\Select::make('subcategory_id')
                             ->label(__('filament-panels::resources/pages/product.fields.subcategory_id'))
                             ->relationship('subcategory', 'title')
@@ -66,23 +84,10 @@ class EditProduct extends EditRecord
                         ]),
                     ]),
 
-                    Components\TextInput::make('product_code')
-                                ->label(__('filament-panels::resources/pages/product.fields.product_code'))
-                                ->required()
-                                ->suffixAction(
-                                    Components\Actions\Action::make('generatecode')
-                                    ->label(__('filament-panels::resources/pages/product.fields.generatecode'))
-                                    ->icon('heroicon-o-pencil-square')
-                                    ->action( function($livewire , $state){
-                                        $livewire->form->fill([
-                                            'product_code' => strtoupper(Str::random(14))
-                                        ]);
-                                    })
-                                ),
 
                     Components\Toggle::make('avilable')
                         ->label(__('filament-panels::resources/pages/product.fields.available'))
-                        ->default(1),
+                        ->default(0),
 
                     Components\Select::make('state')
                             ->label(__('filament-panels::resources/pages/product.fields.state'))
@@ -193,8 +198,12 @@ class EditProduct extends EditRecord
 
         // Handle images file replacement
         if (isset($data['images']) && $data['images'] !== $record->images) {
-            if (!empty($record->images) && Storage::disk('public')->exists($record->images)) {
-                Storage::disk('public')->delete($record->images);
+            if (!empty($record->images) && is_array($record->images)) {
+                foreach($record->images as $image){
+                    if(Storage::disk('public')->exists($image)){
+                        Storage::disk('public')->delete($image);
+                    }
+                }
             }
         }
 

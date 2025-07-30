@@ -2,22 +2,22 @@ import { Button, Carousel, ConfigProvider } from 'antd'
 import React, { useState } from 'react'
 
 import slideone from '../../../../../public/sliders/slide (1).webp'
-import slidetow from '../../../../../public/sliders/slide (2).webp'
-import slidethree from '../../../../../public/sliders/slide (3).webp'
-import slidefour from '../../../../../public/sliders/slide (4).webp'
+
 import { useTranslation } from 'react-i18next'
 import { Link } from '@inertiajs/react'
 
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import ReactMarkdown from 'react-markdown'
+
+import ContentRenderer from '@/Components/ContentRenderer'
 
 interface Slides {
     id: number;
     title: string;
     content: string;
     image: string;
-    str_btn:string;
-    link:string;
+    active_btn:string;
+    str_btn: string;
+    link: string;
 }
 
 interface Props {
@@ -55,10 +55,7 @@ export default function Sliders({ slides }: Props) {
     };
 
     const images = [
-        slideone,
-        slidetow,
-        slidethree,
-        slidefour
+        slideone
     ];
 
     return (
@@ -89,61 +86,59 @@ export default function Sliders({ slides }: Props) {
 
                             {slides.map((item, index) =>
                                 <div key={item.id}
-                                className='relative'
+                                    className='relative'
                                 >
                                     <div
                                         style={{
-                                            height: '700px',
+                                            height: '550px',
                                             backgroundImage: `url('${item.image}')`,
                                             backgroundSize: 'cover',
                                             backgroundPosition: 'center',
                                         }}
                                         className='relative'
-                                        >
+                                    >
                                         <div
-                                         className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}
+                                            className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}
                                         >
 
-                                            <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div>
+                                            {/* <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div> */}
 
-                                            <p className={`pt-20 text-6xl  text-white drop-shadow-3xl xs:text-xl ${AcitveIndex === index ? 'animate-fadeup' : ''} `}>{item.title}</p>
+                                            <p
+                                                className={`pt-20 text-6xl text-black drop-shadow-3xl xs:text-xl
+                                                ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
+                                            >{item.title}</p>
 
-                                            <div className={`py-5 text-3xl  font-bold text-white drop-shadow-3xl xs:text-base xs:text-center ${AcitveIndex === index ? 'animate-fadeup' : ''}`}
+                                            <div
+                                            className={`py-5 text-3xl  font-bold text-black drop-shadow-3xl xs:text-base xs:text-center
+                                             ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
                                                 style={{
                                                     animationDuration: "1s",
                                                     animationDelay: "0.75s"
                                                 }}
                                             >
-                                                <ReactMarkdown>{item.content}</ReactMarkdown>
+                                                <ContentRenderer content={item.content} />
                                             </div>
 
                                             {
                                                 AcitveIndex === index &&
 
-                                                    <div className='flex justify-between items-center gap-4 mt-12 xs:flex-col'>
-                                                        <Link
+                                                <div className='flex justify-between items-center gap-4 mt-12 xs:flex-col'>
+                                                    {item.active_btn && (
+
+
+                                                    <Link
                                                         href={route(`${item.link}`, { lang: i18n.language })}
-                                                            className={`${AcitveIndex === index ? 'animate-fadeup' : ''} `}
-                                                            style={{
-                                                                animationDuration: "1s",
-                                                                animationDelay: "1.5s"
-                                                            }}
-                                                        >
-                                                            <div className='text-xl text-white flex items-center justify-center flex-row-reverse gap-2 p-2 relative group'>
-                                                                {/* Animated background circle that expands on hover */}
-                                                                <div className={`rounded-full w-10 h-10 border-2 border-white absolute ${i18n.language === 'ar' ? 'left-0' : 'right-0'} top-1/2 -translate-y-1/2 transition-all duration-300 group-hover:w-full group-hover:bg-yellow-original z-0`}></div>
-                                                                {/* Content above the background */}
-                                                                <div className={`flex items-center justify-center ${i18n.language === 'ar' ? 'flex-row' : 'flex-row-reverse'} w-full relative z-10`}>
-                                                                    <div className={`flex items-center w-10 h-10 ${i18n.language === 'ar' ? '' : 'justify-end'}`}>
-                                                                        {i18n.language === 'ar' ? <FaArrowLeft /> : <FaArrowRight />}
+                                                        className={`${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''} bg-primary-color text-white px-4 py-2 rounded-lg hover:bg-black hover:text-white`}
+                                                        style={{
+                                                            animationDuration: "1s",
+                                                            animationDelay: "1.5s"
+                                                        }}
+                                                    >
+                                                        <div className='text-xl'>{item.str_btn}</div>
+                                                    </Link>
+                                                    )}
 
-                                                                    </div>
-                                                                    <div className='ml-2 text-xl'>{item.str_btn}</div>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-
-                                                    </div>
+                                                </div>
 
                                             }
                                         </div>
@@ -185,44 +180,47 @@ export default function Sliders({ slides }: Props) {
                                             backgroundPosition: 'center',
                                         }}
                                         className='relative'
-                                        >
-                                            {/* <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div> */}
+                                    >
+                                        {/* <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div> */}
                                         <div className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}>
-                                            <p className={`pt-20 text-6xl text-black drop-shadow-3xl xs:text-xl
-                                                ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight': 'animate-fadeleft' : ''}`}>
-                                                {t(`slides.title_${index + 1}`)}
+                                            <p
+                                                className={`pt-20 text-6xl text-black drop-shadow-3xl xs:text-xl
+                                                ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}>
+                                                {/* {t(`slides.title_${index + 1}`)} */}
                                             </p>
 
                                             <p className={`py-5 text-3xl  font-bold text-black drop-shadow-3xl xs:text-base xs:text-center
-                                             ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight': 'animate-fadeleft' : ''}`}
+                                             ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
                                                 style={{
                                                     animationDuration: "1s",
                                                     animationDelay: "0.75s"
                                                 }}
-                                            >{t(`slides.description_${index + 1}`)}</p>
+                                            >
+                                                {/* {t(`slides.description_${index + 1}`)} */}
+                                                </p>
 
-{
+                                            {
                                                 AcitveIndex === index &&
 
-                                                    <div className='flex justify-between items-center gap-4 mt-12 xs:flex-col'>
-                                                        <Link
+                                                <div className='flex justify-between items-center gap-4 mt-12 xs:flex-col'>
+                                                    <Link
                                                         href={route(`welcome`, { lang: i18n.language })}
-                                                            className={`${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight': 'animate-fadeleft' : ''} bg-primary-color text-white p-4 rounded-lg`}
-                                                            style={{
-                                                                animationDuration: "1s",
-                                                                animationDelay: "1.5s"
-                                                            }}
-                                                        >
-                                                            <div className={`flex items-center justify-center ${i18n.language === 'ar' ? 'flex-row' : 'flex-row-reverse'} w-full relative z-10`}>
-                                                                    <div className={`flex items-center w-10 h-10 ${i18n.language === 'ar' ? '' : 'justify-end'}`}>
-                                                                        {i18n.language === 'ar' ? <FaArrowLeft /> : <FaArrowRight />}
+                                                        className={`${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''} bg-primary-color text-white p-4 rounded-lg`}
+                                                        style={{
+                                                            animationDuration: "1s",
+                                                            animationDelay: "1.5s"
+                                                        }}
+                                                    >
+                                                        <div className={`flex items-center justify-center ${i18n.language === 'ar' ? 'flex-row' : 'flex-row-reverse'} w-full relative z-10`}>
+                                                            <div className={`flex items-center w-10 h-10 ${i18n.language === 'ar' ? '' : 'justify-end'}`}>
+                                                                {i18n.language === 'ar' ? <FaArrowLeft /> : <FaArrowRight />}
 
-                                                                    </div>
-                                                                    <div className='ml-2 text-xl'>{t(`slides.button_${index + 1}`)}</div>
-                                                                </div>
-                                                        </Link>
+                                                            </div>
+                                                            <div className='ml-2 text-xl'>{t(`slides.button_${index + 1}`)}</div>
+                                                        </div>
+                                                    </Link>
 
-                                                    </div>
+                                                </div>
 
                                             }
 

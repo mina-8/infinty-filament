@@ -12,8 +12,8 @@ import Exhibition from './Welcome/Exhibition/Exhibition';
 
 export default function Welcome({
     slides = [],
-
-}: PageProps<{  slides?: []}>) {
+    products = []
+}: PageProps<{  slides?: [] , products?:[]}>) {
 
 
     return (
@@ -22,7 +22,7 @@ export default function Welcome({
 
             <Sliders slides={slides} />
 
-            <Exhibition/>
+            <Exhibition products={products}/>
             <NewsLetter />
         </>
     );

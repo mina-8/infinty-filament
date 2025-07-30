@@ -76,16 +76,20 @@ const CartNav = () => {
                     </tbody>
                 </table>
 
-                <div>
+                <div
+                className='flex justify-center items-center gap-4'
+                >
                     <Link
                     href={route('my-cart' , {lang : i18n.language})}
+                    className='bg-primary-color rounded-lg p-2 text-white'
                     >
-                        View cart
+                        {t('navbarlist.cartnav.view_cart')}
                     </Link>
                     <Link
-                    href={route('my-cart' , {lang : i18n.language})}
+                    href={route('check-out' , {lang : i18n.language})}
+                    className='bg-primary-color rounded-lg p-2 text-white'
                     >
-                        Checkout
+                        {t('navbarlist.cartnav.check_out')}
                     </Link>
                 </div>
 

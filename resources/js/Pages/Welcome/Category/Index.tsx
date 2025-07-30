@@ -1,7 +1,9 @@
 import ContentRenderer from '@/Components/ContentRenderer';
 import FlexCard from '@/Components/FlexCard';
 import GridCard from '@/Components/GridCard';
-import { Link } from '@inertiajs/react';
+import { PageProps } from '@/types';
+import { GridToggel, setFlexLayout, setGridLayout } from '@/utils/GridUtils';
+import { Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { FaList } from 'react-icons/fa';
@@ -61,10 +63,14 @@ export interface Category {
 interface props {
     category: Category;
 }
+
+interface CustomProp extends PageProps {
+    categories: Category[];
+}
 const Index = ({ category }: props) => {
     const { t, i18n } = useTranslation();
-    const [GridView, setGridView] = useState(true);
-
+    const [GridView, setGridView] = useState(GridToggel());
+    const { categories } = usePage<CustomProp>().props
     return (
         <section
             className='min-h-screen max-w-7xl mx-auto'
@@ -97,11 +103,20 @@ const Index = ({ category }: props) => {
                     <div
                         className='bg-black text-white px-4 py-2'
                     >
-                        category
+                        {t('products.category')}
                     </div>
-                    <div>
-                        <div className='px-4 py-2'>mina</div>
-                        <div className='px-4 py-2'>ice creame</div>
+                    <div
+                        className='flex items-start flex-col'
+                    >
+                        {categories.map((item, index) =>
+                            <Link
+                                href={route('category', { lang: i18n.language, slug: item.slug })}
+                                className='px-4 py-2 hover:text-primary-color'
+                            >
+                                {item.title}
+                            </Link>
+                        )}
+
                     </div>
                 </div>
 
@@ -135,7 +150,7 @@ const Index = ({ category }: props) => {
                     >
                         {category.subcategory.map((item, index) =>
                             <Link
-                            key={index}
+                                key={index}
                                 href={route('subcategory', { lang: i18n.language, category: category.slug, subcategory: item.slug })}
                                 className='border-[1px] p-2 rounded-lg hover:text-primary-color'
                             >
@@ -153,13 +168,13 @@ const Index = ({ category }: props) => {
                         >
                             <button
                                 type='button'
-                                onClick={() => setGridView(false)}
+                                onClick={() => setGridView(setFlexLayout())}
                             >
                                 <FaList size={24} />
                             </button>
                             <button
                                 type='button'
-                                onClick={() => setGridView(true)}
+                                onClick={() => setGridView(setGridLayout())}
                             >
                                 <RiLayoutGrid2Fill size={24} />
                             </button>

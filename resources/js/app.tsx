@@ -12,7 +12,7 @@ import Loading from './Components/Loading';
 
 
 
-const appName = import.meta.env.VITE_APP_NAME || 'Orca';
+const appName = import.meta.env.VITE_APP_NAME || 'Orca Shop';
 
 createInertiaApp({
     title: (title) => `${appName} - ${title}`,

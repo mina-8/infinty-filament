@@ -1,1 +1,0 @@
-import{j as e,$ as t}from"./app-CNOsaLTx.js";import o from"./Sliders-CbjdP6i9.js";import"./ContentRenderer-BsopU1XW.js";function n({slides:r=[]}){return e.jsxs(e.Fragment,{children:[e.jsx(t,{title:"Home"}),e.jsx(o,{slides:r})]})}export{n as default};

@@ -1,12 +1,15 @@
 import ContentRenderer from '@/Components/ContentRenderer';
 import FlexCard from '@/Components/FlexCard';
 import GridCard from '@/Components/GridCard';
-import { Head, Link } from '@inertiajs/react';
+import { PageProps } from '@/types';
+import { GridToggel, setFlexLayout, setGridLayout } from '@/utils/GridUtils';
+import { Head, Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { FaList } from 'react-icons/fa';
 import { IoHomeSharp } from 'react-icons/io5';
 import { RiLayoutGrid2Fill } from 'react-icons/ri';
+import { Category } from '../Category/Index';
 
 export interface ProductOption {
     id: number;
@@ -49,16 +52,20 @@ export interface SubCategory {
     image: string;
     category_title: string;
     category_slug: string;
-    slug:string;
+    slug: string;
     all_products: PaginatedProducts;
 }
 interface props {
     subcategory: SubCategory;
 }
+
+interface CustomProp extends PageProps {
+    categories: Category[];
+}
 const Index = ({ subcategory }: props) => {
     const { t, i18n } = useTranslation();
-    const [GridView, setGridView] = useState(true);
-
+    const [GridView, setGridView] = useState(GridToggel());
+const { categories } = usePage<CustomProp>().props
     return (
         <>
             <Head title={subcategory.title} />
@@ -75,12 +82,12 @@ const Index = ({ subcategory }: props) => {
                         <IoHomeSharp />
                     </Link>
                     <Link
-                        href={route('category', { lang: i18n.language  , slug:subcategory.category_slug})}
+                        href={route('category', { lang: i18n.language, slug: subcategory.category_slug })}
                     >
                         {subcategory.category_title}
                     </Link>
                     <Link
-                        href={route('subcategory', { lang: i18n.language  , category:subcategory.category_slug ,  subcategory:subcategory.slug})}
+                        href={route('subcategory', { lang: i18n.language, category: subcategory.category_slug, subcategory: subcategory.slug })}
                         className='text-primary-color'
                     >
                         {subcategory.title}
@@ -97,11 +104,20 @@ const Index = ({ subcategory }: props) => {
                         <div
                             className='bg-black text-white px-4 py-2'
                         >
-                            category
+                            {t('products.category')}
                         </div>
-                        <div>
-                            <div className='px-4 py-2'>mina</div>
-                            <div className='px-4 py-2'>ice creame</div>
+                        <div
+                            className='flex items-start flex-col'
+                        >
+                            {categories.map((item, index) =>
+                                <Link
+                                    href={route('category', { lang: i18n.language, slug: item.slug })}
+                                    className='px-4 py-2 hover:text-primary-color'
+                                >
+                                    {item.title}
+                                </Link>
+                            )}
+
                         </div>
                     </div>
 
@@ -140,13 +156,13 @@ const Index = ({ subcategory }: props) => {
                             >
                                 <button
                                     type='button'
-                                    onClick={() => setGridView(false)}
+                                    onClick={() => setGridView(setFlexLayout())}
                                 >
                                     <FaList size={24} />
                                 </button>
                                 <button
                                     type='button'
-                                    onClick={() => setGridView(true)}
+                                    onClick={() => setGridView(setGridLayout())}
                                 >
                                     <RiLayoutGrid2Fill size={24} />
                                 </button>

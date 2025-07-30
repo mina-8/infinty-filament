@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login', [
+        return Inertia::render('Welcome/Checkout/Guest', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);
@@ -32,6 +32,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

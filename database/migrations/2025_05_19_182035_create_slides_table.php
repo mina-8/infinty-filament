@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('slides', function (Blueprint $table) {
             $table->id();
-            $table->json('title');
+            $table->json('title')->nullable();
             $table->json('content')->nullable();
             $table->string('image');
             $table->boolean('active_btn')->default(false);

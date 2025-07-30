@@ -23,6 +23,19 @@ class CreateProduct extends CreateRecord
                 ->description(__('filament-panels::resources/pages/product.fields.description'))
                 ->schema([
                     Components\Group::make([
+                        Components\TextInput::make('product_code')
+                                ->label(__('filament-panels::resources/pages/product.fields.product_code'))
+                                ->required()
+                                ->suffixAction(
+                                    Components\Actions\Action::make('generatecode')
+                                    ->label(__('filament-panels::resources/pages/product.fields.generatecode'))
+                                    ->icon('heroicon-o-pencil-square')
+                                    ->action( function($livewire , $state){
+                                        $livewire->form->fill([
+                                            'product_code' => strtoupper(Str::random(14))
+                                        ]);
+                                    })
+                                ),
                         Components\Select::make('subcategory_id')
                             ->label(__('filament-panels::resources/pages/product.fields.subcategory_id'))
                             ->relationship('subcategory', 'title')
@@ -41,23 +54,11 @@ class CreateProduct extends CreateRecord
                         ]),
                     ]),
 
-                    Components\TextInput::make('product_code')
-                                ->label(__('filament-panels::resources/pages/product.fields.product_code'))
-                                ->required()
-                                ->suffixAction(
-                                    Components\Actions\Action::make('generatecode')
-                                    ->label(__('filament-panels::resources/pages/product.fields.generatecode'))
-                                    ->icon('heroicon-o-pencil-square')
-                                    ->action( function($livewire , $state){
-                                        $livewire->form->fill([
-                                            'product_code' => strtoupper(Str::random(14))
-                                        ]);
-                                    })
-                                ),
+
 
                     Components\Toggle::make('avilable')
                         ->label(__('filament-panels::resources/pages/product.fields.available'))
-                        ->default(1),
+                        ->default(0),
 
                     Components\Select::make('state')
                             ->label(__('filament-panels::resources/pages/product.fields.state'))
@@ -112,7 +113,7 @@ class CreateProduct extends CreateRecord
                 ]),
 
             Step::make(__('filament-panels::resources/pages/product.fields.product_option'))
-                ->description(__('filament-panels::resources/pages/product.fields.product_option_des'))
+                // ->description(__('filament-panels::resources/pages/product.fields.product_option_des'))
                 ->schema([
                     Components\Repeater::make('product_option')
                         ->label(__('filament-panels::resources/pages/product.fields.product_option_make'))

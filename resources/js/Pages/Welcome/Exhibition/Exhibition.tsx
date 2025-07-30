@@ -3,14 +3,33 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // import product from '@/../../public/aboutus/product.png'
 import { ConfigProvider, notification, Rate, Tooltip } from 'antd'
-import { IoStarOutline, IoStarSharp } from 'react-icons/io5'
 import StarRating from '@/Components/StarRating'
 import { IoIosHeartEmpty } from 'react-icons/io'
-import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList, totalQuantity } from '@/utils/cartUtils'
+import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList } from '@/utils/cartUtils'
 import { tempproducts } from '@/utils/tempProduct'
-const Exhibition = () => {
+import { Link } from '@inertiajs/react'
+import axios from 'axios'
+interface ProductOption{
+    id:number;
+    title:string;
+    price:number;
+}
+interface Products{
+    id:number;
+    title:string;
+    image:string;
+    state:string;
+    rate:string;
+    avilable:boolean;
+    slug:string;
+    product_option:ProductOption[];
+}
+interface props{
+    products:Products[];
+}
+const Exhibition = ({products}:props) => {
     const { t, i18n } = useTranslation();
-
+    const [Products , setProducts] = useState<Products[]>(products);
     const exhibitionButtons = [
         {
             title: "exhibition.special_promtion",
@@ -32,11 +51,19 @@ const Exhibition = () => {
 
     const [activeBtn, setActiveBtn] = useState('special');
 
-    const products = tempproducts;
 
-    // filter product by category
-    const filterProduct = products.filter(p => p.category === activeBtn);
 
+    // filter product by state
+
+    const FilterProductState = async (state:string)=>{
+        setActiveBtn(state)
+        const response = await axios.get(route('filter-products' , {lang:i18n.language} ) , {
+            params:{
+                statefilter:state
+            }
+        });
+        setProducts(response.data.products)
+    }
     // filter option price
     const [selectedOptions, setSelectedOptions] = useState<{ [productId: number]: number }>({});
 
@@ -126,7 +153,7 @@ const Exhibition = () => {
                     <button
                         key={index}
                         type='button'
-                        onClick={() => setActiveBtn(item.payload)}
+                        onClick={() => FilterProductState(item.payload)}
                         className={`border-primary-color hover:border-dashed border-opacity-0 hover:border-opacity-100 border-2 px-4 py-2 rounded-lg
                             ${activeBtn === item.payload ? 'border-opacity-100 border-dashed' : ''}
                             `}
@@ -139,30 +166,31 @@ const Exhibition = () => {
             <div
                 className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6'
             >
-                {filterProduct.map((item, index) => {
+                {Products.map((item, index) => {
                     // fetch select option
-                    const SelectedOptionId = selectedOptions[item.id] || item.options[0].id;
-                    const filterOptionPrice = item.options.find(opt => opt.id === SelectedOptionId);
+                    const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
+                    const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
                     return (
                         <div
                             key={index}
                             className='border-2 p-4 rounded-lg flex flex-col justify-center items-center gap-4 relative'
                         >
-                            {(item.category == "special" || item.category == "new") && (
+                            {(item.state == "special" || item.state == "new") && (
                                 <div
                                     className={`absolute top-4 ${i18n.language == 'ar' ? 'left-0 rounded-s-full' : 'right-0 rounded-s-full'}  bg-primary-color text-white py-1 px-2`}
                                 >
-                                    {item.category == 'special' ? t('exhibition.special') : t('exhibition.new')}
+                                    {item.state == 'special' ? t('exhibition.special') : t('exhibition.new')}
                                 </div>
                             )}
-                            <a href="">
+                            <Link
+                             href={route('product-show' , {lang:i18n.language , state:item.state , product:item.slug})}>
                                 <div>
                                     <img src={item.image} alt="" className='h-52' />
                                 </div>
                                 <p
                                     className='self-start font-medium text-lg hover:text-primary-color'
-                                >{item.name}</p>
-                            </a>
+                                >{item.title}</p>
+                            </Link>
                             {/* price and rating */}
                             <div
                                 className='flex justify-between items-center w-full'
@@ -175,7 +203,7 @@ const Exhibition = () => {
                                 <div
                                     className='flex'
                                 >
-                                    <StarRating rating={item.rating} />
+                                    <StarRating rating={Number(item.rate)} />
                                 </div>
                             </div>
                             {/* select category of product */}
@@ -189,16 +217,16 @@ const Exhibition = () => {
                                     style={{
                                         backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
                                     }}
-                                    defaultValue={item.options[0].label}
+                                    defaultValue={item.product_option[0].title}
                                     onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
                                 >
-                                    {item.options.map((option, index) =>
+                                    {item.product_option.map((option, index) =>
                                         <option
                                             key={index}
                                             value={option.id}
 
                                         >
-                                            {option.label} - ({option.price} KD)
+                                            {option.title} - ({option.price} KD)
                                         </option>
                                     )}
                                 </select>
@@ -212,7 +240,7 @@ const Exhibition = () => {
                                     (
                                         <button
                                             type='button'
-                                            onClick={() => handelAddToCart(item.id , SelectedOptionId, item.name, item.image, filterOptionPrice?.price ?? 0)}
+                                            onClick={() => handelAddToCart(item.id , SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
                                             className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
                                         >
                                             {t('exhibition.add_to_cart')}
@@ -225,7 +253,7 @@ const Exhibition = () => {
                                         >
                                             <button
                                                 type='button'
-                                                onClick={() => handelIncressCart(item.id , SelectedOptionId, item.name, item.image, filterOptionPrice?.price ?? 0)}
+                                                onClick={() => handelIncressCart(item.id , SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
                                                 className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
                                             >
                                                 +
@@ -248,7 +276,7 @@ const Exhibition = () => {
 
                                 <button
                                     type='button'
-                                    onClick={() => handelToggelWishList(item.id,item.name , item.image, SelectedOptionId)}
+                                    onClick={() => handelToggelWishList(item.id,item.title , item.image, SelectedOptionId)}
                                     className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
                                 >
                                     <Tooltip title={t('exhibition.wich_list')} >
