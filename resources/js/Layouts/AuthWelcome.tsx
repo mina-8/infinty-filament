@@ -19,9 +19,10 @@ import { MdOutlineWbSunny } from 'react-icons/md';
 import ChangeLang from '@/Components/ChangeLang/ChangeLang';
 import { FaCartShopping } from 'react-icons/fa6';
 import { BsCart4 } from 'react-icons/bs';
-import { totalQuantity } from '@/utils/cartUtils';
+// import { totalQuantity } from '@/utils/cartUtils';
 import CartNav from '@/Components/NavList/CartNav';
 import CategoryNav from '@/Components/NavList/CategoryNav';
+import { setUser, totalQuantity } from '@/utils/cartUtils';
 
 
 export default function AuthWelcome({
@@ -40,6 +41,13 @@ export default function AuthWelcome({
 
     const { t, i18n } = useTranslation();
     const [CartCount, setCartCount] = useState(0);
+    setUser(user)
+
+    const updateCountItems = async () => {
+            const total = await totalQuantity()
+            setCartCount(total);
+        }
+
     useEffect(() => {
 
         const handleScroll = () => {
@@ -50,9 +58,7 @@ export default function AuthWelcome({
             setIsnavbar(window.scrollY > 100);
         }
 
-        const updateCountItems = () => {
-            setCartCount(totalQuantity());
-        }
+
 
         updateCountItems();
 
@@ -64,7 +70,7 @@ export default function AuthWelcome({
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('scroll', handlnav);
-            window.removeEventListener("cartUpdated", updateCountItems);
+            // window.removeEventListener("cartUpdated", updateCountItems);
         };
     }, []);
 
@@ -250,7 +256,7 @@ export default function AuthWelcome({
                                                 align='right'
                                                 width='w-60'
                                             >
-                                                <CartNav />
+                                                <CartNav user={user} />
 
                                             </Dropdown.Content>
                                         </Dropdown>
@@ -436,7 +442,7 @@ export default function AuthWelcome({
                                     align='right'
                                     width='w-60'
                                 >
-                                    <CartNav />
+                                    <CartNav user={user} />
 
                                 </Dropdown.Content>
                             </Dropdown>

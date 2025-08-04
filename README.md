@@ -1,3 +1,21 @@
+# deploy on server
+composer2 install --no-dev --optimize-autoloader
+
+# optional
+chmod -R 775 storage bootstrap/cache 
+
+php artisan key:generate
+
+php artisan migrate --force
+
+# env file on production
+
+APP_ENV=production
+APP_DEBUG=false
+
+LOG_CHANNEL=stack
+LOG_LEVEL=error
+
 # packeg use with filament
 
 pixelpeter/filament-language-tabs

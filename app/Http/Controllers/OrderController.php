@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreOrderRequest;
+use App\Models\CartItem;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+
+use function Pest\Laravel\json;
+
+class OrderController extends Controller
+{
+
+    public function store(StoreOrderRequest $request)
+    {
+        $userid = Auth::id();
+        if ($userid) {
+            $orderToken = null;
+            DB::transaction(function () use ($request, $userid) {
+
+                $order = Order::create([
+                    'user_id' => $userid,
+                    'guest_id' => null,
+                    'total' => $request->input('totalsumprice'),
+                    'status' => 'pending',
+                    'order_token' => strtoupper(Str::random(14)),
+                    'payment_method' => $request->input('payment_method')
+                ]);
+
+                foreach ($request->input('cartitems') as $item) {
+                    $order->orderitems()->create([
+                        'product_id' => $item['productId'],
+                        'option_id' => $item['optionId'],
+                        'quantity' =>  $item['quantity'],
+                    ]);
+
+
+                }
+
+                CartItem::where('user_id' , $userid)->delete();
+
+                $orderToken = $order->order_token;
+            });
+
+            return Inertia::render('Welcome/Order/Success', ['ordercode' => $orderToken]);
+        }
+
+        abort(403, 'Unauthorized');
+    }
+}

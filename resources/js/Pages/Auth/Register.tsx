@@ -13,9 +13,9 @@ export default function Register() {
     const { t, i18n } = useTranslation()
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        last_name:'',
+        last_name: '',
         email: '',
-        phone:'',
+        phone: '',
         password: '',
         password_confirmation: '',
     });
@@ -47,23 +47,23 @@ export default function Register() {
 
                 </div>
                 <div
-                className='my-4'
+                    className='my-4'
                 >
                     <h2
-                    className='border-b-2 pb-2 font-bold'
+                        className='border-b-2 pb-2 font-bold'
                     >{t('reg_page.register_title')}</h2>
                     <div
-                    className='py-2'
+                        className='py-2'
                     >{t('reg_page.register_content')}</div>
                     <p
-                    className='border-b-2 pb-2 font-bold'
+                        className='border-b-2 pb-2 font-bold'
                     >{t('reg_page.register_details')}</p>
                 </div>
                 <form onSubmit={submit}>
                     <div
-                    className='flex gap-12 items-center lg:flex-row flex-col'
+                        className='flex gap-12 items-center lg:flex-row flex-col'
                     >
-                        <InputLabel htmlFor="name" value={t('reg_page.form.name')} className='w-[40%]'/>
+                        <InputLabel htmlFor="name" value={t('reg_page.form.name')} className='w-[40%]' />
 
                         <TextInput
                             id="name"
@@ -74,15 +74,16 @@ export default function Register() {
                             isFocused={true}
                             onChange={(e) => setData('name', e.target.value)}
                             required
+                            placeholder={t('reg_page.form.name')}
                         />
 
                         <InputError message={errors.name} className="mt-2" />
                     </div>
 
                     <div
-                    className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
+                        className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
                     >
-                        <InputLabel htmlFor="last_name" value={t('reg_page.form.last_name')}  className='w-[40%]'/>
+                        <InputLabel htmlFor="last_name" value={t('reg_page.form.last_name')} className='w-[40%]' />
 
                         <TextInput
                             id="last_name"
@@ -93,13 +94,14 @@ export default function Register() {
                             isFocused={true}
                             onChange={(e) => setData('last_name', e.target.value)}
                             required
+                            placeholder={t('reg_page.form.lastname')}
                         />
 
                         <InputError message={errors.last_name} className="mt-2" />
                     </div>
 
                     <div className='flex gap-12 items-center mt-4 lg:flex-row flex-col'>
-                        <InputLabel htmlFor="email" value={t('reg_page.form.email')} className='w-[40%]'/>
+                        <InputLabel htmlFor="email" value={t('reg_page.form.email')} className='w-[40%]' />
 
                         <TextInput
                             id="email"
@@ -110,6 +112,7 @@ export default function Register() {
                             autoComplete="username"
                             onChange={(e) => setData('email', e.target.value)}
                             required
+                            placeholder={t('reg_page.form.email')}
                         />
 
                         <InputError message={errors.email} className="mt-2" />
@@ -117,28 +120,36 @@ export default function Register() {
 
 
                     <div
-                    className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
+                        className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
                     >
-                        <InputLabel htmlFor="phone" value={t('reg_page.form.phone')}  className='w-[40%]'/>
+                        <InputLabel htmlFor="phone" value={t('reg_page.form.phone')} className='w-[40%]' />
 
-                        <TextInput
-                            id="phone"
-                            name="phone"
-                            value={data.phone}
-                            className="mt-1 block w-[60%] !rounded-2xl"
-                            autoComplete="phone"
-                            isFocused={true}
-                            onChange={(e) => setData('phone', e.target.value)}
-                            required
-                        />
+                        <div
+                            className='w-[60%] flex items-center'
+                        >
+                            <span
+                            className={`border-2 py-2 px-2 mt-1 rounded-s-2xl ${i18n.language == 'ar' ? 'border-l-0' : 'border-r-0'} `}
+                            >+966</span>
+                            <TextInput
+                                id="phone"
+                                name="phone"
+                                value={data.phone}
+                                className="mt-1 block w-full !rounded-none !rounded-e-2xl"
+                                autoComplete="phone"
+                                isFocused={true}
+                                onChange={(e) => setData('phone', e.target.value)}
+                                required
+                                placeholder={t('reg_page.form.phone')}
+                            />
+                        </div>
 
                         <InputError message={errors.phone} className="mt-2" />
                     </div>
 
                     <div
-                    className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
+                        className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
                     >
-                        <InputLabel htmlFor="password" value={t('reg_page.form.password')} className='w-[40%]'/>
+                        <InputLabel htmlFor="password" value={t('reg_page.form.password')} className='w-[40%]' />
 
                         <TextInput
                             id="password"
@@ -149,13 +160,14 @@ export default function Register() {
                             autoComplete="new-password"
                             onChange={(e) => setData('password', e.target.value)}
                             required
+                            placeholder={t('reg_page.form.password')}
                         />
 
                         <InputError message={errors.password} className="mt-2" />
                     </div>
 
                     <div
-                    className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
+                        className='flex gap-12 items-center mt-4 lg:flex-row flex-col'
                     >
                         <InputLabel
                             htmlFor="password_confirmation"
@@ -174,6 +186,7 @@ export default function Register() {
                                 setData('password_confirmation', e.target.value)
                             }
                             required
+                            placeholder={t('reg_page.form.confirm_password')}
                         />
 
                         <InputError

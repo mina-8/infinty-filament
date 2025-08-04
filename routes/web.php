@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactformController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\MainProductController;
 use App\Http\Controllers\OurStoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HowMakeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchWebController;
 use App\Http\Controllers\WorkUsController;
 use Illuminate\Foundation\Application;
@@ -65,6 +67,13 @@ Route::group(
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
             // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
             Route::get('/dashboard' , [HomeController::class, 'index'])->name('dashboard');
+
+            Route::get('cart' , [CartItemController::class ,'index'])->name('cart-index');
+            Route::post('cart' , [CartItemController::class ,'merge'])->name('cart-merge');
+            Route::post('cart/add-items' , [CartItemController::class ,'additems'])->name('cart-add');
+            Route::post('cart/remove-items' , [CartItemController::class ,'removeitems'])->name('cart-remove');
+            Route::post('cart/remove-items-all' , [CartItemController::class ,'removeitemsall'])->name('cart-remove-all');
+            Route::get('cart/total' , [CartItemController::class ,'totalitems'])->name('cart-total');
         });
 
         // Cart
@@ -75,13 +84,15 @@ Route::group(
         // check out
         Route::get('check-out' , [CheckoutController::class , 'checkout'])->name('check-out');
 
+        // store order
+        Route::post('order-store' , [OrderController::class , 'store'])->name('order-store');
         // wish list
         Route::get('wish-list' , [CartController::class , 'index'])->name('wish-list');
         // category
         Route::get('category/{slug}' , [CategoryController::class , 'index'])->name('category');
 
         // sub category
-        Route::get('{category}/{subcategory}' , [CategoryController::class , 'subcategory'])->name('subcategory');
+        Route::get('subcategory/{category}/{subcategory}' , [CategoryController::class , 'subcategory'])->name('subcategory');
 
         // product
         Route::get('product/{state}/{product}' , [ProductController::class , 'show'])->name('product-show');

@@ -110,6 +110,7 @@ const Index = ({ category }: props) => {
                     >
                         {categories.map((item, index) =>
                             <Link
+                            key={index}
                                 href={route('category', { lang: i18n.language, slug: item.slug })}
                                 className='px-4 py-2 hover:text-primary-color'
                             >

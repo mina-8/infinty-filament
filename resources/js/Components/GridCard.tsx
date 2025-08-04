@@ -2,8 +2,8 @@ import { notification, Tooltip } from "antd";
 import StarRating from "./StarRating";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList } from "@/utils/cartUtils";
+import { useCallback, useEffect, useState } from "react";
+import { addtoCart, getCart, removeFormCart, toggelWishList } from "@/utils/cartUtils";
 import { Link } from "@inertiajs/react";
 
 interface ProductOption {
@@ -35,9 +35,18 @@ interface props {
 
 const GridCard = ({ products, page, category_slug, subcategory_slug = null }: props) => {
     const { t, i18n } = useTranslation();
+    type CartItem = {
+        productId: number;
+        optionId: number;
+        image: string;
+        title: string;
+        price: number;
+        quantity: number;
+    };
     // filter option price
     const [selectedOptions, setSelectedOptions] = useState<{ [productId: number]: number }>({});
 
+    const [Loading, setLoadin] = useState<boolean>(false)
     // handel selected option price
     const handelOptionPrice = (productId: number, optionId: number) => {
         setSelectedOptions(prev => ({
@@ -45,45 +54,75 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
             [productId]: optionId
         }))
     }
-    const [cartState, setCartState] = useState(getCart());
+    const [cartState, setCartState] = useState<CartItem[]>([]);
     const [api, contextHolder] = notification.useNotification();
 
-    const refreshCart = () => {
-        setCartState(getCart());
+    const refreshCart = async () => {
+        const cart = await getCart();
+        setCartState(cart);
     }
 
-    const handelAddToCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
-        addtoCart(productId, optionId, title, image, price, 1);
+    useEffect(() => {
         refreshCart();
+    }, []);
 
-        api['success']({
-            message: '',
-            description: `${t('notify.add_cart')}`
+    const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        try {
+            setLoadin(true);
+            await addtoCart(productId, optionId, title, image, price, 1);
+            refreshCart();
 
-        })
+            api['success']({
+                message: '',
+                description: `${t('notify.add_cart')}`
+
+            })
+        } catch (error) {
+            setLoadin(false);
+            refreshCart();
+        } finally {
+            setLoadin(false);
+        }
 
     }
 
-    const handelIncressCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
-        addtoCart(productId, optionId, title, image, price, 1);
-        refreshCart();
+    const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        try {
+            setLoadin(true);
+            await addtoCart(productId, optionId, title, image, price, 1);
+            refreshCart();
 
-        api['success']({
-            message: '',
-            description: `${t('notify.add_cart')}`
+            api['success']({
+                message: '',
+                description: `${t('notify.add_cart')}`
 
-        })
+            })
+        } catch (erro) {
+            setLoadin(false);
+            refreshCart();
+        } finally {
+            setLoadin(false);
+        }
     }
 
-    const handelDecressCart = (productId: number, optionId: number) => {
-        removeFormCart(productId, optionId, 1);
-        refreshCart();
+    const handelDecressCart = async (productId: number, optionId: number) => {
+        try {
+            setLoadin(true)
+            await removeFormCart(productId, optionId, 1);
+            refreshCart();
 
-        api['success']({
-            message: '',
-            description: `${t('notify.remove_cart')}`
+            api['success']({
+                message: '',
+                description: `${t('notify.remove_cart')}`
 
-        })
+            })
+        } catch (error) {
+            setLoadin(false);
+            refreshCart();
+        } finally {
+            setLoadin(false);
+
+        }
 
     }
 
@@ -97,9 +136,11 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
         })
     }
 
-    const getQuantity = (productId: number, optionId: number) => {
-        return getCartItemQuantity(productId, optionId)
-    }
+    const getQuantity = useCallback( (productId: number, optionId: number) => {
+        const item = cartState.find(p => p.productId === productId && p.optionId === optionId);
+        return item ? item.quantity : 0
+    } , [cartState]
+    )
 
     return (
         <>
@@ -124,9 +165,9 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
                             <Link
                                 href={
                                     page === 'category' ?
-                                        route('product-category', { lang: i18n.language, category: category_slug , product: item.slug })
+                                        route('product-category', { lang: i18n.language, category: category_slug, product: item.slug })
                                         :
-                                        route('product-subcategory', { lang: i18n.language, category: category_slug, subcategory: subcategory_slug , product: item.slug })
+                                        route('product-subcategory', { lang: i18n.language, category: category_slug, subcategory: subcategory_slug, product: item.slug })
                                 }
                             >
                                 <div>
@@ -180,24 +221,25 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
                             <div
                                 className='flex w-full gap-4 flex-col lg:flex-row'
                             >
-                                {getQuantity(item.id, SelectedOptionId) === 0 ?
-
-                                    (
-                                        <button
+                                {item.avilable ?
+<button
                                             type='button'
-                                            onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
+                                            disabled={Loading}
+                                            // onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
                                             className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
                                         >
                                             {t('exhibition.add_to_cart')}
                                         </button>
-                                    )
-                                    :
+                                :
+                                getQuantity(item.id, SelectedOptionId) > 0 ?
+
                                     (
                                         <div
                                             className='flex justify-between items-center gap-4'
                                         >
                                             <button
                                                 type='button'
+                                                disabled={Loading}
                                                 onClick={() => handelIncressCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
                                                 className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
                                             >
@@ -210,6 +252,7 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
 
                                             <button
                                                 type='button'
+                                                disabled={Loading}
                                                 onClick={() => handelDecressCart(item.id, SelectedOptionId)}
                                                 className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
                                             >
@@ -217,7 +260,22 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
                                             </button>
                                         </div>
                                     )
+                                    :
+
+                                    (
+                                        <button
+                                            type='button'
+                                            disabled={Loading}
+                                            onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
+                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                        >
+                                            {t('exhibition.add_to_cart')}
+                                        </button>
+                                    )
                                 }
+
+
+
 
                                 <button
                                     type='button'
@@ -225,7 +283,9 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
                                     className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
                                 >
                                     <Tooltip title={t('exhibition.wich_list')} >
+                                        <span>
                                         <IoIosHeartEmpty />
+                                        </span>
                                     </Tooltip>
                                 </button>
                             </div>

@@ -77,7 +77,10 @@
             "landmark": "landmark",
             "password": "Password",
             "confirm_password": "Confirm password",
-            "register": "Complete"
+            "register": "Complete",
+            "floore_number": "Floor Number",
+            "flate_number": "Flate Number",
+            "land_mark": "Land Mark"
         }
     },
     "guest": {
@@ -86,6 +89,24 @@
         "add_accout": "Register an Account",
         "add_accout_guest": "Register as a guest",
         "accout_content": "By creating an account, you'll be able to shop faster, stay up-to-date on order status, and track your previous orders."
+    },
+    "order": {
+        "title": "Orders",
+        "table": {
+            "title": "Name",
+            "unit": "Unit",
+            "price": "Price",
+            "quantity": "Quantity",
+            "total_price": "Total Price",
+            "total": "Final Total"
+        },
+        "form": {
+            "label": "Choose a payment method",
+            "radio": {
+                "cash": "Cash on delivery"
+            },
+            "submit": "Pay"
+        }
     },
     "slides": {
         "title_1": "Welcome to Our Site",
@@ -313,11 +334,11 @@
         "description": "The largest local manufacturer of global products and solutions in the Middle East and North Africa region.",
         "about_us": "about us",
         "brand": "Brands",
-        "other_office" : "Offices",
+        "other_office": "Offices",
         "information": "Information",
         "my_account": "My account",
-        "customer_service" : "Customer Service",
-        "map" : "Map",
+        "customer_service": "Customer Service",
+        "map": "Map",
         "contact-us": "Contact Us",
         "ourstory": "Our Story",
         "ourgoal": "A Better Life",

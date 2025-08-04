@@ -1,5 +1,5 @@
 
-import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList, totalPrice } from '@/utils/cartUtils';
+import { addtoCart, getCart,  removeFormCart, toggelWishList } from '@/utils/cartUtils';
 
 import { Link, usePage } from '@inertiajs/react';
 import { notification } from 'antd';
@@ -28,29 +28,27 @@ export interface CartItem {
 
 const Index = () => {
     const { t, i18n } = useTranslation();
-    const { user } = usePage().props;
+
     const [cartitem, setCartItem] = useState<CartItem[]>([])
-    useEffect(() => {
-        if (user) {
-            // axios fetch setCartItem(response)
-        } else {
-            const LocalStorage = getCart();
-            axios.post(route('guest-cart') , LocalStorage).then(response =>{
-                console.log(response.data.cart)
-                setCartItem(response.data.cart);
-            })
-        }
-    }, [user]);
+
+    const fetchCartItems = async ()=>{
+        const cart = await getCart();
+        setCartItem(cart);
+    }
+
+    useEffect(()=>{
+        fetchCartItems()
+    } , [])
 
 
     const [api, contextHolder] = notification.useNotification();
 
     const refreshCart = () => {
-        setCartItem(getCart());
+        fetchCartItems()
     }
 
-    const handelAddToCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
-        addtoCart(productId, optionId, title, image, price, 1);
+    const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        await addtoCart(productId, optionId, title, image, price, 1);
         refreshCart();
 
         api['success']({
@@ -61,8 +59,8 @@ const Index = () => {
 
     }
 
-    const handelIncressCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
-        addtoCart(productId, optionId, title, image, price, 1);
+    const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        await addtoCart(productId, optionId, title, image, price, 1);
         refreshCart();
 
         api['success']({
@@ -72,8 +70,8 @@ const Index = () => {
         })
     }
 
-    const handelDecressCart = (productId: number, optionId: number) => {
-        removeFormCart(productId, optionId, 1);
+    const handelDecressCart = async (productId: number, optionId: number) => {
+        await removeFormCart(productId, optionId, 1);
         refreshCart();
 
         api['success']({
@@ -94,9 +92,15 @@ const Index = () => {
         })
     }
 
-    const getQuantity = (productId: number, optionId: number) => {
-        return getCartItemQuantity(productId, optionId)
+    const totalPrice = ()=>{
+        return cartitem.reduce((sum , item) => sum + item.price  * item.quantity , 0).toFixed(2)
+
     }
+
+    // const getQuantity = (productId: number, optionId: number) => {
+    //     const item = cartitem.find(pro => pro.productId === productId && pro.optionId === optionId);
+    //     return item?.quantity ?? 0;
+    // }
 
 
     return (
@@ -149,7 +153,7 @@ const Index = () => {
                             <p
 
                             >
-                                {item.option_price} KD
+                                {item.price} KD
                             </p>
 
                             <div

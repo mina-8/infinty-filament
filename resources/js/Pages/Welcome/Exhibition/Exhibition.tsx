@@ -1,35 +1,34 @@
 import { t } from 'i18next'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // import product from '@/../../public/aboutus/product.png'
 import { ConfigProvider, notification, Rate, Tooltip } from 'antd'
 import StarRating from '@/Components/StarRating'
 import { IoIosHeartEmpty } from 'react-icons/io'
-import { addtoCart, getCart, getCartItemQuantity, removeFormCart, toggelWishList } from '@/utils/cartUtils'
-import { tempproducts } from '@/utils/tempProduct'
+import { addtoCart, getCart, removeFormCart, toggelWishList } from '@/utils/cartUtils'
 import { Link } from '@inertiajs/react'
 import axios from 'axios'
-interface ProductOption{
-    id:number;
-    title:string;
-    price:number;
+interface ProductOption {
+    id: number;
+    title: string;
+    price: number;
 }
-interface Products{
-    id:number;
-    title:string;
-    image:string;
-    state:string;
-    rate:string;
-    avilable:boolean;
-    slug:string;
-    product_option:ProductOption[];
+interface Products {
+    id: number;
+    title: string;
+    image: string;
+    state: string;
+    rate: string;
+    avilable: boolean;
+    slug: string;
+    product_option: ProductOption[];
 }
-interface props{
-    products:Products[];
+interface props {
+    products: Products[];
 }
-const Exhibition = ({products}:props) => {
+const Exhibition = ({ products }: props) => {
     const { t, i18n } = useTranslation();
-    const [Products , setProducts] = useState<Products[]>(products);
+    const [Products, setProducts] = useState<Products[]>(products);
     const exhibitionButtons = [
         {
             title: "exhibition.special_promtion",
@@ -51,19 +50,27 @@ const Exhibition = ({products}:props) => {
 
     const [activeBtn, setActiveBtn] = useState('special');
 
+    const [Loading, setLoadin] = useState<boolean>(false)
 
 
     // filter product by state
 
-    const FilterProductState = async (state:string)=>{
-        setActiveBtn(state)
-        const response = await axios.get(route('filter-products' , {lang:i18n.language} ) , {
-            params:{
-                statefilter:state
-            }
-        });
-        setProducts(response.data.products)
+    const FilterProductState = async (state: string) => {
+        try {
+            setLoadin(true)
+            setActiveBtn(state)
+            const response = await axios.get(route('filter-products', { lang: i18n.language }), {
+                params: {
+                    statefilter: state
+                }
+            });
+            setProducts(response.data.products);
+        } finally {
+            setLoadin(false)
+        }
+
     }
+
     // filter option price
     const [selectedOptions, setSelectedOptions] = useState<{ [productId: number]: number }>({});
 
@@ -78,49 +85,91 @@ const Exhibition = ({products}:props) => {
 
     const [api, contextHolder] = notification.useNotification();
     // state of cart item ui
-    const [cartState, setCartState] = useState(getCart());
+    type CartItem = {
+        productId: number;
+        optionId: number;
+        image: string;
+        title: string;
+        price: number;
+        quantity: number;
+    };
 
-    const refreshCart = () => {
-        setCartState(getCart());
+    const [CartItems, setCarItems] = useState<CartItem[]>([]);
+    const fetchCartItems = async () => {
+        const cart = await getCart();
+        setCarItems(cart);
     }
 
-    const handelAddToCart = (productId: number , optionId: number , title:string , image:string , price:number) => {
-        addtoCart(productId , optionId, title ,image ,price , 1);
-        refreshCart();
+    useEffect(() => {
+        fetchCartItems()
+    }, [])
 
-        api['success']({
-            message: '',
-            description: `${t('notify.add_cart')}`
+    const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        try {
+            setLoadin(true)
+            await addtoCart(productId, optionId, title, image, price, 1);
+            fetchCartItems();
 
-        })
+            api['success']({
+                message: '',
+                description: `${t('notify.add_cart')}`
 
-    }
+            })
+        } catch (error) {
+            setLoadin(false)
+            fetchCartItems();
+            // api['success']({
+            //     message: '',
+            //     description: `${t('notify.add_cart')}`
 
-    const handelIncressCart = (productId: number , optionId: number , title:string , image:string , price:number) => {
-        addtoCart(productId , optionId, title ,image ,price, 1);
-        refreshCart();
-
-        api['success']({
-            message: '',
-            description: `${t('notify.add_cart')}`
-
-        })
-    }
-
-    const handelDecressCart = (productId: number, optionId: number) => {
-        removeFormCart(productId, optionId, 1);
-        refreshCart();
-
-        api['success']({
-            message: '',
-            description: `${t('notify.remove_cart')}`
-
-        })
+            // })
+        } finally {
+            setLoadin(false)
+        }
 
     }
 
-    const handelToggelWishList = (productId: number , title:string , image:string, optionId: number) => {
-        toggelWishList(productId,title , image, optionId);
+    const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
+        try {
+            setLoadin(true);
+            await addtoCart(productId, optionId, title, image, price, 1);
+            fetchCartItems();
+
+            api['success']({
+                message: '',
+                description: `${t('notify.add_cart')}`
+
+            })
+        } catch (error) {
+            setLoadin(false);
+            fetchCartItems();
+        } finally {
+            setLoadin(false);
+        }
+    }
+
+    const handelDecressCart = async (productId: number, optionId: number) => {
+        try {
+            setLoadin(true);
+            await removeFormCart(productId, optionId, 1);
+            fetchCartItems();
+
+            api['success']({
+                message: '',
+                description: `${t('notify.remove_cart')}`
+
+            })
+        } catch (error) {
+            setLoadin(false);
+            fetchCartItems();
+        } finally {
+            setLoadin(false);
+        }
+
+    }
+
+    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number) => {
+        toggelWishList(productId, title, image, optionId);
 
         api['success']({
             message: '',
@@ -129,9 +178,15 @@ const Exhibition = ({products}:props) => {
         })
     }
 
-    const getQuantity = (productId: number, optionId: number) => {
-        return getCartItemQuantity(productId, optionId)
-    }
+    const getQuantity = useCallback(
+
+        (productId: number, optionId: number) => {
+            const item = CartItems.find(p => p.productId === productId && p.optionId === optionId);
+            return item ? item.quantity : 0
+        }, [CartItems]
+    )
+
+
 
     return (
         <section
@@ -162,6 +217,10 @@ const Exhibition = ({products}:props) => {
                     </button>
                 )}
             </div>
+                {Loading ? (
+                    <div>loading ...</div>
+                ):
+(
 
             <div
                 className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6'
@@ -183,7 +242,7 @@ const Exhibition = ({products}:props) => {
                                 </div>
                             )}
                             <Link
-                             href={route('product-show' , {lang:i18n.language , state:item.state , product:item.slug})}>
+                                href={route('product-show', { lang: i18n.language, state: item.state, product: item.slug })}>
                                 <div>
                                     <img src={item.image} alt="" className='h-52' />
                                 </div>
@@ -235,25 +294,16 @@ const Exhibition = ({products}:props) => {
                             <div
                                 className='flex w-full gap-4 flex-col lg:flex-row'
                             >
-                                {getQuantity(item.id, SelectedOptionId) === 0 ?
+                                {getQuantity(item.id, SelectedOptionId) > 0 ?
 
-                                    (
-                                        <button
-                                            type='button'
-                                            onClick={() => handelAddToCart(item.id , SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
-                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
-                                        >
-                                            {t('exhibition.add_to_cart')}
-                                        </button>
-                                    )
-                                    :
                                     (
                                         <div
                                             className='flex justify-between items-center gap-4'
                                         >
                                             <button
                                                 type='button'
-                                                onClick={() => handelIncressCart(item.id , SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
+                                                disabled={Loading}
+                                                onClick={() => handelIncressCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
                                                 className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
                                             >
                                                 +
@@ -265,6 +315,7 @@ const Exhibition = ({products}:props) => {
 
                                             <button
                                                 type='button'
+                                                disabled={Loading}
                                                 onClick={() => handelDecressCart(item.id, SelectedOptionId)}
                                                 className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
                                             >
@@ -272,11 +323,24 @@ const Exhibition = ({products}:props) => {
                                             </button>
                                         </div>
                                     )
+                                    :
+
+                                    (
+                                        <button
+                                            type='button'
+                                            disabled={Loading}
+                                            onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
+                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                        >
+                                            {t('exhibition.add_to_cart')}
+                                        </button>
+                                    )
+
                                 }
 
                                 <button
                                     type='button'
-                                    onClick={() => handelToggelWishList(item.id,item.title , item.image, SelectedOptionId)}
+                                    onClick={() => handelToggelWishList(item.id, item.title, item.image, SelectedOptionId)}
                                     className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
                                 >
                                     <Tooltip title={t('exhibition.wich_list')} >
@@ -289,6 +353,7 @@ const Exhibition = ({products}:props) => {
                 }
                 )}
             </div>
+)}
 
 
         </section>
