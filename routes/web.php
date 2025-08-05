@@ -86,8 +86,9 @@ Route::group(
 
         // store order
         Route::post('order-store' , [OrderController::class , 'store'])->name('order-store');
+        Route::post('guestorder-store' , [OrderController::class , 'storeguest'])->name('guestorder-store');
         // wish list
-        Route::get('wish-list' , [CartController::class , 'index'])->name('wish-list');
+        Route::get('wish-list' , [CartController::class , 'wishlist'])->name('wish-list');
         // category
         Route::get('category/{slug}' , [CategoryController::class , 'index'])->name('category');
 

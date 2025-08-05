@@ -16,6 +16,7 @@ return [
     'fields' => [
         'shop_link' => 'store address',
         'map_link' => 'site map',
+        'whats_app' => 'whats_app number',
         'created_at' => 'Created At',
     ],
 ];

@@ -51,6 +51,7 @@ const ImageZoomBox = forwardRef<ImageZoomBoxHandle, Props>(
         >
           {/* Image container */}
           <div
+          className='max-w-md w-full object-cover'
             ref={imgRef}
             style={{
               width: '100%',

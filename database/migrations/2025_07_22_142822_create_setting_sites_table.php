@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('shop_link')->default('#');
             $table->text('map_link')->default('#');
+            $table->string('whats_app')->nullable();
             $table->timestamps();
         });
     }

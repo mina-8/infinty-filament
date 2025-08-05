@@ -9,7 +9,7 @@ import { User } from '@/types';
 import { useTranslation } from 'react-i18next';
 
 import { AiOutlineGlobal } from 'react-icons/ai';
-import { FaArrowUp, FaHeart, FaRegUser, FaTruck, FaUserPlus } from 'react-icons/fa';
+import { FaArrowUp, FaHeart, FaRegUser, FaTruck, FaUserPlus, FaWhatsapp } from 'react-icons/fa';
 import { IoLockClosed, IoMoon, IoSearch } from 'react-icons/io5';
 import SearchForm from '@/Components/SearchWeb/SearchForm';
 import Footer from './Footer';
@@ -70,7 +70,7 @@ export default function AuthWelcome({
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('scroll', handlnav);
-            // window.removeEventListener("cartUpdated", updateCountItems);
+            window.removeEventListener("cartUpdated", updateCountItems);
         };
     }, []);
 
@@ -481,6 +481,16 @@ export default function AuthWelcome({
                         </div>
                     </div>
                 )}
+
+
+                        <a
+                            className='fixed bottom-4 left-4 z-50 bg-primary-color text-white p-4 rounded-full shadow-lg cursor-pointer hover:bg-gray-700 '
+                            target='_blank'
+                            href={`https://wa.me/+966${site_setting?.whats_app || "#"}`}
+                        >
+                            <FaWhatsapp  />
+                        </a>
+
                 <Footer />
             </div>
         </LangWraper>

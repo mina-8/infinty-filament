@@ -20,8 +20,8 @@ export default function Register() {
         block: '',
         building: '',
         complex: '',
-        floore_number: '',
-        flate_number: '',
+        floor_number: '',
+        flat_number: '',
         land_mark: ''
     });
 
@@ -29,7 +29,7 @@ export default function Register() {
         e.preventDefault();
 
         post(route('register-guest'), {
-            onFinish: () => reset('name', 'email', 'phone', 'area', 'street', 'block', 'building', 'complex', 'floore_number', 'flate_number', 'land_mark'),
+            onFinish: () => reset('name', 'email', 'phone', 'area', 'street', 'block', 'building', 'complex', 'floor_number', 'flat_number', 'land_mark'),
         });
     };
 
@@ -235,39 +235,38 @@ export default function Register() {
                     <div
                         className='flex gap-12 items-center lg:flex-row flex-col mt-4'
                     >
-                        <InputLabel htmlFor="floore_number" value={t('reg_page.form.floore_number')} className='w-[40%]' />
+                        <InputLabel htmlFor="floor_number" value={t('reg_page.form.floore_number')} className='w-[40%]' />
 
                         <TextInput
-                            id="floore_number"
-                            name="floore_number"
-                            value={data.floore_number}
+                            id="floor_number"
+                            name="floor_number"
+                            value={data.floor_number}
                             className="mt-1 block w-[60%] !rounded-2xl"
-                            autoComplete="floore_number"
                             isFocused={true}
-                            onChange={(e) => setData('floore_number', e.target.value)}
+                            onChange={(e) => setData('floor_number', e.target.value)}
                             placeholder={t('reg_page.form.floore_number')}
                         />
 
-                        <InputError message={errors.floore_number} className="mt-2" />
+                        <InputError message={errors.floor_number} className="mt-2" />
                     </div>
 
                     <div
                         className='flex gap-12 items-center lg:flex-row flex-col mt-4'
                     >
-                        <InputLabel htmlFor="flate_number" value={t('reg_page.form.flate_number')} className='w-[40%]' />
+                        <InputLabel htmlFor="flat_number" value={t('reg_page.form.flate_number')} className='w-[40%]' />
 
                         <TextInput
-                            id="flate_number"
-                            name="flate_number"
-                            value={data.flate_number}
+                            id="flat_number"
+                            name="flat_number"
+                            value={data.flat_number}
                             className="mt-1 block w-[60%] !rounded-2xl"
-                            autoComplete="flate_number"
+
                             isFocused={true}
-                            onChange={(e) => setData('flate_number', e.target.value)}
+                            onChange={(e) => setData('flat_number', e.target.value)}
                             placeholder={t('reg_page.form.flate_number')}
                         />
 
-                        <InputError message={errors.flate_number} className="mt-2" />
+                        <InputError message={errors.flat_number} className="mt-2" />
                     </div>
 
                     <div

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Guest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,7 +16,7 @@ class RegisterGuestController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated =  $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255',
             'phone' => ['required', 'string', 'regex:/^5\d{9}$/'],
@@ -24,11 +25,16 @@ class RegisterGuestController extends Controller
             'block' => 'required|string|max:255',
             'building' => 'required|string|max:255',
             'complex' => 'nullable|string|max:255',
-            'floore_number' => 'nullable|string|max:255',
+            'floor_number' => 'nullable|string|max:255',
             'flate_number' => 'nullable|string|max:255',
             'land_mark' => 'nullable|string|max:255',
 
         ]);
-        
+
+        // Guest::create($validated);
+        session(['guest_data' => $validated]);
+
+        return Inertia::render('Welcome/Order/GuestOrder');
+
     }
 }

@@ -54,13 +54,14 @@ const CategoryNav = () => {
                         </Link>
                         <Dropdown.Content
                             align='center'
-                            width='w-48'
+                            width='w-60'
+                            contentClasses='flex flex-col bg-white'
                         >
                             {item.subcategory.map((subcat , index)=>
                             <Link
                             key={index}
                             href={route('subcategory' , {lang:i18n.language , category:item.slug, subcategory:subcat.slug})}
-                            className='p-4'
+                            className='px-4 py-2'
                             >
                                 {`${subcat.title} ( ${subcat.proudct_count} )`}
                             </Link>

@@ -54,108 +54,119 @@ const Index = ({ product }: props) => {
     const filterOptionPrice = product.product_option.find(opt => opt.id === SelectedOptionId);
 
     const [api, contextHolder] = notification.useNotification();
-    const[Loading ,setLoadin] = useState<boolean>(false)
-        // state of cart item ui
-        type CartItem = {
-            productId: number;
-            optionId: number;
-            image: string;
-            title: string;
-            price: number;
-            quantity: number;
-        };
 
-        const [CartItems, setCarItems] = useState<CartItem[]>([]);
-        const fetchCartItems = async () => {
-            const cart = await getCart();
-            setCarItems(cart);
-        }
+    const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
-        useEffect(() => {
-            fetchCartItems()
-        }, [])
+    const getkey = (productId: number, optionId: number) => `${productId}-${optionId}`;
 
-        const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-            try {
-                setLoadin(true)
-                await addtoCart(productId, optionId, title, image, price, 1);
-                fetchCartItems();
+    const [Loading, setLoadin] = useState<boolean>(false)
+    // state of cart item ui
+    type CartItem = {
+        productId: number;
+        optionId: number;
+        image: string;
+        title: string;
+        price: number;
+        quantity: number;
+    };
 
-                api['success']({
-                    message: '',
-                    description: `${t('notify.add_cart')}`
+    const [CartItems, setCarItems] = useState<CartItem[]>([]);
+    const fetchCartItems = async () => {
+        const cart = await getCart();
+        setCarItems(cart);
+    }
 
-                })
-            } catch (error) {
-                setLoadin(false)
-                fetchCartItems();
-                // api['success']({
-                //     message: '',
-                //     description: `${t('notify.add_cart')}`
 
-                // })
-            } finally {
-                setLoadin(false)
-            }
+    useEffect(() => {
+        const newQuantities: { [key: string]: number } = {};
+        CartItems.forEach((item) => {
+            const key = getkey(item.productId, item.optionId);
+            newQuantities[key] = item.quantity
+        })
+    }, [CartItems])
 
-        }
+    useEffect(() => {
+        fetchCartItems()
+    }, [])
 
-        const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-            try {
-                setLoadin(true);
-                await addtoCart(productId, optionId, title, image, price, 1);
-                fetchCartItems();
+    const handelAddToCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: (prev[key] || 0) + 1
 
-                api['success']({
-                    message: '',
-                    description: `${t('notify.add_cart')}`
+        }))
 
-                })
-            } catch (error) {
-                setLoadin(false);
-                fetchCartItems();
-            } finally {
-                setLoadin(false);
-            }
-        }
+        addtoCart(productId, optionId, title, image, price, 1);
+        fetchCartItems();
 
-        const handelDecressCart = async (productId: number, optionId: number) => {
-            try {
-                setLoadin(true);
-                await removeFormCart(productId, optionId, 1);
-                fetchCartItems();
+        api['success']({
+            message: '',
+            description: `${t('notify.add_cart')}`
 
-                api['success']({
-                    message: '',
-                    description: `${t('notify.remove_cart')}`
+        })
 
-                })
-            } catch (error) {
-                setLoadin(false);
-                fetchCartItems();
-            } finally {
-                setLoadin(false);
-            }
 
-        }
+    }
 
-        const handelToggelWishList = (productId: number, title: string, image: string, optionId: number) => {
-            toggelWishList(productId, title, image, optionId);
+    const handelIncressCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
 
-            api['success']({
-                message: '',
-                description: `${t('notify.wish_list')}`
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: (prev[key] || 0) + 1
 
-            })
-        }
+        }))
 
-        const getQuantity = useCallback(
+        addtoCart(productId, optionId, title, image, price, 1);
+        fetchCartItems();
 
-            (productId: number, optionId: number) => {
-                const item = CartItems.find(p => p.productId === productId && p.optionId === optionId);
-                return item ? item.quantity : 0
-            }, [CartItems]
-        )
+        api['success']({
+            message: '',
+            description: `${t('notify.add_cart')}`
+
+        })
+
+    }
+
+    const handelDecressCart = (productId: number, optionId: number) => {
+
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: Math.max((prev[key] || 1) - 1, 0)
+
+        }))
+
+        removeFormCart(productId, optionId, 1);
+        fetchCartItems();
+
+        api['success']({
+            message: '',
+            description: `${t('notify.remove_cart')}`
+
+        })
+
+
+    }
+
+    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number , state:string , slug:string) => {
+        toggelWishList(productId, title, image, optionId , state , slug);
+
+        api['success']({
+            message: '',
+            description: `${t('notify.wish_list')}`
+
+        })
+    }
+
+    const getQuantity = useCallback(
+
+        (productId: number, optionId: number) => {
+            const key = getkey(productId , optionId);
+            return quantities[key] || 0
+        }, [quantities]
+    )
 
 
     const [rating, setRating] = useState<number>(0);
@@ -362,7 +373,7 @@ const Index = ({ product }: props) => {
                                         (
                                             <button
                                                 type='button'
-                                                disabled={Loading}
+                                                disabled={true}
                                                 // onClick={() => handelAddToCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
                                                 className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 cursor-not-allowed'
                                             >
@@ -417,7 +428,7 @@ const Index = ({ product }: props) => {
 
                                     <button
                                         type='button'
-                                        onClick={() => handelToggelWishList(product.id, product.title, product.main_image, SelectedOptionId)}
+                                        onClick={() => handelToggelWishList(product.id, product.title, product.main_image, SelectedOptionId , product.state, product.slug)}
                                         className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
                                     >
                                         <Tooltip title={t('exhibition.wich_list')} >

@@ -84,6 +84,11 @@ const Exhibition = ({ products }: props) => {
 
 
     const [api, contextHolder] = notification.useNotification();
+
+    const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+
+    const getkey = (productId: number, optionId: number) => `${productId}-${optionId}`;
+
     // state of cart item ui
     type CartItem = {
         productId: number;
@@ -95,81 +100,83 @@ const Exhibition = ({ products }: props) => {
     };
 
     const [CartItems, setCarItems] = useState<CartItem[]>([]);
-    const fetchCartItems = async () => {
-        const cart = await getCart();
-        setCarItems(cart);
+    const fetchCartItems = () => {
+        getCart()
     }
+
+    useEffect(() => {
+        const newQuantities: { [key: string]: number } = {};
+        CartItems.forEach((item) => {
+            const key = getkey(item.productId, item.optionId);
+            newQuantities[key] = item.quantity
+        })
+    }, [CartItems])
 
     useEffect(() => {
         fetchCartItems()
     }, [])
 
-    const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-        try {
-            setLoadin(true)
-            await addtoCart(productId, optionId, title, image, price, 1);
-            fetchCartItems();
+    const handelAddToCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: (prev[key] || 0) + 1
 
-            api['success']({
-                message: '',
-                description: `${t('notify.add_cart')}`
+        }));
 
-            })
-        } catch (error) {
-            setLoadin(false)
-            fetchCartItems();
-            // api['success']({
-            //     message: '',
-            //     description: `${t('notify.add_cart')}`
+        addtoCart(productId, optionId, title, image, price, 1);
+        fetchCartItems();
 
-            // })
-        } finally {
-            setLoadin(false)
-        }
+        api['success']({
+            message: '',
+            description: `${t('notify.add_cart')}`
+
+        })
 
     }
 
-    const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-        try {
-            setLoadin(true);
-            await addtoCart(productId, optionId, title, image, price, 1);
-            fetchCartItems();
+    const handelIncressCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
 
-            api['success']({
-                message: '',
-                description: `${t('notify.add_cart')}`
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: (prev[key] || 0) + 1
 
-            })
-        } catch (error) {
-            setLoadin(false);
-            fetchCartItems();
-        } finally {
-            setLoadin(false);
-        }
-    }
+        }));
 
-    const handelDecressCart = async (productId: number, optionId: number) => {
-        try {
-            setLoadin(true);
-            await removeFormCart(productId, optionId, 1);
-            fetchCartItems();
+        addtoCart(productId, optionId, title, image, price, 1);
+        fetchCartItems();
 
-            api['success']({
-                message: '',
-                description: `${t('notify.remove_cart')}`
+        api['success']({
+            message: '',
+            description: `${t('notify.add_cart')}`
 
-            })
-        } catch (error) {
-            setLoadin(false);
-            fetchCartItems();
-        } finally {
-            setLoadin(false);
-        }
+        })
 
     }
 
-    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number) => {
-        toggelWishList(productId, title, image, optionId);
+    const handelDecressCart = (productId: number, optionId: number) => {
+
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: Math.max((prev[key] || 1) - 1, 0)
+
+        }))
+
+        removeFormCart(productId, optionId, 1);
+        fetchCartItems();
+
+        api['success']({
+            message: '',
+            description: `${t('notify.remove_cart')}`
+
+        })
+
+    }
+
+    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number , state:string , slug:string) => {
+        toggelWishList(productId, title, image, optionId , state, slug);
 
         api['success']({
             message: '',
@@ -181,9 +188,10 @@ const Exhibition = ({ products }: props) => {
     const getQuantity = useCallback(
 
         (productId: number, optionId: number) => {
-            const item = CartItems.find(p => p.productId === productId && p.optionId === optionId);
-            return item ? item.quantity : 0
-        }, [CartItems]
+            const key = getkey(productId, optionId);
+            return quantities[key] || 0
+
+        }, [quantities]
     )
 
 
@@ -217,143 +225,153 @@ const Exhibition = ({ products }: props) => {
                     </button>
                 )}
             </div>
-                {Loading ? (
-                    <div>loading ...</div>
-                ):
-(
+            {Loading ? (
+                <div>loading ...</div>
+            ) :
+                (
 
-            <div
-                className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6'
-            >
-                {Products.map((item, index) => {
-                    // fetch select option
-                    const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
-                    const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
-                    return (
-                        <div
-                            key={index}
-                            className='border-2 p-4 rounded-lg flex flex-col justify-center items-center gap-4 relative'
-                        >
-                            {(item.state == "special" || item.state == "new") && (
+                    <div
+                        className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6'
+                    >
+                        {Products.map((item, index) => {
+                            // fetch select option
+                            const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
+                            const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
+                            return (
                                 <div
-                                    className={`absolute top-4 ${i18n.language == 'ar' ? 'left-0 rounded-s-full' : 'right-0 rounded-s-full'}  bg-primary-color text-white py-1 px-2`}
+                                    key={index}
+                                    className='border-2 p-4 rounded-lg flex flex-col justify-center items-center gap-4 relative'
                                 >
-                                    {item.state == 'special' ? t('exhibition.special') : t('exhibition.new')}
-                                </div>
-                            )}
-                            <Link
-                                href={route('product-show', { lang: i18n.language, state: item.state, product: item.slug })}>
-                                <div>
-                                    <img src={item.image} alt="" className='h-52' />
-                                </div>
-                                <p
-                                    className='self-start font-medium text-lg hover:text-primary-color'
-                                >{item.title}</p>
-                            </Link>
-                            {/* price and rating */}
-                            <div
-                                className='flex justify-between items-center w-full'
-                            >
-                                <p
-                                    className='font-semibold text-lg text-primary-color'
-                                >
-                                    {filterOptionPrice?.price} KD
-                                </p>
-                                <div
-                                    className='flex'
-                                >
-                                    <StarRating rating={Number(item.rate)} />
-                                </div>
-                            </div>
-                            {/* select category of product */}
-                            <div
-                                className='w-full'
-                            >
-                                <select
-
-                                    name='price'
-                                    className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'}`}
-                                    style={{
-                                        backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
-                                    }}
-                                    defaultValue={item.product_option[0].title}
-                                    onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
-                                >
-                                    {item.product_option.map((option, index) =>
-                                        <option
-                                            key={index}
-                                            value={option.id}
-
-                                        >
-                                            {option.title} - ({option.price} KD)
-                                        </option>
-                                    )}
-                                </select>
-                            </div>
-                            {/* wish list and add cart */}
-                            <div
-                                className='flex w-full gap-4 flex-col lg:flex-row'
-                            >
-                                {getQuantity(item.id, SelectedOptionId) > 0 ?
-
-                                    (
+                                    {(item.state == "special" || item.state == "new") && (
                                         <div
-                                            className='flex justify-between items-center gap-4'
+                                            className={`absolute top-4 ${i18n.language == 'ar' ? 'left-0 rounded-s-full' : 'right-0 rounded-s-full'}  bg-primary-color text-white py-1 px-2`}
                                         >
-                                            <button
-                                                type='button'
-                                                disabled={Loading}
-                                                onClick={() => handelIncressCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
-                                                className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
-                                            >
-                                                +
-                                            </button>
-
-                                            <span className="font-medium">
-                                                {getQuantity(item.id, SelectedOptionId)}
-                                            </span>
-
-                                            <button
-                                                type='button'
-                                                disabled={Loading}
-                                                onClick={() => handelDecressCart(item.id, SelectedOptionId)}
-                                                className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
-                                            >
-                                                -
-                                            </button>
+                                            {item.state == 'special' ? t('exhibition.special') : t('exhibition.new')}
                                         </div>
-                                    )
-                                    :
+                                    )}
+                                    <Link
+                                        href={route('product-show', { lang: i18n.language, state: item.state, product: item.slug })}>
+                                        <div>
+                                            <img src={item.image} alt="" className='h-52' />
+                                        </div>
+                                        <p
+                                            className='self-start font-medium text-lg hover:text-primary-color'
+                                        >{item.title}</p>
+                                    </Link>
+                                    {/* price and rating */}
+                                    <div
+                                        className='flex justify-between items-center w-full'
+                                    >
+                                        <p
+                                            className='font-semibold text-lg text-primary-color'
+                                        >
+                                            {filterOptionPrice?.price} KD
+                                        </p>
+                                        <div
+                                            className='flex'
+                                        >
+                                            <StarRating rating={Number(item.rate)} />
+                                        </div>
+                                    </div>
+                                    {/* select category of product */}
+                                    <div
+                                        className='w-full'
+                                    >
+                                        <select
 
-                                    (
+                                            name='price'
+                                            className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'}`}
+                                            style={{
+                                                backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
+                                            }}
+                                            defaultValue={item.product_option[0].title}
+                                            onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
+                                        >
+                                            {item.product_option.map((option, index) =>
+                                                <option
+                                                    key={index}
+                                                    value={option.id}
+
+                                                >
+                                                    {option.title} - ({option.price} KD)
+                                                </option>
+                                            )}
+                                        </select>
+                                    </div>
+                                    {/* wish list and add cart */}
+                                    <div
+                                        className='flex w-full gap-4 flex-col lg:flex-row'
+                                    >
+                                        {item.avilable ?
+                                            <button
+                                                type='button'
+                                                disabled={true}
+                                                // onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
+                                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                            >
+                                                {t('exhibition.add_to_cart')}
+                                            </button>
+                                            :
+                                            getQuantity(item.id, SelectedOptionId) > 0 ?
+
+                                            (
+                                                <div
+                                                    className='flex justify-between items-center gap-4'
+                                                >
+                                                    <button
+                                                        type='button'
+
+                                                        onClick={() => handelIncressCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
+                                                        className='rounded-lg  bg-primary-color text-white text-center px-4 py-2 '
+                                                    >
+                                                        +
+                                                    </button>
+
+                                                    <span className="font-medium">
+                                                        {getQuantity(item.id, SelectedOptionId)}
+                                                    </span>
+
+                                                    <button
+                                                        type='button'
+
+                                                        onClick={() => handelDecressCart(item.id, SelectedOptionId)}
+                                                        className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
+                                                    >
+                                                        -
+                                                    </button>
+                                                </div>
+                                            )
+                                            :
+
+                                            (
+                                                <button
+                                                    type='button'
+
+                                                    onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
+                                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                                >
+                                                    {t('exhibition.add_to_cart')}
+                                                </button>
+                                            )
+
+                                        }
+
                                         <button
                                             type='button'
-                                            disabled={Loading}
-                                            onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.image, filterOptionPrice?.price ?? 0)}
-                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                            onClick={() => handelToggelWishList(item.id, item.title, item.image, SelectedOptionId , item.state , item.slug)}
+                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
                                         >
-                                            {t('exhibition.add_to_cart')}
+                                            <Tooltip title={t('exhibition.wich_list')} >
+                                                <IoIosHeartEmpty />
+                                            </Tooltip>
                                         </button>
-                                    )
-
-                                }
-
-                                <button
-                                    type='button'
-                                    onClick={() => handelToggelWishList(item.id, item.title, item.image, SelectedOptionId)}
-                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
-                                >
-                                    <Tooltip title={t('exhibition.wich_list')} >
-                                        <IoIosHeartEmpty />
-                                    </Tooltip>
-                                </button>
-                            </div>
-                        </div>
-                    )
-                }
+                                    </div>
+                                </div>
+                            )
+                        }
+                        )}
+                    </div>
                 )}
-            </div>
-)}
 
 
         </section>

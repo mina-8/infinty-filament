@@ -9,5 +9,6 @@ class SettingSite extends Model
     protected $fillable = [
         'shop_link',
         'map_link',
+        'whats_app'
     ];
 }

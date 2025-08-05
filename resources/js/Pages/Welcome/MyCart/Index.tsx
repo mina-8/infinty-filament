@@ -82,8 +82,8 @@ const Index = () => {
 
     }
 
-    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number) => {
-        toggelWishList(productId, title, image, optionId);
+    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number ,state:string , slug:string) => {
+        toggelWishList(productId, title, image, optionId , state, slug);
 
         api['success']({
             message: '',

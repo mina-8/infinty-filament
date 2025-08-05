@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\CartItem;
+use App\Models\Guest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class OrderController extends Controller
         $userid = Auth::id();
         if ($userid) {
             $orderToken = null;
-            DB::transaction(function () use ($request, $userid) {
+            DB::transaction(function () use ($orderToken, $request, $userid) {
 
                 $order = Order::create([
                     'user_id' => $userid,
@@ -39,11 +40,9 @@ class OrderController extends Controller
                         'option_id' => $item['optionId'],
                         'quantity' =>  $item['quantity'],
                     ]);
-
-
                 }
 
-                CartItem::where('user_id' , $userid)->delete();
+                CartItem::where('user_id', $userid)->delete();
 
                 $orderToken = $order->order_token;
             });
@@ -52,5 +51,41 @@ class OrderController extends Controller
         }
 
         abort(403, 'Unauthorized');
+    }
+
+    public function storeguest(Request $request)
+    {
+        $getGuest = session('guest_data');
+
+        if (!$getGuest) {
+            return redirect()->route('register-guest');
+        }
+
+        $orderToken = null;
+        DB::transaction(function () use ($getGuest, $request) {
+            $guest =  Guest::create($getGuest);
+
+            $order = Order::create([
+                'user_id' => null,
+                'guest_id' => $guest->id,
+                'total' => $request->input('totalsumprice'),
+                'status' => 'pending',
+                'order_token' => strtoupper(Str::random(14)),
+                'payment_method' => $request->input('payment_method')
+            ]);
+
+            foreach ($request->input('cartitems') as $item) {
+                $order->orderitems()->create([
+                    'product_id' => $item['productId'],
+                    'option_id' => $item['optionId'],
+                    'quantity' =>  $item['quantity'],
+                ]);
+            }
+            $orderToken = $order->order_token;
+        });
+
+        $request->session()->forget('guest_data');
+
+        return Inertia::render('Welcome/Order/SuccessGuest', ['ordercode' => $orderToken]);
     }
 }

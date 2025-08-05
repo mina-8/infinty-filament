@@ -18,6 +18,8 @@ export interface WichList {
     title: string;
     image: string;
     optionId: number;
+    state:string
+    slug:string;
 
 }
 
@@ -32,13 +34,14 @@ export function isUserLoggedIn() : boolean{
 }
 export async function getCart(): Promise<CartItem[]> {
     if (isUserLoggedIn()) {
-        try {
-            const response = await axios.get(route('cart-index'));
-            return response.data.cart
 
-        } catch (error) {
-            return [];
-        }
+            return axios.get(route('cart-index')).then((response)=>{
+
+                return response.data.cart
+            }).catch((error)=>{
+                return []
+            });
+
     } else {
         return JSON.parse(localStorage.getItem('cart') || "[]");
     }
@@ -62,11 +65,15 @@ export async function mergeCartIfUserLogin() {
     }
 }
 
-export async function addtoCart(productId: number, optionId: number, title: string, image: string, price: number, qty: number = 1): Promise<CartItem[]> {
+export  function addtoCart(productId: number, optionId: number, title: string, image: string, price: number, qty: number = 1): Promise<CartItem[]> {
     if(isUserLoggedIn()){
-        await axios.post(route('cart-add') , {productid: productId , optionid:optionId , quantity:qty});
-        triggerCartUpdateEvent();
-        return await getCart()
+        return axios.post(route('cart-add') , {
+            productid: productId ,
+            optionid:optionId ,
+            quantity:qty}).then(()=>{
+                triggerCartUpdateEvent();
+                return  getCart()
+            });
     }else{
 
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -88,11 +95,15 @@ export async function addtoCart(productId: number, optionId: number, title: stri
     }
 }
 
-export async function removeFormCart(productId: number, optionId: number, qty: number = 1): Promise<CartItem[]> {
+export function removeFormCart(productId: number, optionId: number, qty: number = 1): Promise<CartItem[]> {
     if(isUserLoggedIn()){
-        await axios.post(route('cart-remove') , {productid:productId , optionid:optionId , qunatity:qty});
-        triggerCartUpdateEvent();
-        return await getCart();
+        return axios.post(route('cart-remove') ,
+        {productid:productId ,
+        optionid:optionId ,
+        qunatity:qty}).then(()=>{
+            triggerCartUpdateEvent();
+            return  getCart();
+        });
     }else{
 
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -118,11 +129,14 @@ export async function removeFormCart(productId: number, optionId: number, qty: n
     }
 }
 
-export async function removeCompletlyCart(productId: number, optionId: number): Promise<CartItem[]> {
+export function removeCompletlyCart(productId: number, optionId: number): Promise<CartItem[]> {
     if(isUserLoggedIn()){
-        await axios.post(route('cart-remove-all') , {productid:productId , optionid:optionId});
-        triggerCartUpdateEvent();
-        return await getCart();
+        return axios.post(route('cart-remove-all') ,
+         {productid:productId ,
+        optionid:optionId}).then(()=>{
+            triggerCartUpdateEvent();
+            return  getCart();
+        });
     }else{
         const cart = JSON.parse(localStorage.getItem("cart") || "[]").filter(
             (item:CartItem) => !(item.productId === productId && item.optionId === optionId)
@@ -134,6 +148,11 @@ export async function removeCompletlyCart(productId: number, optionId: number): 
 
         return cart;
     }
+}
+
+export function clearlocalcart(){
+    localStorage.setItem('cart', '[]')
+    triggerCartUpdateEvent();
 }
 
 // export function getCartItemQuantity(productId: number, optionId: number): Promise<number> {
@@ -181,7 +200,7 @@ export function getWichList(): WichList[] {
     return JSON.parse(localStorage.getItem("wishlist") || "[]");
 }
 
-export function toggelWishList(productId: number, title: string, image: string, optionId: number): WichList[] {
+export function toggelWishList(productId: number, title: string, image: string, optionId: number , state:string , slug:string): WichList[] {
     let wishlist = getWichList();
 
     const ExistingWishList = wishlist.find(
@@ -193,7 +212,7 @@ export function toggelWishList(productId: number, title: string, image: string, 
             (item) => !(item.productId === productId && item.optionId === optionId)
         );
     } else {
-        wishlist.push({ productId, title, image, optionId });
+        wishlist.push({ productId, title, image, optionId , state ,slug});
     }
 
     localStorage.setItem('wishlist', JSON.stringify(wishlist));

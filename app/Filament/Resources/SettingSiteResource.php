@@ -53,6 +53,9 @@ class SettingSiteResource extends Resource
                                 ->label(__('filament-panels::resources/pages/settingsite.fields.map_link'))
                                 ->required()
                                 ->default('#'),
+                        Forms\Components\TextInput::make('whats_app')
+                                ->label(__('filament-panels::resources/pages/settingsite.fields.whats_app'))
+                                ,
 
                     ]),
             ]);

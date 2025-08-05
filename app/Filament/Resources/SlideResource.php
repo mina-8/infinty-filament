@@ -59,10 +59,12 @@ class SlideResource extends Resource
                         LanguageTabs::make([
                             Forms\Components\TextInput::make('title')
                                 ->label(__('filament-panels::resources/pages/slide.fields.title'))
-                                ->required(),
+                                // ->required()
+                                ,
                             QuillEditor::make('content')
                                 ->label(__('filament-panels::resources/pages/slide.fields.content'))
-                                ->required(),
+                                // ->required()
+                                ,
 
                         ]),
 

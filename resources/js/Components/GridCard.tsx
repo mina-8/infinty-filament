@@ -57,179 +57,189 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
     const [cartState, setCartState] = useState<CartItem[]>([]);
     const [api, contextHolder] = notification.useNotification();
 
+    const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+
+    const getkey = (productId: number, optionId: number) => `${productId}-${optionId}`;
+
     const refreshCart = async () => {
         const cart = await getCart();
         setCartState(cart);
     }
 
     useEffect(() => {
+        const newQuantities: { [key: string]: number } = {};
+        cartState.forEach((item) => {
+            const key = getkey(item.productId, item.optionId);
+            newQuantities[key] = item.quantity
+        })
+    }, [cartState])
+
+    useEffect(() => {
         refreshCart();
     }, []);
 
-    const handelAddToCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-        try {
-            setLoadin(true);
-            await addtoCart(productId, optionId, title, image, price, 1);
-            refreshCart();
+    const handelAddToCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
+        const key = getkey(productId, optionId);
+        setQuantities((prev) => ({
+            ...prev,
+            [key]: (prev[key] || 0) + 1
 
-            api['success']({
-                message: '',
-                description: `${t('notify.add_cart')}`
+        }));
 
-            })
-        } catch (error) {
-            setLoadin(false);
-            refreshCart();
-        } finally {
-            setLoadin(false);
-        }
-
-    }
-
-    const handelIncressCart = async (productId: number, optionId: number, title: string, image: string, price: number) => {
-        try {
-            setLoadin(true);
-            await addtoCart(productId, optionId, title, image, price, 1);
-            refreshCart();
-
-            api['success']({
-                message: '',
-                description: `${t('notify.add_cart')}`
-
-            })
-        } catch (erro) {
-            setLoadin(false);
-            refreshCart();
-        } finally {
-            setLoadin(false);
-        }
-    }
-
-    const handelDecressCart = async (productId: number, optionId: number) => {
-        try {
-            setLoadin(true)
-            await removeFormCart(productId, optionId, 1);
-            refreshCart();
-
-            api['success']({
-                message: '',
-                description: `${t('notify.remove_cart')}`
-
-            })
-        } catch (error) {
-            setLoadin(false);
-            refreshCart();
-        } finally {
-            setLoadin(false);
-
-        }
-
-    }
-
-    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number) => {
-        toggelWishList(productId, title, image, optionId);
+        addtoCart(productId, optionId, title, image, price, 1);
+        refreshCart();
 
         api['success']({
             message: '',
-            description: `${t('notify.wish_list')}`
+            description: `${t('notify.add_cart')}`
 
         })
-    }
 
-    const getQuantity = useCallback( (productId: number, optionId: number) => {
-        const item = cartState.find(p => p.productId === productId && p.optionId === optionId);
-        return item ? item.quantity : 0
-    } , [cartState]
-    )
 
-    return (
-        <>
-            {contextHolder}
-            {
-                products.map((item, index) => {
-                    // fetch select option
-                    const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
-                    const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
-                    return (
-                        <div
-                            key={index}
-                            className='border-2 p-4 rounded-lg flex flex-col justify-center items-center gap-4 relative'
+}
+
+const handelIncressCart = (productId: number, optionId: number, title: string, image: string, price: number) => {
+            const key = getkey(productId , optionId);
+        setQuantities((prev)=>({
+            ...prev,
+            [key] : (prev[key] || 0) + 1
+
+        }));
+
+        addtoCart(productId, optionId, title, image, price, 1);
+        refreshCart();
+
+        api['success']({
+            message: '',
+            description: `${t('notify.add_cart')}`
+
+        })
+
+}
+
+const handelDecressCart = (productId: number, optionId: number) => {
+         const key = getkey(productId , optionId);
+        setQuantities((prev)=>({
+            ...prev,
+            [key] : Math.max((prev[key] || 1) - 1 ,0)
+
+        }))
+
+        removeFormCart(productId, optionId, 1);
+        refreshCart();
+
+        api['success']({
+            message: '',
+            description: `${t('notify.remove_cart')}`
+
+        })
+
+}
+
+const handelToggelWishList = (productId: number, title: string, image: string, optionId: number ,state:string , slug:string) => {
+    toggelWishList(productId, title, image, optionId , state , slug);
+
+    api['success']({
+        message: '',
+        description: `${t('notify.wish_list')}`
+
+    })
+}
+
+const getQuantity = useCallback((productId: number, optionId: number) => {
+    const key = getkey(productId , optionId);
+            return quantities[key] || 0
+}, [quantities]
+)
+
+return (
+    <>
+        {contextHolder}
+        {
+            products.map((item, index) => {
+                // fetch select option
+                const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
+                const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
+                return (
+                    <div
+                        key={index}
+                        className='border-2 p-4 rounded-lg flex flex-col justify-center items-center gap-4 relative'
+                    >
+                        {(item.state == "special" || item.state == "new") && (
+                            <div
+                                className={`absolute top-4 ${i18n.language == 'ar' ? 'left-0 rounded-s-full' : 'right-0 rounded-s-full'}  bg-primary-color text-white py-1 px-2`}
+                            >
+                                {item.state == 'special' ? t('exhibition.special') : t('exhibition.new')}
+                            </div>
+                        )}
+                        <Link
+                            href={
+                                page === 'category' ?
+                                    route('product-category', { lang: i18n.language, category: category_slug, product: item.slug })
+                                    :
+                                    route('product-subcategory', { lang: i18n.language, category: category_slug, subcategory: subcategory_slug, product: item.slug })
+                            }
                         >
-                            {(item.state == "special" || item.state == "new") && (
-                                <div
-                                    className={`absolute top-4 ${i18n.language == 'ar' ? 'left-0 rounded-s-full' : 'right-0 rounded-s-full'}  bg-primary-color text-white py-1 px-2`}
-                                >
-                                    {item.state == 'special' ? t('exhibition.special') : t('exhibition.new')}
-                                </div>
-                            )}
-                            <Link
-                                href={
-                                    page === 'category' ?
-                                        route('product-category', { lang: i18n.language, category: category_slug, product: item.slug })
-                                        :
-                                        route('product-subcategory', { lang: i18n.language, category: category_slug, subcategory: subcategory_slug, product: item.slug })
-                                }
-                            >
-                                <div>
-                                    <img src={item.main_image} alt="" className='h-52' />
-                                </div>
-                                <p
-                                    className='self-start font-medium text-lg hover:text-primary-color'
-                                >{item.title}</p>
-                            </Link>
-                            {/* price and rating */}
-                            <div
-                                className='flex justify-between items-center w-full'
-                            >
-                                <p
-                                    className='font-semibold text-lg text-primary-color'
-                                >
-                                    {filterOptionPrice?.price} KD
-                                </p>
-                                <div
-                                    className='flex'
-                                >
-                                    <StarRating rating={item.rate} />
-                                </div>
+                            <div>
+                                <img src={item.main_image} alt="" className='h-52' />
                             </div>
-                            {/* select category of product */}
-                            <div
-                                className='w-full'
+                            <p
+                                className='self-start font-medium text-lg hover:text-primary-color'
+                            >{item.title}</p>
+                        </Link>
+                        {/* price and rating */}
+                        <div
+                            className='flex justify-between items-center w-full'
+                        >
+                            <p
+                                className='font-semibold text-lg text-primary-color'
                             >
-                                <select
-
-                                    name='price'
-                                    className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'} w-full`}
-                                    style={{
-                                        backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
-                                    }}
-                                    defaultValue={item.product_option[0].title}
-                                    onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
-                                >
-                                    {item.product_option.map((option, index) =>
-                                        <option
-                                            key={index}
-                                            value={option.id}
-
-                                        >
-                                            {option.title} - ({option.price} KD)
-                                        </option>
-                                    )}
-                                </select>
+                                {filterOptionPrice?.price} KD
+                            </p>
+                            <div
+                                className='flex'
+                            >
+                                <StarRating rating={item.rate} />
                             </div>
-                            {/* wish list and add cart */}
-                            <div
-                                className='flex w-full gap-4 flex-col lg:flex-row'
+                        </div>
+                        {/* select category of product */}
+                        <div
+                            className='w-full'
+                        >
+                            <select
+
+                                name='price'
+                                className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'} w-full`}
+                                style={{
+                                    backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
+                                }}
+                                defaultValue={item.product_option[0].title}
+                                onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
                             >
-                                {item.avilable ?
-<button
-                                            type='button'
-                                            disabled={Loading}
-                                            // onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
-                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
-                                        >
-                                            {t('exhibition.add_to_cart')}
-                                        </button>
+                                {item.product_option.map((option, index) =>
+                                    <option
+                                        key={index}
+                                        value={option.id}
+
+                                    >
+                                        {option.title} - ({option.price} KD)
+                                    </option>
+                                )}
+                            </select>
+                        </div>
+                        {/* wish list and add cart */}
+                        <div
+                            className='flex w-full gap-4 flex-col lg:flex-row'
+                        >
+                            {item.avilable ?
+                                <button
+                                    type='button'
+                                    disabled={true}
+                                    // onClick={() => handelAddToCart(item.id, SelectedOptionId, item.title, item.main_image, filterOptionPrice?.price ?? 0)}
+                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
+                                >
+                                    {t('exhibition.add_to_cart')}
+                                </button>
                                 :
                                 getQuantity(item.id, SelectedOptionId) > 0 ?
 
@@ -272,30 +282,30 @@ const GridCard = ({ products, page, category_slug, subcategory_slug = null }: pr
                                             {t('exhibition.add_to_cart')}
                                         </button>
                                     )
-                                }
+                            }
 
 
 
 
-                                <button
-                                    type='button'
-                                    onClick={() => handelToggelWishList(item.id, item.title, item.main_image, SelectedOptionId)}
-                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
-                                >
-                                    <Tooltip title={t('exhibition.wich_list')} >
-                                        <span>
+                            <button
+                                type='button'
+                                onClick={() => handelToggelWishList(item.id, item.title, item.main_image, SelectedOptionId , item.state , item.slug)}
+                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
+                            >
+                                <Tooltip title={t('exhibition.wich_list')} >
+                                    <span>
                                         <IoIosHeartEmpty />
-                                        </span>
-                                    </Tooltip>
-                                </button>
-                            </div>
+                                    </span>
+                                </Tooltip>
+                            </button>
                         </div>
-                    )
-                }
+                    </div>
                 )
             }
-        </>
-    )
+            )
+        }
+    </>
+)
 }
 
 export default GridCard

@@ -9,6 +9,9 @@ use Inertia\Inertia;
 
 class CartController extends Controller
 {
+    public function wishlist(){
+        return Inertia::render('Welcome/WishList/Index');
+    }
     public function mycart(){
         return Inertia::render('Welcome/MyCart/Index');
     }
