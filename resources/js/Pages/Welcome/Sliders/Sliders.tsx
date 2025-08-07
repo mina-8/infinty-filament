@@ -76,7 +76,7 @@ export default function Sliders({ slides }: Props) {
                     >
                         <Carousel
                             arrows
-                            autoplay
+                            // autoplay
                             infinite
                             className="custom-carousel-dots"
                             beforeChange={HandelActiveIndex}
@@ -89,14 +89,18 @@ export default function Sliders({ slides }: Props) {
                                     className='relative'
                                 >
                                     <div
+
                                         style={{
                                             height: '550px',
+
                                             backgroundImage: `url('${item.image}')`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
+                                            // backgroundSize: 'cover',
+                                            // backgroundPosition: 'center',
                                         }}
-                                        className='relative'
+                                        className='relative bg-no-repeat  bg-center bg-cover w-full'
                                     >
+
+
                                         <div
                                             className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}
                                         >
@@ -104,7 +108,7 @@ export default function Sliders({ slides }: Props) {
                                             {/* <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div> */}
 
                                             <p
-                                                className={`pt-20 text-6xl text-black drop-shadow-3xl xs:text-xl
+                                                className={`pt-20 text-4xl text-white drop-shadow-3xl xs:text-xl
                                                 ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
                                             >{item.title}</p>
 
@@ -126,8 +130,8 @@ export default function Sliders({ slides }: Props) {
                                                     {item.active_btn && (
 
 
-                                                    <Link
-                                                        href={route(`${item.link}`, { lang: i18n.language })}
+                                                    <a
+                                                        href={item.link}
                                                         className={`${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''} bg-primary-color text-white px-4 py-2 rounded-lg hover:bg-black hover:text-white`}
                                                         style={{
                                                             animationDuration: "1s",
@@ -135,7 +139,7 @@ export default function Sliders({ slides }: Props) {
                                                         }}
                                                     >
                                                         <div className='text-xl'>{item.str_btn}</div>
-                                                    </Link>
+                                                    </a>
                                                     )}
 
                                                 </div>

@@ -3,9 +3,10 @@ import FlexCard from '@/Components/FlexCard';
 import GridCard from '@/Components/GridCard';
 import Login from '@/Pages/Auth/Login';
 import { PageProps } from '@/types';
+import { totalQuantity } from '@/utils/cartUtils';
 import { GridToggel, setFlexLayout, setGridLayout } from '@/utils/GridUtils';
 import { Link, usePage } from '@inertiajs/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { FaList } from 'react-icons/fa';
 import { IoHomeSharp } from 'react-icons/io5';
@@ -17,7 +18,15 @@ const Guest = ({ status,
         canResetPassword: boolean;
     }) => {
     const { t, i18n } = useTranslation();
-
+        const  [cartCount , setCartCoutn ] = useState(0);
+        useEffect(()=>{
+            const GetCount = async () => {
+            const cart = await totalQuantity();
+            setCartCoutn(cart);
+            }
+            GetCount();
+        } , [])
+        
     return (
         <section
             className='min-h-screen max-w-7xl mx-auto'
@@ -59,12 +68,14 @@ const Guest = ({ status,
                             >
                                 {t('guest.add_accout')}
                             </Link>
-                            <Link
+                            {cartCount > 0 && (
+                                <Link
                                 href={route('register-guest', { lang: i18n.language })}
                                 className='bg-primary-color px-4 py-2 rounded-lg text-white font-bold'
-                            >
+                                >
                                 {t('guest.add_accout_guest')}
                             </Link>
+                            )}
 
 
                         </div>

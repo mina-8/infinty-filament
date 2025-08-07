@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Delivery;
+use App\Models\PrivacyPolicy;
 use App\Models\Product;
 use App\Models\Slide;
 use Illuminate\Http\Request;
@@ -33,9 +35,6 @@ class HomeController extends Controller
                 ];
             });
 
-        if (!$slides) {
-            return inertia('Welcome/NotFound/NotFound');
-        }
 
         $products = Product::where('state', 'special')
             ->with('productoption')
@@ -64,5 +63,29 @@ class HomeController extends Controller
             'slides' => $slides,
             'products' => $products
         ]);
+    }
+
+    public function delivery(string $lang)
+    {
+        $delivery = Delivery::first();
+        if(!$delivery){
+            return Inertia::render('Welcome/NotFound/NotFound');
+        }
+        $deliveryData = [
+            'content' => $delivery->getTranslation('content', $lang),
+        ];
+        return Inertia::render('Welcome/Delivery/Index' , ['delivery' => $deliveryData]);
+    }
+
+    public function privacy(string $lang)
+    {
+        $privacy = PrivacyPolicy::first();
+        if(!$privacy){
+            return Inertia::render('Welcome/NotFound/NotFound');
+        }
+        $privacyData = [
+            'content' => $privacy->getTranslation('content', $lang),
+        ];
+        return Inertia::render('Welcome/Privacy/Index', ['privacy' => $privacyData]);
     }
 }

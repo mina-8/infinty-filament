@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Models\Admin;
 use App\Models\CartItem;
 use App\Models\Guest;
 use App\Models\Order;
@@ -12,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Filament\Notifications\Notification;
 
-use function Pest\Laravel\json;
 
 class OrderController extends Controller
 {
@@ -23,7 +24,7 @@ class OrderController extends Controller
         $userid = Auth::id();
         if ($userid) {
             $orderToken = null;
-            DB::transaction(function () use ($orderToken, $request, $userid) {
+            DB::transaction(function () use (&$orderToken, $request, $userid) {
 
                 $order = Order::create([
                     'user_id' => $userid,
@@ -47,6 +48,14 @@ class OrderController extends Controller
                 $orderToken = $order->order_token;
             });
 
+            $user = Auth::user();
+            Notification::make()
+                ->title('Order Placed Successfully')
+                ->body("Order #{$orderToken} has been placed by user ID: {$user->name}.")
+                ->success()
+                ->sendToDatabase(Admin::all())
+                ->send();
+
             return Inertia::render('Welcome/Order/Success', ['ordercode' => $orderToken]);
         }
 
@@ -62,7 +71,7 @@ class OrderController extends Controller
         }
 
         $orderToken = null;
-        DB::transaction(function () use ($getGuest, $request) {
+        DB::transaction(function () use ($getGuest, $request, &$orderToken) {
             $guest =  Guest::create($getGuest);
 
             $order = Order::create([
@@ -81,10 +90,18 @@ class OrderController extends Controller
                     'quantity' =>  $item['quantity'],
                 ]);
             }
+
             $orderToken = $order->order_token;
         });
 
         $request->session()->forget('guest_data');
+
+        Notification::make()
+            ->title('Order Placed Successfully')
+            ->body("Order #{$orderToken} has been placed by a guest user.")
+            ->success()
+            ->sendToDatabase(Admin::all())
+            ->send();
 
         return Inertia::render('Welcome/Order/SuccessGuest', ['ordercode' => $orderToken]);
     }

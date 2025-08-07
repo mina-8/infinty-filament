@@ -38,6 +38,11 @@ class OrderResource extends Resource
     {
         return false;
     }
+
+    public static function getNavigationBadge(): ?string
+{
+    return static::getModel()::where('status' , 'pending')->count();
+}
     public static function form(Form $form): Form
     {
         return $form

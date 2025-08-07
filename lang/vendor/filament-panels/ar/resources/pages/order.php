@@ -1,10 +1,10 @@
 <?php
 return [
-    'title' => '  الطبات',
+    'title' => '  الطلبات',
     'breadcrumb' => '  الطلبات',
     'actions' => [
         'create' => [
-            'label' => 'إضافة مقال',
+            'label' => 'إضافة الطلبات',
         ],
         'edit' => [
             'label' => 'تعديل',

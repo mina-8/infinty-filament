@@ -106,6 +106,10 @@
                 "cash": "Cash on delivery"
             },
             "submit": "Pay"
+        },
+        "success": {
+            "title": "Request Success",
+            "message": "Your request has been successfully received and you will be contacted shortly"
         }
     },
     "slides": {
@@ -332,7 +336,7 @@
     },
     "footer": {
         "description": "The largest local manufacturer of global products and solutions in the Middle East and North Africa region.",
-        "about_us": "about us",
+        "about_us": "Why Orica",
         "brand": "Brands",
         "other_office": "Offices",
         "information": "Information",
@@ -354,6 +358,9 @@
         "ourfaq": "Frequently Asked Questions",
         "home": "Home",
         "contact_us": "Contact Us",
+        "delivery": "Delivery",
+        "mycart": "My Cart",
+        "wichlist": "Wish List",
         "privacy_policy": "Privacy Policy",
         "terms_of_service": "Terms of Service",
         "follow_us": "Follow Us",

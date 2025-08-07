@@ -68,6 +68,7 @@ Route::group(
             // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
             Route::get('/dashboard' , [HomeController::class, 'index'])->name('dashboard');
 
+
             Route::get('cart' , [CartItemController::class ,'index'])->name('cart-index');
             Route::post('cart' , [CartItemController::class ,'merge'])->name('cart-merge');
             Route::post('cart/add-items' , [CartItemController::class ,'additems'])->name('cart-add');
@@ -76,6 +77,8 @@ Route::group(
             Route::get('cart/total' , [CartItemController::class ,'totalitems'])->name('cart-total');
         });
 
+        Route::get('/delivery' , [HomeController::class, 'delivery'])->name('delivery');
+            Route::get('/privacy-and-policy' , [HomeController::class, 'privacy'])->name('privacy');
         // Cart
         Route::get('my-cart' , [CartController::class , 'mycart'])->name('my-cart');
 

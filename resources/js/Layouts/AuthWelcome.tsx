@@ -103,7 +103,7 @@ export default function AuthWelcome({
                     <div
                         className={`bg-white ${isnavbar ? 'rounded-none' : 'rounded-full mx-5 shadow-lg'} `}
                     >
-                        <div className={`mx-auto py-4 w-full max-w-screen-xl `}>
+                        <div className={`mx-auto py-4 px-6 w-full max-w-screen-xl `}>
                             <div className="flex h-16 ">
                                 <div className="flex relative">
                                     <div className="flex shrink-0 items-center">
@@ -214,7 +214,7 @@ export default function AuthWelcome({
                                                         >
                                                             <IoLockClosed />
                                                             <Dropdown.Link
-                                                                href={route('check-out', { lang: i18n.language })}
+                                                                href={route('login', { lang: i18n.language })}
                                                                 method="get"
                                                                 as="button"
                                                                 className='hover:bg-white focus:bg-white'

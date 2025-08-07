@@ -1,12 +1,21 @@
-import { router } from '@inertiajs/react';
+import { PageProps } from '@/types';
+import { router, usePage } from '@inertiajs/react';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { FaInstagram, FaYoutube } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
-import { MdOutlineFacebook } from 'react-icons/md';
 
+
+interface SocialLink {
+    id: number;
+    link: string;
+    icon_path: string;
+}
+interface CustomLinkIcon extends PageProps {
+    socialicons: SocialLink[];
+
+}
 const NewsLetter = () => {
-    const { t, i18n } = useTranslation()
+    const { t, i18n } = useTranslation();
+    const { socialicons } = usePage<CustomLinkIcon>().props;
     return (
         <section
             className='max-w-7xl mx-auto my-12 shadow-lg p-4 rounded-lg flex justify-around items-center gap-6'
@@ -14,14 +23,30 @@ const NewsLetter = () => {
             <div
                 className='flex justify-center items-center gap-6'
             >
-                <MdOutlineFacebook />
-                <FaXTwitter />
-                <FaInstagram />
-                <FaYoutube />
+                {socialicons.length > 0 && socialicons.map((social) => (
+                    <a
+                        key={social.id}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        // className="rounded-full bg-primary-color p-2"
+                    >
+                        <div
+                            style={{
+                                color: 'black' // لازم يكون اللون هنا مش fill
+                            }}
+                            className="w-5"
+                            dangerouslySetInnerHTML={{
+                                __html: social.icon_path.replace(/fill=".*?"/g, 'fill="currentColor"')
+                            }}
+                        />
+                    </a>
+                ))}
+
             </div>
             <div>
                 <p
-                className='text-xl font-medium'
+                    className='text-xl font-medium'
                 >
                     {t('home.newsletter')}
                 </p>

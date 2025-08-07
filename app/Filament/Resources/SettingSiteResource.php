@@ -49,6 +49,14 @@ class SettingSiteResource extends Resource
                                 ->label(__('filament-panels::resources/pages/settingsite.fields.shop_link'))
                                 ->required()
                                 ->default('#'),
+                        Forms\Components\TextInput::make('about_us')
+                                ->label(__('filament-panels::resources/pages/settingsite.fields.about_us'))
+                                ->required()
+                                ->default('#'),
+                        Forms\Components\TextInput::make('contact_us')
+                                ->label(__('filament-panels::resources/pages/settingsite.fields.contact_us'))
+                                ->required()
+                                ->default('#'),
                         Forms\Components\TextInput::make('map_link')
                                 ->label(__('filament-panels::resources/pages/settingsite.fields.map_link'))
                                 ->required()
@@ -70,11 +78,6 @@ class SettingSiteResource extends Resource
                     ->label(__('filament-panels::resources/pages/blog.fields.title'))
                     ->searchable(),
 
-                Tables\Columns\ImageColumn::make('image')
-                    ->label(__('filament-panels::resources/pages/blog.fields.image'))
-                    ->disk('public')
-                    ->square()
-                    ->size(60),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('filament-panels::resources/pages/blog.fields.created_at'))
                     ->dateTime()
@@ -87,9 +90,9 @@ class SettingSiteResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 

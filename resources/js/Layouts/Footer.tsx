@@ -6,9 +6,8 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 
 import { PageProps } from '@/types';
 
-import DynamicIcon from '@/Components/DynamicIcon/DynamicIcon';
-import { FaFacebook, FaInstagram, FaLinkedin, FaPhoneAlt, FaTiktok } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+
+import { FaPhoneAlt } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import { Button, Modal } from 'antd';
 
@@ -38,23 +37,10 @@ const Footer = () => {
     const { t, i18n } = useTranslation();
     const currentYear = new Date().getFullYear();
     const { socialicons } = usePage<CustomBrand>().props;
-    const { productinfo_nav } = usePage<CustomBrand>().props;
     const { office_reginal } = usePage<CustomBrand>().props;
     const { site_setting }: string | any = usePage().props;
 
-    const Spotlight = [
 
-
-        {
-            href: 'welcome',
-            title: t('footer.contact-us')
-        },
-        {
-            href: 'welcome',
-            title: t('footer.map')
-        },
-
-    ];
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -138,28 +124,28 @@ const Footer = () => {
 
                                                 >
                                                     <div
-                                                    className='flex flex-col justify-center items-center gap-4'
+                                                        className='flex flex-col justify-center items-center gap-4'
                                                     >
-                                                    <p>
-                                                        {office.state}
-                                                    </p>
-                                                    <p
-                                                    className='text-center'
-                                                    >
-                                                        {office.address}
-                                                    </p>
-                                                    <p>
-                                                        {office.phone}
-                                                    </p>
-                                                    <p>
-                                                        {office.fax}
-                                                    </p>
-                                                    {office.phone_free && (
-                                                        <p>{office.phone_free}</p>
-                                                    )}
-                                                    <p>
-                                                        {office.email}
-                                                    </p>
+                                                        <p>
+                                                            {office.state}
+                                                        </p>
+                                                        <p
+                                                            className='text-center'
+                                                        >
+                                                            {office.address}
+                                                        </p>
+                                                        <p>
+                                                            {office.phone}
+                                                        </p>
+                                                        <p>
+                                                            {office.fax}
+                                                        </p>
+                                                        {office.phone_free && (
+                                                            <p>{office.phone_free}</p>
+                                                        )}
+                                                        <p>
+                                                            {office.email}
+                                                        </p>
                                                     </div>
 
                                                 </Modal>
@@ -172,61 +158,17 @@ const Footer = () => {
 
                     <div className="flex gap-4 flex-wrap justify-center md:justify-start">
 
-                        {socialicons.length > 0 ? socialicons.map((social) => (
+                        {socialicons.length > 0 && socialicons.map((social) => (
                             <a
                                 key={social.id}
                                 href={social.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="rounded-full bg-primary-color text-white p-2"
+                                className="rounded-full  bg-primary-color p-2 "
                             >
-                                <DynamicIcon iconPath={social.icon_path} />
+                                <div className='w-5' dangerouslySetInnerHTML={{ __html: social.icon_path }} />
                             </a>
-                        )) : (
-                            <>
-                                <a
-                                    href='https://www.linkedin.com/company/bscosa/'
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-primary-color text-white p-2"
-                                >
-                                    <FaLinkedin />
-                                </a>
-                                <a
-                                    href='https://x.com/BscoCom'
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-primary-color text-white p-2"
-                                >
-                                    <FaXTwitter />
-                                </a>
-                                <a
-                                    href='https://www.facebook.com/profile.php?id=61558624079654'
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-primary-color text-white p-2"
-                                >
-                                    <FaFacebook />
-                                </a>
-                                <a
-                                    href='https://www.instagram.com/bsco_sa_com/'
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-primary-color text-white p-2"
-                                >
-                                    <FaInstagram />
-                                </a>
-                                <a
-                                    href='https://www.tiktok.com/@bsco.sa?lang=en'
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-primary-color text-white p-2"
-                                >
-                                    <FaTiktok />
-                                </a>
-                            </>
-                        )}
-
+                        ))}
 
                     </div>
 
@@ -246,8 +188,30 @@ const Footer = () => {
                         <p
 
                             className="text-xl text-black font-bold">{t('footer.information')}</p>
-                        <ul className="space-y-1 whitespace-nowrap">
+                        <ul className="space-y-1 whitespace-nowrap ">
+                            <li>
 
+                                <a
+                                    href={site_setting.about_us || '#'}
+                                >
+                                    {t('footer.about_us')}
+                                </a>
+
+                            </li>
+                            <li>
+                                <Link
+                                    href={route('delivery', { lang: i18n.language })}
+                                >
+                                    {t('footer.delivery')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={route('privacy', { lang: i18n.language })}
+                                >
+                                    {t('footer.policy')}
+                                </Link>
+                            </li>
 
                         </ul>
                     </div>
@@ -258,9 +222,16 @@ const Footer = () => {
 
                             className="text-xl text-black font-bold">{t('footer.my_account')}</p>
                         <ul className="space-y-1 whitespace-nowrap">
-                            {/* <li><Link href={route('welcome', { lang: i18n.language })} className="hover:text-primary-color">
-                                {t('mainproduct.title')}
-                            </Link></li> */}
+                            <li><Link href={route('my-cart', { lang: i18n.language })}
+                                className="hover:text-primary-color">
+                                {t('footer.mycart')}
+                            </Link>
+                            </li>
+
+                            <li><Link href={route('wish-list', { lang: i18n.language })} className="hover:text-primary-color">
+                                {t('footer.wichlist')}
+                            </Link>
+                            </li>
 
 
                         </ul>
@@ -269,17 +240,26 @@ const Footer = () => {
                     {/* Section: Quick Links */}
                     <div className="flex flex-col gap-4">
                         <p
-                        className="text-xl text-black font-bold"
+                            className="text-xl text-black font-bold"
                         >{t('footer.customer_service')}</p>
                         <ul className="space-y-1 whitespace-nowrap">
-                            {Spotlight.map((item, index) => (
 
-                                <li
-                                    key={index}
-                                ><Link href={route(item.href, { lang: i18n.language })}
-                                    className="text-xl text-black font-bold"
-                                >{item.title}</Link></li>
-                            ))}
+                            <li>
+                                <a
+                                    target='_blank'
+                                    href={site_setting.contact_us || '#'}
+
+                                >{t('footer.contact_us')}
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    target='_blank'
+                                    href={site_setting.map_link || '#'}
+
+                                >{t('footer.map')}
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
@@ -293,8 +273,8 @@ const Footer = () => {
                 </div>
                 <div>
                     <a
-                    href={site_setting || '#'}
-                    rel="noopener noreferrer" target='__blank' className='hover:text-primary-color'>
+                        href={site_setting || '#'}
+                        rel="noopener noreferrer" target='__blank' className='hover:text-primary-color'>
                         {t('footer.maplocation')}
 
                     </a>

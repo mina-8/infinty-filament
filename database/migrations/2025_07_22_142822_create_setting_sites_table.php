@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('setting_sites', function (Blueprint $table) {
             $table->id();
             $table->string('shop_link')->default('#');
+            $table->string('about_us')->default('#');
             $table->text('map_link')->default('#');
             $table->string('whats_app')->nullable();
             $table->timestamps();
