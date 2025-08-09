@@ -60,15 +60,17 @@ export default function Sliders({ slides }: Props) {
 
     return (
         <div className='flex justify-center items-center flex-col '>
+
             <div className='w-full'>
                 {slides?.length > 0 ?
                     <ConfigProvider
                         theme={{
                             components: {
                                 Carousel: {
-                                    dotHeight: 20,
-                                    dotWidth: 20,
-                                    dotActiveWidth: 20,
+                                    dotHeight: 10,
+                                    dotWidth: 10,
+                                    dotActiveWidth: 10,
+                                    dotOffset: 100,
 
                                 },
                             },
@@ -88,6 +90,7 @@ export default function Sliders({ slides }: Props) {
                                 <div key={item.id}
                                     className='relative'
                                 >
+
                                     <div
 
                                         style={{
@@ -97,9 +100,8 @@ export default function Sliders({ slides }: Props) {
                                             // backgroundSize: 'cover',
                                             // backgroundPosition: 'center',
                                         }}
-                                        className='relative bg-no-repeat  bg-center bg-cover w-full'
+                                        className='relative bg-no-repeat bg-contain bg-center  w-full '
                                     >
-
 
                                         <div
                                             className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}

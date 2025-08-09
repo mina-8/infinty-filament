@@ -198,7 +198,7 @@ const Exhibition = ({ products }: props) => {
 
     return (
         <section
-            className='w-full max-w-6xl my-12 mx-auto relative'
+            className='w-full max-w-6xl mx-auto relative'
         >
 
             {contextHolder}
