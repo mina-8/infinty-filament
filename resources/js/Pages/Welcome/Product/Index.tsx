@@ -295,7 +295,7 @@ const Index = ({ product }: props) => {
                             <div
                                 className='font-medium text-4xl my-4 pb-4 border-b-2'
                             >
-                                {filterOptionPrice?.price} KD
+                                {filterOptionPrice?.price} SAR
                             </div>
 
                             {/* code and available */}
@@ -357,7 +357,7 @@ const Index = ({ product }: props) => {
                                                 value={option.id}
 
                                             >
-                                                {option.title} - ({option.price} KD)
+                                                {option.title} - ({option.price} SAR)
                                             </option>
                                         )}
                                     </select>

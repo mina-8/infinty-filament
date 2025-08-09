@@ -68,7 +68,7 @@ const Footer = () => {
                 >
                     <div className="flex flex-col md:flex-row justify-between gap-8 ">
                         {/* المكتب الرئيسي */}
-                        <div className="flex flex-col gap-4 md:w-1/2">
+                        <div className="flex flex-col gap-4 md:w-1/2 text-gray-400">
                             <h2 className="text-xl font-bold text-black">{t('footer.contact_us')}</h2>
 
                             {office_reginal.length > 0 && (
@@ -95,8 +95,8 @@ const Footer = () => {
                         </div>
 
                         {/* المكاتب الأخرى */}
-                        <div className="flex flex-col gap-4 md:w-1/2">
-                            <h2 className="text-xl font-bold text-black">{t('footer.other_office')}</h2>
+                        <div className="flex flex-col gap-4 md:w-1/2 text-gray-400">
+                            <h2 className="text-xl font-bold text-black text-nowrap">{t('footer.other_office')}</h2>
 
                             <ul className="space-y-3">
                                 {office_reginal.length > 1 &&
@@ -188,7 +188,7 @@ const Footer = () => {
                         <p
 
                             className="text-xl text-black font-bold">{t('footer.information')}</p>
-                        <ul className="space-y-1 whitespace-nowrap ">
+                        <ul className="space-y-1 whitespace-nowrap text-gray-400 ">
                             <li>
 
                                 <a
@@ -221,14 +221,14 @@ const Footer = () => {
                         <p
 
                             className="text-xl text-black font-bold">{t('footer.my_account')}</p>
-                        <ul className="space-y-1 whitespace-nowrap">
+                        <ul className="space-y-1 whitespace-nowrap text-gray-400">
                             <li><Link href={route('my-cart', { lang: i18n.language })}
                                 className="hover:text-primary-color">
                                 {t('footer.mycart')}
                             </Link>
                             </li>
 
-                            <li><Link href={route('wish-list', { lang: i18n.language })} className="hover:text-primary-color">
+                            <li><Link href={route('wish-list', { lang: i18n.language })} className="hover:text-primary-color ">
                                 {t('footer.wichlist')}
                             </Link>
                             </li>
@@ -242,13 +242,13 @@ const Footer = () => {
                         <p
                             className="text-xl text-black font-bold"
                         >{t('footer.customer_service')}</p>
-                        <ul className="space-y-1 whitespace-nowrap">
+                        <ul className="space-y-1 whitespace-nowrap text-gray-400">
 
                             <li>
                                 <a
                                     target='_blank'
                                     href={site_setting.contact_us || '#'}
-
+                                    className='hover:text-primary-color'
                                 >{t('footer.contact_us')}
                                 </a>
                             </li>
@@ -256,7 +256,8 @@ const Footer = () => {
                                 <a
                                     target='_blank'
                                     href={site_setting.map_link || '#'}
-
+                                    rel="noopener noreferrer"
+                                    className='hover:text-primary-color'
                                 >{t('footer.map')}
                                 </a>
                             </li>
@@ -273,8 +274,9 @@ const Footer = () => {
                 </div>
                 <div>
                     <a
-                        href={site_setting || '#'}
-                        rel="noopener noreferrer" target='__blank' className='hover:text-primary-color'>
+                        href={site_setting.map_link || '#'}
+                        rel="noopener noreferrer"
+                        target='__blank' className='hover:text-primary-color'>
                         {t('footer.maplocation')}
 
                     </a>

@@ -13,7 +13,7 @@ import { FaArrowUp, FaHeart, FaRegUser, FaTruck, FaUserPlus, FaWhatsapp } from '
 import { IoLockClosed, IoMoon, IoSearch } from 'react-icons/io5';
 import SearchForm from '@/Components/SearchWeb/SearchForm';
 import Footer from './Footer';
-
+import logonav from '@/../../public/logo_nav.svg'
 
 import { MdOutlineWbSunny } from 'react-icons/md';
 import ChangeLang from '@/Components/ChangeLang/ChangeLang';
@@ -116,7 +116,7 @@ export default function AuthWelcome({
                                 </div>
 
                                 <div className={`hidden xl:ms-6 xl:flex xl:items-center relative justify-between w-full`}>
-                                    <div className="hidden gap-1 sm:-my-px sm:ms-10 sm:flex">
+                                    <div className="hidden gap-1 sm:-my-px sm:ms-10 sm:flex items-center">
 
 
                                         <CategoryNav />
@@ -126,7 +126,7 @@ export default function AuthWelcome({
                                             target='_blank'
                                             href={site_setting?.shop_link || '#'}
                                         >
-                                            <ApplicationLogo height='h-6' />
+                                            <img src={logonav} alt="logo" className='h-24 bg-cover bg-center' />
                                             {t('navbar-links.shop')}
                                         </a>
 

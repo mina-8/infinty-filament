@@ -153,7 +153,7 @@ const Index = () => {
                             <p
 
                             >
-                                {item.price} KD
+                                {item.price} SAR
                             </p>
 
                             <div
@@ -201,11 +201,11 @@ const Index = () => {
                     >
                         <tr>
                             <td className='border p-1'>{t('navbarlist.cartnav.sub_total')}</td>
-                            <td className='border p-1'>{totalPrice()} KD</td>
+                            <td className='border p-1'>{totalPrice()} SAR</td>
                         </tr>
                         <tr>
                             <td className='border p-1'>{t('navbarlist.cartnav.total')}</td>
-                            <td className='border p-1'>{totalPrice()} KD</td>
+                            <td className='border p-1'>{totalPrice()} SAR</td>
                         </tr>
                     </tbody>
                 </table>

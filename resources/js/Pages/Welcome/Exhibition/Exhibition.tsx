@@ -265,7 +265,7 @@ const Exhibition = ({ products }: props) => {
                                         <p
                                             className='font-semibold text-lg text-primary-color'
                                         >
-                                            {filterOptionPrice?.price} KD
+                                            {filterOptionPrice?.price} SAR
                                         </p>
                                         <div
                                             className='flex'
@@ -293,7 +293,7 @@ const Exhibition = ({ products }: props) => {
                                                     value={option.id}
 
                                                 >
-                                                    {option.title} - ({option.price} KD)
+                                                    {option.title} - ({option.price} SAR)
                                                 </option>
                                             )}
                                         </select>
