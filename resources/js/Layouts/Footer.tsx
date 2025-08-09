@@ -59,7 +59,7 @@ const Footer = () => {
 
     return (
         <footer className="bg-wheat  w-full">
-            <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-1 lg:grid-cols-[30%_1fr] gap-8">
 
                 {/* Logo & Description & Social */}
                 <div className={`flex flex-col items-center md:items-start gap-4 border-b pb-6 lg:pb-0 lg:border-b-0
@@ -69,25 +69,25 @@ const Footer = () => {
                     <div className="flex flex-col md:flex-row justify-between gap-8 ">
                         {/* المكتب الرئيسي */}
                         <div className="flex flex-col gap-4 md:w-1/2 text-gray-400">
-                            <h2 className="text-xl font-bold text-black">{t('footer.contact_us')}</h2>
+                            <h2 className="text-xl font-bold text-black text-nowrap">{t('footer.contact_us')}</h2>
 
                             {office_reginal.length > 0 && (
                                 <>
-                                    <h3 className="text-lg font-semibold ">
+                                    <h3 className="text-lg font-semibold text-nowrap">
                                         {office_reginal[0].state}
                                     </h3>
 
                                     <ul className="space-y-4">
                                         <li className="flex items-start gap-3">
-                                            <AiFillHome className="text-primary-color text-3xl flex-shrink-0" />
-                                            <p className="text-gray-700 leading-relaxed">
+                                            <AiFillHome className="text-primary-color text-xl flex-shrink-0" />
+                                            <p className="text-gray-700 leading-relaxed text-nowrap">
                                                 {office_reginal[0].address}
                                             </p>
                                         </li>
 
                                         <li className="flex items-center gap-3">
-                                            <FaPhoneAlt className="text-primary-color text-3xl flex-shrink-0" />
-                                            <p className="text-gray-700">{office_reginal[0].phone}</p>
+                                            <FaPhoneAlt className="text-primary-color text-xl flex-shrink-0" />
+                                            <p className="text-gray-700 text-nowrap">{office_reginal[0].phone}</p>
                                         </li>
                                     </ul>
                                 </>
