@@ -290,7 +290,7 @@ return (
                             <button
                                 type='button'
                                 onClick={() => handelToggelWishList(item.id, item.title, item.main_image, SelectedOptionId , item.state , item.slug)}
-                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
+                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg flex justify-center items-center'
                             >
                                 <Tooltip title={t('exhibition.wich_list')} >
                                     <span>

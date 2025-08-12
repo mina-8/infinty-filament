@@ -18,7 +18,7 @@ const NewsLetter = () => {
     const { socialicons } = usePage<CustomLinkIcon>().props;
     return (
         <section
-            className='max-w-7xl mx-auto my-12 shadow-lg p-4 rounded-lg flex justify-around items-center gap-6'
+            className='max-w-7xl mx-auto my-12 shadow-lg p-4 rounded-lg flex justify-around items-center gap-6 flex-col lg:flex-row'
         >
             <div
                 className='flex justify-center items-center gap-6'
@@ -52,7 +52,7 @@ const NewsLetter = () => {
                 </p>
             </div>
             <div
-                className='w-2/4'
+                className='lg:w-2/4'
             >
                 <form
                     onSubmit={(e) => {
@@ -61,18 +61,18 @@ const NewsLetter = () => {
                         const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
                         router.post(route('contact-form', { lang: i18n.language }), { email: email })
                     }}
-                    className="flex flex-col sm:flex-row  "
+                    className="flex flex-col lg:flex-row  "
                 >
                     <input
                         type="email"
                         name="email"
                         required
                         placeholder={t('reciveupdate.placeholder')}
-                        className={`flex-1 text-2xl px-4 py-2 border border-gray-300 focus:outline-none focus:ring-0 focus:ring-none rounded-s-lg`}
+                        className={`flex-1 text-2xl px-4 py-2 border border-gray-300 focus:outline-none focus:ring-0 focus:ring-none lg:rounded-s-lg `}
                     />
                     <button
                         type="submit"
-                        className={`px-6 py-2 bg-primary-color rounded-e-lg text-white font-medium  transition  `}
+                        className={`px-6 py-2 bg-primary-color lg:rounded-e-lg text-white font-medium  transition  `}
                     >
                         {t('reciveupdate.submit') || 'Subscribe'}
                     </button>

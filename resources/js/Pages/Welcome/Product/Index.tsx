@@ -239,16 +239,16 @@ const Index = ({ product }: props) => {
                 </div>
                 {/* section of header title */}
                 <section
-                    className='lg:grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-4 my-4 hidden'
+                    className='grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-4 my-4 '
                 >
                     <div>
                         <ImageZoomBox image={product.main_image} images={product.images} />
                     </div>
 
-                    <div
-                    // className=' p-4 flex items-start gap-4 '
-                    >
-                        <div>
+
+                        <div
+                            className='mx-4 lg:mx-0'
+                        >
                             <h2
                                 className='lg:text-3xl text-xl pb-4 font-bold border-b-2'
                             >{product.title}</h2>
@@ -439,7 +439,7 @@ const Index = ({ product }: props) => {
                             </div>
                         </div>
 
-                    </div>
+
                 </section>
 
                 {/* section of subcateogry and products */}

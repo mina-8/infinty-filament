@@ -94,13 +94,11 @@ export default function Sliders({ slides }: Props) {
                                     <div
 
                                         style={{
-                                            height: '550px',
-
+                                            // height: '550px',
                                             backgroundImage: `url('${item.image}')`,
-                                            // backgroundSize: 'cover',
-                                            // backgroundPosition: 'center',
+
                                         }}
-                                        className='relative bg-no-repeat bg-contain bg-center  w-full '
+                                        className='relative bg-no-repeat lg:bg-contain lg:bg-center bg-cover   w-full lg:h-[550px] h-[400px]'
                                     >
 
                                         <div
@@ -110,7 +108,7 @@ export default function Sliders({ slides }: Props) {
                                             {/* <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div> */}
 
                                             <p
-                                                className={`pt-20 text-4xl text-white drop-shadow-3xl xs:text-xl
+                                                className={`pt-20 lg:text-4xl text-white drop-shadow-3xl xs:text-xl
                                                 ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
                                             >{item.title}</p>
 
@@ -128,7 +126,7 @@ export default function Sliders({ slides }: Props) {
                                             {
                                                 AcitveIndex === index &&
 
-                                                <div className='flex justify-between items-center gap-4 mt-12 xs:flex-col'>
+                                                <div className='flex justify-between items-center gap-4 lg:mt-12 lg:flex-col'>
                                                     {item.active_btn && (
 
 
@@ -140,7 +138,7 @@ export default function Sliders({ slides }: Props) {
                                                             animationDelay: "1.5s"
                                                         }}
                                                     >
-                                                        <div className='text-xl'>{item.str_btn}</div>
+                                                        <div className='lg:text-xl'>{item.str_btn}</div>
                                                     </a>
                                                     )}
 

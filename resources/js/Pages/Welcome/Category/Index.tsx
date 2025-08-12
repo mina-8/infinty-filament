@@ -147,7 +147,7 @@ const Index = ({ category }: props) => {
                     className='flex flex-col gap-4'
                 >
                     <div
-                        className='flex items-center gap-4'
+                        className='flex items-center gap-4 mx-4 lg:mx-0 flex-wrap lg:flex-nowrap'
                     >
                         {category.subcategory.map((item, index) =>
                             <Link
@@ -184,7 +184,7 @@ const Index = ({ category }: props) => {
 
                     {/* products show grid or flex */}
                     <div
-                        className={`${GridView ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'flex flex-col gap-6'}`}
+                        className={`${GridView ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'flex flex-col gap-6'} mx-4 my-4 lg:mx-0 lg:my-0 `}
                     >
 
                         {GridView ?

@@ -144,7 +144,7 @@ const { categories } = usePage<CustomProp>().props
                     <div></div>
 
                     <div
-                        className='flex flex-col gap-4'
+                        className='flex flex-col gap-4 mx-4 lg:mx-0 flex-wrap lg:flex-nowrap'
                     >
 
 

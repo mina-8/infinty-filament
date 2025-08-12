@@ -145,8 +145,8 @@ const Show = ({ product }: props) => {
 
     }
 
-    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number , state:string , slug:string) => {
-        toggelWishList(productId, title, image, optionId , state, slug);
+    const handelToggelWishList = (productId: number, title: string, image: string, optionId: number, state: string, slug: string) => {
+        toggelWishList(productId, title, image, optionId, state, slug);
 
         api['success']({
             message: '',
@@ -158,7 +158,7 @@ const Show = ({ product }: props) => {
     const getQuantity = useCallback(
 
         (productId: number, optionId: number) => {
-            const key = getkey(productId , optionId);
+            const key = getkey(productId, optionId);
             return quantities[key] || 0
         }, [quantities]
     )
@@ -220,207 +220,206 @@ const Show = ({ product }: props) => {
                 </div>
                 {/* section of header title */}
                 <section
-                    className='lg:grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-4 my-4 hidden'
+                    className='grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-4 my-4 '
                 >
                     <div>
                         <ImageZoomBox image={product.main_image} images={product.images} />
                     </div>
 
                     <div
-                    // className=' p-4 flex items-start gap-4 '
+                        className='mx-4 lg:mx-0'
                     >
-                        <div>
-                            <h2
-                                className='lg:text-3xl text-xl pb-4 font-bold border-b-2'
-                            >{product.title}</h2>
+                        <h2
+                            className='lg:text-3xl text-xl pb-4 font-bold border-b-2'
+                        >{product.title}</h2>
 
+                        <div
+                            className='my-4 flex gap-12 items-center border-b-2 pb-4'
+                        >
                             <div
-                                className='my-4 flex gap-12 items-center border-b-2 pb-4'
+                                className='flex '
                             >
-                                <div
-                                    className='flex '
-                                >
-                                    <StarRating rating={product.rate} />
-                                </div>
-
-                                <div
-                                    className='border-r-2 border-l-2 px-8 hover:text-primary-color cursor-pointer'
-                                    onClick={() => {
-                                        setReview(true)
-                                        const element = document.getElementById('reviews-comment');
-                                        if (element) {
-
-                                            element.scrollIntoView({ behavior: 'smooth' })
-                                        }
-                                    }}
-                                >
-                                    {t('products.review')}
-                                </div>
-
-                                <p
-                                    className='hover:text-primary-color cursor-pointer'
-                                    onClick={() => {
-                                        setReview(true)
-                                        const element = document.getElementById('reviews-comment');
-                                        if (element) {
-
-                                            element.scrollIntoView({ behavior: 'smooth' })
-                                        }
-                                    }}
-                                >
-                                    {t('products.comment')}
-                                </p>
+                                <StarRating rating={product.rate} />
                             </div>
 
-                            {/* price */}
                             <div
-                                className='font-medium text-4xl my-4 pb-4 border-b-2'
-                            >
-                                {filterOptionPrice?.price} SAR
-                            </div>
+                                className='border-r-2 border-l-2 px-8 hover:text-primary-color cursor-pointer'
+                                onClick={() => {
+                                    setReview(true)
+                                    const element = document.getElementById('reviews-comment');
+                                    if (element) {
 
-                            {/* code and available */}
-                            <div
-                                className='my-4 pb-4 border-b-2 flex flex-col'
-                            >
-                                <div
-                                    className='flex gap-4 items-center my-2'
-                                >
-                                    <p>{t('products.product_code')}</p>
-                                    :
-                                    <p>{product.product_code}</p>
-                                </div>
-                                <div
-                                    className='flex gap-4 items-center my-2'
-                                >
-                                    <p>{t('products.available')}</p>
-                                    :
-                                    <div>{product.avilable ?
-                                        <p
-                                            className='bg-primary-color p-2 rounded-lg text-white'
-                                        > {t('products.no_stock')} </p>
-                                        :
-                                        <p
-                                            className='bg-green-400 p-2 rounded-lg text-white'
-                                        >
-                                            {t('products.stock')}
-                                        </p>
+                                        element.scrollIntoView({ behavior: 'smooth' })
                                     }
-                                    </div>
-                                </div>
-
+                                }}
+                            >
+                                {t('products.review')}
                             </div>
 
-                            {/* selecet */}
-                            <div
-                                className=' rounded-lg p-4 bg-slate-200 flex flex-col gap-6'
+                            <p
+                                className='hover:text-primary-color cursor-pointer'
+                                onClick={() => {
+                                    setReview(true)
+                                    const element = document.getElementById('reviews-comment');
+                                    if (element) {
+
+                                        element.scrollIntoView({ behavior: 'smooth' })
+                                    }
+                                }}
                             >
-                                <p
-                                    className='lg:text-2xl font-bold text-xl'
-                                >{t('products.select_price')}</p>
+                                {t('products.comment')}
+                            </p>
+                        </div>
 
-                                <div
-                                    className='w-full'
-                                >
-                                    <select
+                        {/* price */}
+                        <div
+                            className='font-medium text-4xl my-4 pb-4 border-b-2'
+                        >
+                            {filterOptionPrice?.price} SAR
+                        </div>
 
-                                        name='price'
-                                        className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'} w-full`}
-                                        style={{
-                                            backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
-                                        }}
-                                        defaultValue={product.product_option[0].title}
-                                        onChange={(e) => handelOptionPrice(product.id, Number(e.target.value))}
+                        {/* code and available */}
+                        <div
+                            className='my-4 pb-4 border-b-2 flex flex-col'
+                        >
+                            <div
+                                className='flex gap-4 items-center my-2'
+                            >
+                                <p>{t('products.product_code')}</p>
+                                :
+                                <p>{product.product_code}</p>
+                            </div>
+                            <div
+                                className='flex gap-4 items-center my-2'
+                            >
+                                <p>{t('products.available')}</p>
+                                :
+                                <div>{product.avilable ?
+                                    <p
+                                        className='bg-primary-color p-2 rounded-lg text-white'
+                                    > {t('products.no_stock')} </p>
+                                    :
+                                    <p
+                                        className='bg-green-400 p-2 rounded-lg text-white'
                                     >
-                                        {product.product_option.map((option, index) =>
-                                            <option
-                                                key={index}
-                                                value={option.id}
-
-                                            >
-                                                {option.title} - ({option.price} SAR)
-                                            </option>
-                                        )}
-                                    </select>
+                                        {t('products.stock')}
+                                    </p>
+                                }
                                 </div>
+                            </div>
 
-                                {/* add to cart and wish list */}
-                                <div
-                                    className='flex w-full gap-4 flex-col lg:flex-row'
+                        </div>
+
+                        {/* selecet */}
+                        <div
+                            className=' rounded-lg p-4 bg-slate-200 flex flex-col gap-6'
+                        >
+                            <p
+                                className='lg:text-2xl font-bold text-xl'
+                            >{t('products.select_price')}</p>
+
+                            <div
+                                className='w-full'
+                            >
+                                <select
+
+                                    name='price'
+                                    className={`rounded-xl focus:border-primary-color focus:ring-primary-color ${i18n.language == 'ar' ? '!pl-10 pr-2' : '!pr-10 pl-2'} w-full`}
+                                    style={{
+                                        backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
+                                    }}
+                                    defaultValue={product.product_option[0].title}
+                                    onChange={(e) => handelOptionPrice(product.id, Number(e.target.value))}
                                 >
-                                    {product.avilable ?
+                                    {product.product_option.map((option, index) =>
+                                        <option
+                                            key={index}
+                                            value={option.id}
+
+                                        >
+                                            {option.title} - ({option.price} SAR)
+                                        </option>
+                                    )}
+                                </select>
+                            </div>
+
+                            {/* add to cart and wish list */}
+                            <div
+                                className='flex w-full gap-4 flex-col lg:flex-row'
+                            >
+                                {product.avilable ?
+
+
+                                    (
+                                        <button
+                                            type='button'
+                                            disabled={true}
+                                            // onClick={() => handelAddToCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
+                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 cursor-not-allowed'
+                                        >
+                                            {t('exhibition.add_to_cart')}
+                                        </button>
+                                    )
+                                    :
+
+                                    getQuantity(product.id, SelectedOptionId) > 0 ?
 
 
                                         (
+                                            <div
+                                                className='flex justify-between items-center gap-4'
+                                            >
+                                                <button
+                                                    type='button'
+                                                    disabled={Loading}
+                                                    onClick={() => handelIncressCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
+                                                    className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
+                                                >
+                                                    +
+                                                </button>
+
+                                                <span className="font-medium">
+                                                    {getQuantity(product.id, SelectedOptionId)}
+                                                </span>
+
+                                                <button
+                                                    type='button'
+                                                    disabled={Loading}
+                                                    onClick={() => handelDecressCart(product.id, SelectedOptionId)}
+                                                    className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                        )
+                                        : (
                                             <button
                                                 type='button'
-                                                disabled={true}
-                                                // onClick={() => handelAddToCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
-                                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 cursor-not-allowed'
+                                                disabled={Loading}
+                                                onClick={() => handelAddToCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
+                                                className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
                                             >
                                                 {t('exhibition.add_to_cart')}
                                             </button>
                                         )
-                                        :
-
-                                        getQuantity(product.id, SelectedOptionId) > 0 ?
 
 
-                                            (
-                                                <div
-                                                    className='flex justify-between items-center gap-4'
-                                                >
-                                                    <button
-                                                        type='button'
-                                                        disabled={Loading}
-                                                        onClick={() => handelIncressCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
-                                                        className='rounded-lg  bg-primary-color text-white text-center px-4 py-2'
-                                                    >
-                                                        +
-                                                    </button>
+                                }
 
-                                                    <span className="font-medium">
-                                                        {getQuantity(product.id, SelectedOptionId)}
-                                                    </span>
-
-                                                    <button
-                                                        type='button'
-                                                        disabled={Loading}
-                                                        onClick={() => handelDecressCart(product.id, SelectedOptionId)}
-                                                        className='rounded-lg bg-primary-color text-white text-center px-4 py-2'
-                                                    >
-                                                        -
-                                                    </button>
-                                                </div>
-                                            )
-                                            : (
-                                                <button
-                                                    type='button'
-                                                    disabled={Loading}
-                                                    onClick={() => handelAddToCart(product.id, SelectedOptionId, product.title, product.main_image, filterOptionPrice?.price ?? 0)}
-                                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2'
-                                                >
-                                                    {t('exhibition.add_to_cart')}
-                                                </button>
-                                            )
-
-
-                                    }
-
-                                    <button
-                                        type='button'
-                                        onClick={() => handelToggelWishList(product.id, product.title, product.main_image, SelectedOptionId , product.state, product.slug)}
-                                        className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
-                                    >
-                                        <Tooltip title={t('exhibition.wich_list')} >
-                                            <IoIosHeartEmpty />
-                                        </Tooltip>
-                                    </button>
-                                </div>
+                                <button
+                                    type='button'
+                                    onClick={() => handelToggelWishList(product.id, product.title, product.main_image, SelectedOptionId, product.state, product.slug)}
+                                    className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
+                                >
+                                    <Tooltip title={t('exhibition.wich_list')} >
+                                        <IoIosHeartEmpty />
+                                    </Tooltip>
+                                </button>
                             </div>
                         </div>
-
                     </div>
+
+
                 </section>
 
                 {/* section of subcateogry and products */}

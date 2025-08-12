@@ -2,7 +2,7 @@ import { ImgHTMLAttributes } from 'react';
 import logo from '@/../../public/logo.svg';
 
 interface ApplicationLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
-  height?: string; // نسمح بتمرير كلاس tailwind للارتفاع
+
   className?: string; // لو عايز تضيف أي كلاس إضافي
 }
 
@@ -15,7 +15,7 @@ export default function ApplicationLogo({
     <img
       src={logo}
       alt="ORCA"
-      className={`bg-cover bg-center rounded-lg ${height} ${className}`}
+      className={`bg-cover bg-center rounded-lg  ${className}`}
       {...props}
     />
   );

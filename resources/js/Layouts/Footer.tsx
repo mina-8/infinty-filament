@@ -281,7 +281,7 @@ const Footer = () => {
 
                     </a>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-400 text-center">
+                <div className="flex items-center gap-2 text-xs text-gray-400 text-center lg:flex-row flex-col">
                     <a href="https://direct.me/dmcreators" target="_blank" rel="noopener noreferrer">
                         <img loading="lazy" src={mobawon} className="object-cover h-8" alt="Mobdwon" />
                     </a>

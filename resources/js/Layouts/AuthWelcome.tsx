@@ -44,9 +44,9 @@ export default function AuthWelcome({
     setUser(user)
 
     const updateCountItems = async () => {
-            const total = await totalQuantity()
-            setCartCount(total);
-        }
+        const total = await totalQuantity()
+        setCartCount(total);
+    }
 
     useEffect(() => {
 
@@ -109,7 +109,8 @@ export default function AuthWelcome({
                                     <div className="flex shrink-0 items-center">
                                         <Link href={user ? route('dashboard', { lang: i18n.language }) : route('welcome', { lang: i18n.language })}>
                                             <ApplicationLogo
-                                                className="block h-20 w-auto fill-current "
+                                                className="lg:h-20 lg:block hidden w-auto fill-current "
+
                                             />
                                         </Link>
                                     </div>
@@ -264,8 +265,130 @@ export default function AuthWelcome({
 
                                 </div>
 
-                                <div className="-me-2 flex items-center xl:hidden relative">
+                                <div className="-me-2 flex items-center gap-4 lg:hidden relative">
 
+                                    <Link href={user ? route('dashboard', { lang: i18n.language }) : route('welcome', { lang: i18n.language })}>
+                                        <ApplicationLogo
+                                            className="h-10 w-auto fill-current "
+
+                                        />
+                                    </Link>
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <div
+                                                className='flex items-center gap-2 cursor-pointer group'
+                                            >
+                                                <FaRegUser size={24} className='group-hover:text-primary-color' />
+                                                {user ?
+                                                    <span>{user.name}</span>
+                                                    :
+                                                    <span>{t('home.login')}</span>
+                                                }
+                                            </div>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            {user ? (
+                                                <div
+                                                    className='flex px-2 items-center flex-wrap justify-between gap-4 py-2'
+                                                >
+
+                                                    <div
+                                                        className='border-2 rounded-lg flex items-center px-4 '
+                                                    >
+                                                        <FaHeart />
+                                                        <Dropdown.Link
+                                                            href={route('wish-list', { lang: i18n.language })}
+                                                            method="get"
+                                                            as="button"
+                                                            className='hover:bg-white focus:bg-white'
+                                                        >
+                                                            {t('home.wish_list')}
+                                                        </Dropdown.Link>
+                                                    </div>
+                                                    <div
+                                                        className='border-2 rounded-lg flex items-center px-4 '
+                                                    >
+                                                        <Dropdown.Link
+                                                            href={route('logout', { lang: i18n.language })}
+                                                            method="post"
+                                                            as="button"
+                                                            className='hover:bg-white focus:bg-white'
+                                                        >
+                                                            {t('home.logout')}
+                                                        </Dropdown.Link>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className='flex px-2 items-center flex-wrap justify-between gap-4 py-2'
+                                                >
+
+                                                    <div
+                                                        className='border-2 rounded-lg flex items-center px-4 '
+                                                    >
+                                                        <FaUserPlus />
+                                                        <Dropdown.Link
+                                                            href={route('register', { lang: i18n.language })}
+                                                            method="get"
+                                                            as="button"
+                                                            className='hover:bg-white focus:bg-white'
+                                                        >
+                                                            {t('home.regitser_page')}
+                                                        </Dropdown.Link>
+                                                    </div>
+
+                                                    <div
+                                                        className='border-2 rounded-lg flex items-center px-4 '
+                                                    >
+                                                        <IoLockClosed />
+                                                        <Dropdown.Link
+                                                            href={route('check-out', { lang: i18n.language })}
+                                                            method="get"
+                                                            as="button"
+                                                            className='hover:bg-white focus:bg-white'
+                                                        >
+                                                            {t('home.login_page')}
+                                                        </Dropdown.Link>
+                                                    </div>
+
+                                                    <div
+                                                        className='border-2 rounded-lg flex items-center px-4 '
+                                                    >
+                                                        <FaHeart />
+                                                        <Dropdown.Link
+                                                            href={route('wish-list', { lang: i18n.language })}
+                                                            method="get"
+                                                            as="button"
+                                                            className='hover:bg-white focus:bg-white'
+                                                        >
+                                                            {t('home.wish_list')}
+                                                        </Dropdown.Link>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </Dropdown.Content>
+                                    </Dropdown>
+
+
+                                    <Dropdown
+                                        triggerType="click"
+
+                                    >
+                                        <div
+                                            className='flex items-center gap-2 cursor-pointer group'
+                                        >
+                                            <BsCart4 size={24} className='group-hover:text-primary-color' />
+                                            <span>{CartCount}</span>
+                                            <span>{t('home.items')}</span>
+                                        </div>
+                                        <Dropdown.Content
+                                            align='right'
+                                            width='w-60'
+                                        >
+                                            <CartNav user={user} />
+
+                                        </Dropdown.Content>
+                                    </Dropdown>
 
                                     <button
                                         onClick={() =>
@@ -309,9 +432,11 @@ export default function AuthWelcome({
                             </div>
                         </div>
                     </div>
+
                     <div
                         className={`xl:hidden ${showingNavigationDropdown ? 'block' : 'hidden'} bg-white text-black px-4 py-4 shadow-md z-50`}
                     >
+
                         <div className="space-y-1">
                             <ResponsiveNavLink
                                 href={route('welcome', { lang: i18n.language })}
@@ -327,125 +452,12 @@ export default function AuthWelcome({
                                 target='_blank'
                                 href={site_setting?.shop_link || '#'}
                             >
-                                <ApplicationLogo height='h-6' />
+                                {/* <ApplicationLogo className='lg:h-20 h-10' /> */}
+                                <img src={logonav} alt="logo" className='lg:h-24 h-16 ' />
                                 {t('navbar-links.shop')}
                             </a>
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <div
-                                        className='flex items-center gap-2 cursor-pointer group'
-                                    >
-                                        <FaRegUser size={24} className='group-hover:text-primary-color' />
-                                        {user ?
-                                            <span>{user.name}</span>
-                                            :
-                                            <span>{t('home.login')}</span>
-                                        }
-                                    </div>
-                                </Dropdown.Trigger>
-                                <Dropdown.Content>
-                                    {user ? (
-                                        <div
-                                            className='flex px-2 items-center flex-wrap justify-between gap-4 py-2'
-                                        >
-
-                                            <div
-                                                className='border-2 rounded-lg flex items-center px-4 '
-                                            >
-                                                <FaHeart />
-                                                <Dropdown.Link
-                                                    href={route('wish-list', { lang: i18n.language })}
-                                                    method="get"
-                                                    as="button"
-                                                    className='hover:bg-white focus:bg-white'
-                                                >
-                                                    {t('home.wish_list')}
-                                                </Dropdown.Link>
-                                            </div>
-                                            <div
-                                                className='border-2 rounded-lg flex items-center px-4 '
-                                            >
-                                                <Dropdown.Link
-                                                    href={route('logout', { lang: i18n.language })}
-                                                    method="post"
-                                                    as="button"
-                                                    className='hover:bg-white focus:bg-white'
-                                                >
-                                                    {t('home.logout')}
-                                                </Dropdown.Link>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div
-                                            className='flex px-2 items-center flex-wrap justify-between gap-4 py-2'
-                                        >
-
-                                            <div
-                                                className='border-2 rounded-lg flex items-center px-4 '
-                                            >
-                                                <FaUserPlus />
-                                                <Dropdown.Link
-                                                    href={route('register', { lang: i18n.language })}
-                                                    method="get"
-                                                    as="button"
-                                                    className='hover:bg-white focus:bg-white'
-                                                >
-                                                    {t('home.regitser_page')}
-                                                </Dropdown.Link>
-                                            </div>
-
-                                            <div
-                                                className='border-2 rounded-lg flex items-center px-4 '
-                                            >
-                                                <IoLockClosed />
-                                                <Dropdown.Link
-                                                    href={route('check-out', { lang: i18n.language })}
-                                                    method="get"
-                                                    as="button"
-                                                    className='hover:bg-white focus:bg-white'
-                                                >
-                                                    {t('home.login_page')}
-                                                </Dropdown.Link>
-                                            </div>
-
-                                            <div
-                                                className='border-2 rounded-lg flex items-center px-4 '
-                                            >
-                                                <FaHeart />
-                                                <Dropdown.Link
-                                                    href={route('wish-list', { lang: i18n.language })}
-                                                    method="get"
-                                                    as="button"
-                                                    className='hover:bg-white focus:bg-white'
-                                                >
-                                                    {t('home.wish_list')}
-                                                </Dropdown.Link>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Dropdown.Content>
-                            </Dropdown>
 
 
-                            <Dropdown
-                                triggerType="click"
-
-                            >
-                                <div
-                                    className='flex items-center gap-2 cursor-pointer group mt-4'
-                                >
-                                    <BsCart4 size={24} className='group-hover:text-primary-color' />
-                                    <span>{CartCount}</span>
-                                    <span>{t('home.items')}</span>
-                                </div>
-                                <Dropdown.Content
-                                    align='right'
-                                    width='w-60'
-                                >
-                                    <CartNav user={user} />
-
-                                </Dropdown.Content>
-                            </Dropdown>
 
 
                             <span className="inline-flex rounded-md">
@@ -483,13 +495,13 @@ export default function AuthWelcome({
                 )}
 
 
-                        <a
-                            className='fixed bottom-4 left-4 z-50 bg-primary-color text-white p-4 rounded-full shadow-lg cursor-pointer hover:bg-gray-700 '
-                            target='_blank'
-                            href={`https://wa.me/+966${site_setting?.whats_app || "#"}`}
-                        >
-                            <FaWhatsapp  />
-                        </a>
+                <a
+                    className='fixed bottom-4 left-4 z-50 bg-primary-color text-white p-4 rounded-full shadow-lg cursor-pointer hover:bg-gray-700 '
+                    target='_blank'
+                    href={`https://wa.me/+966${site_setting?.whats_app || "#"}`}
+                >
+                    <FaWhatsapp />
+                </a>
 
                 <Footer />
             </div>

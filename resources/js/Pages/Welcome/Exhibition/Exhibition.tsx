@@ -210,7 +210,7 @@ const Exhibition = ({ products }: props) => {
             </h2>
 
             <div
-                className='flex justify-center items-center gap-8 my-8'
+                className='flex justify-center items-center gap-8 my-8 lg:flex-row lg:flex-nowrap flex-wrap'
             >
                 {exhibitionButtons.map((item, index) =>
                     <button
@@ -231,7 +231,7 @@ const Exhibition = ({ products }: props) => {
                 (
 
                     <div
-                        className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6'
+                        className='grid grid-cols-1 lg:grid-cols-4 my-8 gap-6 mx-12 lg:mx-0 '
                     >
                         {Products.map((item, index) => {
                             // fetch select option
@@ -359,10 +359,12 @@ const Exhibition = ({ products }: props) => {
                                         <button
                                             type='button'
                                             onClick={() => handelToggelWishList(item.id, item.title, item.image, SelectedOptionId , item.state , item.slug)}
-                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg'
+                                            className='rounded-lg border-[1px] hover:bg-primary-color hover:text-white transition-all duration-300 border-primary-color px-4 py-2 text-lg flex items-center justify-center'
                                         >
                                             <Tooltip title={t('exhibition.wich_list')} >
+                                                <span>
                                                 <IoIosHeartEmpty />
+                                                </span>
                                             </Tooltip>
                                         </button>
                                     </div>
