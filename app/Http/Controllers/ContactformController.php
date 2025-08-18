@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contactform;
+use App\Models\Newsletter;
 use App\Models\OurRegionalOffice;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +21,7 @@ class ContactformController extends Controller
             'email' => 'required|email',
         ]);
 
-        Contactform::create($validated);
+        Newsletter::create($validated);
 
         return redirect()->back()->with('success', 'Your message has been sent.');
     }

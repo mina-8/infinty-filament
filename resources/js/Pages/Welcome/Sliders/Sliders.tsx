@@ -98,9 +98,9 @@ export default function Sliders({ slides }: Props) {
                                             backgroundImage: `url('${item.image}')`,
 
                                         }}
-                                        className='relative bg-no-repeat lg:bg-contain lg:bg-center bg-cover   w-full lg:h-[550px] h-[400px]'
+                                        className='relative bg-no-repeat lg:bg-contain lg:bg-center bg-contain   w-full lg:h-[550px] h-[400px] flex justify-center items-center'
                                     >
-
+                                        <img src={item.image} alt="" className='h-auto object-contain w-full absolute' />
                                         <div
                                             className={`flex flex-col ${i18n.language === 'ar' ? 'items-end' : 'items-start'} px-24 justify-center gap-2 h-full overflow-hidden`}
                                         >
@@ -113,7 +113,7 @@ export default function Sliders({ slides }: Props) {
                                             >{item.title}</p>
 
                                             <div
-                                            className={`py-5 text-3xl  font-bold text-black drop-shadow-3xl xs:text-base xs:text-center
+                                            className={`py-5 text-3xl  font-bold text-black drop-shadow-3xl xs:text-base xs:text-center hidden lg:block
                                              ${AcitveIndex === index ? i18n.language == 'ar' ? 'animate-faderight' : 'animate-fadeleft' : ''}`}
                                                 style={{
                                                     animationDuration: "1s",

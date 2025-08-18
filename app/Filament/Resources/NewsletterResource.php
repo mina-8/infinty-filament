@@ -48,7 +48,10 @@ class NewsletterResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('filament-panels::resources/pages/admin.fields.email'))
+                    ->searchable(),
+
             ])
             ->filters([
                 //
