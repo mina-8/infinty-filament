@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('our_regional_offices', function (Blueprint $table) {
             $table->id();
             $table->json('state');
-            $table->json('address');
             $table->string('fax');
             $table->string('phone');
             $table->string('phone_free')->nullable();

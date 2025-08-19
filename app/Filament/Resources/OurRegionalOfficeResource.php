@@ -53,10 +53,7 @@ class OurRegionalOfficeResource extends Resource
                                 ->label(__('filament-panels::resources/pages/ourregionaloffice.fields.state'))
                                 ->maxLength(255)
                                 ->required(),
-                            Forms\Components\TextInput::make('address')
-                                ->label(__('filament-panels::resources/pages/ourregionaloffice.fields.address'))
-                                ->maxLength(255)
-                                ->required(),
+
 
                         ]),
                         Forms\Components\TextInput::make('fax')

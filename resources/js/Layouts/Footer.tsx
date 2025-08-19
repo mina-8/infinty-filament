@@ -78,13 +78,7 @@ const Footer = () => {
                                     </h3>
 
                                     <ul className="space-y-4">
-                                        <li className="flex items-start gap-3">
-                                            <AiFillHome className="text-primary-color text-xl flex-shrink-0" />
-                                            <p className="text-gray-700 leading-relaxed text-nowrap">
-                                                {office_reginal[0].address}
-                                            </p>
-                                        </li>
-
+                                        
                                         <li className="flex items-center gap-3">
                                             <FaPhoneAlt className="text-primary-color text-xl flex-shrink-0" />
                                             <p className="text-gray-700 text-nowrap">{office_reginal[0].phone}</p>

@@ -52,7 +52,7 @@ const NewsLetter = () => {
                 </p>
             </div>
             <div
-                className='lg:w-2/4'
+                className='lg:w-2/4 mx-auto max-w-full lg:max-w-none lg:mx-0'
             >
                 <form
                     onSubmit={(e) => {

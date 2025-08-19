@@ -67,7 +67,6 @@ class HandleInertiaRequests extends Middleware
                     return [
                         'id' => $office->id,
                         'state' => $office->getTranslation('state', $appLang),
-                        'address' => $office->getTranslation('address', $appLang),
                         'fax' => $office->fax,
                         'phone' => $office->phone,
                         'phone_free' => $office->phone_free,

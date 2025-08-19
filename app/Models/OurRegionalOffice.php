@@ -10,18 +10,16 @@ class OurRegionalOffice extends Model
 
     protected $fillable = [
         'state',
-        'address',
         'fax',
         'phone',
         'phone_free',
         'email',
 
     ];
-    public $translatable = ['state' , 'address'];
+    public $translatable = ['state'];
 
     protected $casts = [
         'state' => 'array',
-        'address' => 'array',
     ];
 
     protected $guarded = ['id'];
