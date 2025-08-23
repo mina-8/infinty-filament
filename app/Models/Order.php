@@ -26,4 +26,9 @@ class Order extends Model
     public function orderitems(){
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getCustomerNameAttribute()
+    {
+        return $this->userproduct->name ?? $this->guestproduct->name ?? '-';
+    }
 }
