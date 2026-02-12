@@ -125,25 +125,23 @@ export default function Register() {
                         <InputLabel htmlFor="phone" value={t('reg_page.form.phone')} className='w-[40%]' />
 
                         <div
-                            className='w-[60%] flex items-center'
+                            className='w-[60%] flex items-center flex-col'
                         >
-                            <span
-                            className={`border-2 py-2 px-2 mt-1 rounded-s-2xl ${i18n.language == 'ar' ? 'border-l-0' : 'border-r-0'} `}
-                            >+966</span>
+
                             <TextInput
                                 id="phone"
                                 name="phone"
                                 value={data.phone}
-                                className="mt-1 block w-full !rounded-none !rounded-e-2xl"
+                                className="mt-1 block w-full !rounded-2xl"
                                 autoComplete="phone"
                                 isFocused={true}
                                 onChange={(e) => setData('phone', e.target.value)}
                                 required
                                 placeholder={t('reg_page.form.phone')}
                             />
+                        <InputError message={errors.phone} className="mt-2" />
                         </div>
 
-                        <InputError message={errors.phone} className="mt-2" />
                     </div>
 
                     <div

@@ -265,7 +265,7 @@ const Exhibition = ({ products }: props) => {
                                         <p
                                             className='font-semibold text-lg text-primary-color'
                                         >
-                                            {filterOptionPrice?.price} SAR
+                                            {filterOptionPrice?.price} {t('price.pound')}
                                         </p>
                                         <div
                                             className='flex'
@@ -293,7 +293,7 @@ const Exhibition = ({ products }: props) => {
                                                     value={option.id}
 
                                                 >
-                                                    {option.title} - ({option.price} SAR)
+                                                    {option.title} - ({option.price} {t('price.pound')})
                                                 </option>
                                             )}
                                         </select>

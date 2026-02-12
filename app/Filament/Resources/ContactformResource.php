@@ -32,15 +32,15 @@ class ContactformResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('filament-panels::resources/pages/contactform.title');
+        return __('filament-panels::resources/pages/contactus.title');
     }
     public static function getPluralModelLabel(): string
     {
-        return __('filament-panels::resources/pages/contactform.title');
+        return __('filament-panels::resources/pages/contactus.title');
     }
     public static function getNavigationLabel(): string
     {
-        return __('filament-panels::resources/pages/contactform.title');
+        return __('filament-panels::resources/pages/contactus.title');
     }
 
     public static function canCreate(): bool

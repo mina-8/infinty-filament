@@ -7,13 +7,16 @@ import Sliders from './Welcome/Sliders/Sliders';
 import Loading from '@/Components/Loading';
 import NewsLetter from '@/Components/NewsLetter';
 import Exhibition from './Welcome/Exhibition/Exhibition';
+import Blog from './Welcome/Blog/blog';
+
 
 
 
 export default function Welcome({
     slides = [],
+    blogs = [],
     products = []
-}: PageProps<{  slides?: [] , products?:[]}>) {
+}: PageProps<{  slides?: [] , products?:[] , blogs?: [];}>) {
 
 
     return (
@@ -23,6 +26,7 @@ export default function Welcome({
             <Sliders slides={slides} />
 
             <Exhibition products={products}/>
+            <Blog blogs={blogs} />
             <NewsLetter />
         </>
     );

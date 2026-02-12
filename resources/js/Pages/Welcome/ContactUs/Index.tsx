@@ -17,20 +17,8 @@ interface FlashMessages {
 interface Customflash extends PageProps {
     flash?: FlashMessages;
 }
-interface ContactUs {
-    id: number;
 
-    banner:string;
-    title: string;
-    addres: string;
-    phone: string;
-    fax: string;
-    map: string;
-}
-interface Props {
-    contactus: ContactUs;
-}
-const Index = ({ contactus }: Props) => {
+const Index = () => {
     const { t, i18n } = useTranslation();
     const { props } = usePage<Customflash>();
     const [showSuccess, setShowSuccess] = useState<boolean>(!!props?.flash?.success);
@@ -107,15 +95,15 @@ const Index = ({ contactus }: Props) => {
 
                 {/* top banner */}
                 <div
-                    className="w-full h-[500px] flex relative overflow-hidden"
+                    className="w-full h-[300px] flex relative overflow-hidden"
                 >
                     <div
                         className="w-full h-full bg-cover  absolute"
-                        style={{
-                            backgroundImage: `url('${contactus.banner != null ? contactus.banner :  banner}')`,
-                            backgroundPosition: 'center center',
-                            backgroundRepeat: 'no-repeat'
-                        }}
+                        // style={{
+                        //     backgroundImage: `url('${contactus.banner != null ? contactus.banner :  banner}')`,
+                        //     backgroundPosition: 'center center',
+                        //     backgroundRepeat: 'no-repeat'
+                        // }}
                     />
                     <div className='absolute w-full h-full bg-black top-0 right-0 opacity-50'></div>
 
@@ -125,7 +113,7 @@ const Index = ({ contactus }: Props) => {
                     className='w-full max-w-7xl mx-auto my-12 flex flex-col md:flex-row justify-between'
                 >
                     <div
-                        className='flex flex-col  gap-6 bg-white py-6 -top-40 relative px-4 w-[60%]'
+                        className='flex flex-col  gap-6 bg-white py-6 -top-40 relative px-4 w-2/3'
                     >
                         <h2
                             className={`px-4 sm:px-6 lg:px-8 text-6xl text-black font-bold`}
@@ -185,118 +173,12 @@ const Index = ({ contactus }: Props) => {
                         </form>
                     </div>
 
-                    <div
-                        className='w-[40%] flex flex-col px-6  items-center'
-                    >
-                        {/* title */}
-                        <div
-                            className='text-primary-color font-bold text-3xl'
-                        >
-                            {contactus.title}
-                        </div>
-                        <div
-                            className='h-1 bg-black w-1/2 my-6 relative flex justify-center items-center'
-                        >
-                            <FaExclamationCircle
-                                className='absolute z-20 text-primary-color bg-white text-xl'
-                            />
-                        </div>
-
-                        <div
-                            className='flex flex-col gap-6'
-                        >
-                            {/* home */}
-
-                            <div
-                                className='flex justify-start gap-4'
-                            >
-
-                                <FaHome className='text-primary-color text-3xl ' />
-                                <div>
-
-                                    <div
-                                        className='text-2xl font-bold'
-                                    >
-                                        {t('contact.office')} {contactus.title}
-                                    </div>
-                                    <div>
-                                        {contactus.addres}
-                                    </div>
-                                </div>
-                            </div>
-                            {/* phone */}
-
-                            <div
-                                className='flex justify-start gap-4'
-                            >
-
-                                <FaPhoneAlt className='text-primary-color text-3xl ' />
-                                <div>
-
-                                    <div
-                                        className='text-2xl font-bold'
-                                    >
-                                        {t('contact.phone')} {contactus.title}
-                                    </div>
-                                    <div>
-                                        {contactus.phone}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* fax */}
-
-                            <div
-                                className='flex justify-start gap-4'
-                            >
-
-                                <FaFax className='text-primary-color text-3xl ' />
-                                <div>
-
-                                    <div
-                                        className='text-2xl font-bold'
-                                    >
-                                        {t('contact.fax')} {contactus.title}
-                                    </div>
-                                    <div>
-                                        {contactus.fax}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div
-                                className='self-center'
-                            >
-                                <button
-                                    className='bg-primary-color p-4 rounded-lg text-white font-bold shadow-lg hover:shadow flex items-center gap-2'
-                                    onClick={showDrawer}
-                                >
-                                    {t('contact.map')}
-                                    {i18n.language === 'ar' ? <IoIosArrowDropleft /> : <IoIosArrowDropright />}
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
 
                 </div>
 
 
             </div>
 
-            <Drawer
-
-                title={t('contact.map')}
-                closable={{ 'aria-label': 'Close Button' }}
-                onClose={onClose}
-                open={open}
-            >
-                <iframe
-                    src={contactus.map}
-                    frameBorder="0"
-                    style={{ width: '100%', height: '100%', border: 0 }}
-                />
-            </Drawer>
 
         </>
     )

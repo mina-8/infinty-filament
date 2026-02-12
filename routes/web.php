@@ -57,7 +57,9 @@ Route::group(
         // contact form
         Route::post('contact-form', [ContactformController::class, 'store'])->name('contact-form');
 
-
+        // blog
+        Route::get('blog' , [BlogController::class , 'index'])->name('blog');
+        Route::get('blog/{slug}' , [BlogController::class , 'show'])->name('blog-show');
 
         // search web
         Route::get('search-web', [SearchWebController::class, 'search'])->name('search-web');

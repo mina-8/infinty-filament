@@ -1,7 +1,7 @@
 import { Button, Carousel, ConfigProvider } from 'antd'
 import React, { useState } from 'react'
 
-import slideone from '../../../../../public/sliders/slide (1).webp'
+import slideone from '../../../../../public/sliders/Offer Banner.png'
 
 import { useTranslation } from 'react-i18next'
 import { Link } from '@inertiajs/react'

@@ -43,25 +43,16 @@ class HandleInertiaRequests extends Middleware
             ],
             'applang' =>  $appLang,
             'currentRoute' => Route::currentRouteName(),
-            'categories' => fn() => Category::with([
-                'subcategory' => fn($q) => $q->withcount('products')
-            ])
-                ->select('id', 'title', 'icon', 'slug')
+            'categories' => fn() => Category::query()
+                ->select('id', 'title', 'slug')
                 ->get()
-                ->map(function ($category) use ($appLang) {
-                    return [
-                        'id' => $category->id,
-                        'title' => $category->getTranslation('title', $appLang),
-                        'icon' => Storage::url($category->icon),
-                        'slug' => $category->getTranslation('slug', $appLang),
-                        'subcategory' => $category->subcategory->map(fn($sub)=>[
-                            'id' => $sub->id,
-                            'title' => $sub->getTranslation('title' , $appLang),
-                            'slug' => $sub->getTranslation('slug' , $appLang),
-                            'proudct_count' => $sub->products_count
-                        ])
-                    ];
-                }),
+                ->map(fn($category) => [
+                    'id' => $category->id,
+                    'title' => $category->getTranslation('title', app()->getLocale()),
+                    'slug' => $category->getTranslation('slug', app()->getLocale()),
+                ]),
+            'whatsapp' => SettingSite::getValue('whats_app'),
+            'email_website' => SettingSite::getValue('email_website'),
             'office_reginal' => fn() => OurRegionalOffice::get()
                 ->map(function ($office) use ($appLang) {
                     return [
@@ -74,7 +65,7 @@ class HandleInertiaRequests extends Middleware
                     ];
                 }),
             'socialicons' => fn() => SocialLink::get(),
-            'site_setting' => fn() => SettingSite::first(),
+
             'flash' => function () {
                 return [
                     'success' => session('success'),

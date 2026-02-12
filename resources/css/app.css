@@ -10,7 +10,7 @@
 
 /* Active dot */
 .ant-carousel .slick-dots li::after {
-  background-color: #df1111 !important; /* Tailwind's yellow-400 */
+  background-color: #2f2f2f !important; /* Tailwind's yellow-400 */
   opacity: 1;
 }
 

@@ -13,7 +13,7 @@ import { FaArrowUp, FaHeart, FaRegUser, FaTruck, FaUserPlus, FaWhatsapp } from '
 import { IoLockClosed, IoMoon, IoSearch } from 'react-icons/io5';
 import SearchForm from '@/Components/SearchWeb/SearchForm';
 import Footer from './Footer';
-import logonav from '@/../../public/logo_nav.svg'
+import logonav from '@/../../public/logo.png'
 
 import { MdOutlineWbSunny } from 'react-icons/md';
 import ChangeLang from '@/Components/ChangeLang/ChangeLang';
@@ -31,7 +31,7 @@ export default function AuthWelcome({
     children,
 }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
     const { currentRoute }: string | any = usePage().props;
-    const { site_setting }: string | any = usePage().props;
+    const { whatsapp }: string | any = usePage().props;
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -93,7 +93,7 @@ export default function AuthWelcome({
                                 <div
                                     className='text-white'
                                 >
-                                    {t('home.delivery')}
+                                    {/* {t('home.delivery')} */}
                                 </div>
                                 <ChangeLang />
                             </div>
@@ -101,7 +101,7 @@ export default function AuthWelcome({
                     )}
                     {/* navbar */}
                     <div
-                        className={`bg-white ${isnavbar ? 'rounded-none' : 'rounded-full mx-5 shadow-lg'} `}
+                        className={`bg-[#2f2f2f] ${isnavbar ? 'rounded-none' : 'rounded-full mx-5 shadow-lg'} `}
                     >
                         <div className={`mx-auto py-4 px-6 w-full max-w-screen-xl `}>
                             <div className="flex h-16 ">
@@ -117,19 +117,21 @@ export default function AuthWelcome({
                                 </div>
 
                                 <div className={`hidden xl:ms-6 xl:flex xl:items-center relative justify-between w-full`}>
-                                    <div className="hidden gap-1 sm:-my-px sm:ms-10 sm:flex items-center">
-
-
+                                    <div className="hidden gap-4 sm:-my-px sm:ms-10 sm:flex items-center ">
                                         <CategoryNav />
 
-                                        <a
-                                            className='uppercase inline-flex items-center font-bold hover:text-primary-color'
-                                            target='_blank'
-                                            href={site_setting?.shop_link || '#'}
+                                        <Link
+                                        href={route('blog' , {lang:i18n.language})}
+                                        className='font-bold text-lg text-white'
                                         >
-                                            <img src={logonav} alt="logo" className='h-24 bg-cover bg-center' />
-                                            {t('navbar-links.shop')}
-                                        </a>
+                                            {t('blog.title')}
+                                        </Link>
+                                        <Link
+                                        href={route('contact-us' , {lang:i18n.language})}
+                                        className='font-bold text-lg text-white'
+                                        >
+                                            {t('navbar-links.contact-us')}
+                                        </Link>
 
                                     </div>
                                     <div className="relative ms-3 flex items-center gap-4">
@@ -447,15 +449,6 @@ export default function AuthWelcome({
 
                             <CategoryNav />
 
-                            <a
-                                className='uppercase inline-flex items-center font-bold hover:text-primary-color'
-                                target='_blank'
-                                href={site_setting?.shop_link || '#'}
-                            >
-                                {/* <ApplicationLogo className='lg:h-20 h-10' /> */}
-                                <img src={logonav} alt="logo" className='lg:h-24 h-16 ' />
-                                {t('navbar-links.shop')}
-                            </a>
 
 
 
@@ -498,7 +491,7 @@ export default function AuthWelcome({
                 <a
                     className='fixed bottom-4 left-4 z-50 bg-primary-color text-white p-4 rounded-full shadow-lg cursor-pointer hover:bg-gray-700 '
                     target='_blank'
-                    href={`https://wa.me/+966${site_setting?.whats_app || "#"}`}
+                    href={`https://wa.me/${whatsapp || "#"}`}
                 >
                     <FaWhatsapp />
                 </a>

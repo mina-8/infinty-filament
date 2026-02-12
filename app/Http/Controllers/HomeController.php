@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Delivery;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\SettingSite;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +40,7 @@ class HomeController extends Controller
 
         $products = Product::where('state', 'special')
             ->with('productoption')
-            ->select('id', 'title', 'main_image' , 'state', 'rate', 'avilable', 'slug')
+            ->select('id', 'title', 'main_image', 'state', 'rate', 'avilable', 'slug')
             ->latest()
             ->limit(20)
             ->get()
@@ -50,42 +52,68 @@ class HomeController extends Controller
                     'state' => $product->state,
                     'rate' => $product->rate,
                     'avilable' => $product->avilable,
-                    'slug' => $product->getTranslation('slug' , $appLang),
-                    'product_option' => $product->productoption->map(fn($option)=>[
-                        'id'=>$option->id,
+                    'slug' => $product->getTranslation('slug', $appLang),
+                    'product_option' => $product->productoption->map(fn($option) => [
+                        'id' => $option->id,
                         'title' => $option->getTranslation('title', $appLang),
                         'price' => $option->price
                     ])
                 ];
             });
 
+        $blogs = Blog::limit(3)
+            ->get()
+            ->map(function ($blog) use ($appLang) {
+                return [
+                    'id' => $blog->id,
+                    'title' => $blog->getTranslation('title', $appLang, true),
+                    'content' => $blog->getTranslation('content', $appLang, true),
+                    'slug' => $blog->getTranslation('slug', $appLang, true),
+                    'image' => Storage::url($blog->image)
+                ];
+            });
+
         return Inertia::render('Welcome', [
             'slides' => $slides,
+            'blogs' => $blogs,
             'products' => $products
         ]);
     }
 
     public function delivery(string $lang)
     {
-        $delivery = Delivery::first();
-        if(!$delivery){
+        $delivery = json_decode(SettingSite::getValue('deliveries'), true);
+
+        if(!is_array($delivery) || empty($delivery['ar']) && empty($delivery['en'])){
             return Inertia::render('Welcome/NotFound/NotFound');
         }
-        $deliveryData = [
-            'content' => $delivery->getTranslation('content', $lang),
-        ];
-        return Inertia::render('Welcome/Delivery/Index' , ['delivery' => $deliveryData]);
+
+        $content = $delivery[$lang]
+            ?? $delivery['ar']
+            ?? null;
+        if(!$content){
+            return Inertia::render('Welcome/NotFound/NotFound');
+        }
+
+        return Inertia::render('Welcome/Delivery/Index', ['delivery' => ['content'=> $content]]);
     }
 
     public function privacy(string $lang)
     {
-        $privacy = PrivacyPolicy::first();
-        if(!$privacy){
+        $privacy = json_decode(SettingSite::getValue('privacy_policies'), true);
+
+        if (!is_array($privacy) || empty($privacy['ar']) && empty($privacy['en'])) {
             return Inertia::render('Welcome/NotFound/NotFound');
         }
-        $privacyData = [
-            'content' => $privacy->getTranslation('content', $lang),
-        ];
-        return Inertia::render('Welcome/Privacy/Index', ['privacy' => $privacyData]);
+
+        $content = $privacy[$lang]
+            ?? $privacy['ar']
+            ?? null;
+
+        if (!$content) {
+            return Inertia::render('Welcome/NotFound/NotFound');
+        }
+
+        return Inertia::render('Welcome/Privacy/Index', ['privacy' => ['content' => $content]]);
     }
 }

@@ -5,18 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { Link, usePage } from '@inertiajs/react'
 import { PageProps } from '@/types'
 
-interface SubCategory {
-    id: number;
-    title: string;
-    proudct_count: number;
-    slug: string;
-}
+
 interface Category {
     id: number;
     title: string;
-    icon: string;
     slug: string;
-    subcategory: SubCategory[]
+
 }
 interface CustomProp extends PageProps {
     categories: Category[];
@@ -26,19 +20,19 @@ const CategoryNav = () => {
     const { categories } = usePage<CustomProp>().props
     return (
         <>
-            {categories.map((item, index) =>
+
 
                     <Dropdown
-                    key={index}
+
                         triggerType="hover"
                     >
-                        <Link
-                            href={route('category', { lang: i18n.language, slug: item.slug })}
+                        <div
+                            // href={route('category', { lang: i18n.language, slug: item.slug })}
 
-                            className='flex items-center'
+                            className='flex items-center font-bold text-lg text-white'
                         >
-                            <img src={item.icon} alt={item.title} className='object-cover h-9' />
-                            {item.title}
+
+                            {t('navbar-links.services')}
                             <svg
                                 className="-me-0.5 ms-2 h-4 w-4"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -51,26 +45,26 @@ const CategoryNav = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                        </Link>
+                        </div>
                         <Dropdown.Content
                             align='center'
                             width='w-60'
                             contentClasses='flex flex-col bg-white'
                         >
-                            {item.subcategory.map((subcat , index)=>
+                            {categories.map((subcat , index)=>
                             <Link
                             key={index}
-                            href={route('subcategory' , {lang:i18n.language , category:item.slug, subcategory:subcat.slug})}
-                            className='px-4 py-2'
+                            href={route('category' , {lang:i18n.language , slug:subcat.slug,})}
+                            className='px-4 py-2 hover:bg-primary-color hover:text-white'
                             >
-                                {`${subcat.title} ( ${subcat.proudct_count} )`}
+                                {`${subcat.title}`}
                             </Link>
                             )}
                         </Dropdown.Content>
                     </Dropdown>
 
 
-            )}
+
         </>
     )
 }

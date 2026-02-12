@@ -52,9 +52,11 @@ public static function getNavigationSort(): ?int
             ->schema([
                 Forms\Components\Grid::make(1)
                     ->schema([
-                        Forms\Components\Select::make('category_id')
+                        Forms\Components\Select::make('categories')
                             ->label(__('filament-panels::resources/pages/subcategory.fields.category'))
-                            ->relationship('category', 'title')
+                            ->relationship('categories', 'title')
+                            ->multiple()
+                            ->preload()
                             ->required(),
                         LanguageTabs::make([
                             Forms\Components\TextInput::make('title')

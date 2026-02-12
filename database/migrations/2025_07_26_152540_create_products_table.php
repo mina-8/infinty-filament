@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subcategory_id')->constrained('subcategories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('subcategory_id')->constrained('subcategories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->json('title');
             $table->json('content');
             $table->string('product_code')->unique();

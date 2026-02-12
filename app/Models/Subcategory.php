@@ -26,8 +26,12 @@ class Subcategory extends Model
 
     protected $guarded = ['id'];
 
-    public function category(){
-        return $this->belongsTo(Category::class , 'category_id');
+    // public function category(){
+    //     return $this->belongsTo(Category::class , 'category_id');
+    // }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class , 'category_subcategory' , 'subcategory_id' , 'category_id');
     }
 
     public function products(){

@@ -48,24 +48,7 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(1)
                     ->schema([
-                        Forms\Components\FileUpload::make('icon')
-                            ->label(__('filament-panels::resources/pages/category.fields.icon'))
-                            ->image()
-                            ->imageEditorAspectRatios([
-                                '16:9',
-                                '4:3',
-                                '1:1',
-                            ])
-                            ->disk('public')
-                            ->directory('uploads/category')
-                            ->visibility('public')
-                            ->maxSize(4096)
-                            ->getUploadedFileNameForStorageUsing(function ($file) {
-                                $extension = $file->getClientOriginalExtension();
-                                return Str::uuid() . '.' . $extension;
-                            })
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'])
-                            ->required(),
+                        
                         LanguageTabs::make([
                             Forms\Components\TextInput::make('title')
                                 ->label(__('filament-panels::resources/pages/category.fields.title'))

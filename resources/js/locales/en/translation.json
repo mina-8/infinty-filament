@@ -25,7 +25,7 @@
         "special_promtion": "Special Offers",
         "new_products": "Latest Products",
         "top_seller": "Best Sellers",
-        "kid_range": "Kids' Juice",
+        "kid_range": "Kids",
         "add_to_cart": "add cart",
         "wich_list": "add to wich list",
         "new": "new",
@@ -35,6 +35,11 @@
         "add_cart": "success added product to your cart",
         "remove_cart": "success removed product to your cart",
         "wish_list": "success product to wich list"
+    },
+    "blog":{
+        "title" : "Blogs",
+        "content" : "You can read more about blogs to know more.",
+        "read_more" : "Read more"
     },
     "navbarlist": {
         "service": {
@@ -296,10 +301,13 @@
         "password_changed": "Password Changed Successfully",
         "logged_out": "Logged Out Successfully"
     },
+    "price":{
+        "pound" : "EGP"
+    },
     "navbar-links": {
         "latest-news": "Latest News",
         "latest-project": "Latest Projects",
-        "sustainability-report": "Sustainability ",
+        "services" : "Category Products",
         "contact-us": "Contact us",
         "delivery": "Home Delivery",
         "shop": "Visit Our Shop"
@@ -335,8 +343,7 @@
         "catalog": "Download catalog brand"
     },
     "footer": {
-        "description": "The largest local manufacturer of global products and solutions in the Middle East and North Africa region.",
-        "about_us": "Why Orica",
+        "email" : "Email",
         "brand": "Brands",
         "other_office": "Offices",
         "information": "Information",
@@ -367,8 +374,6 @@
         "copyright": "All rights reserved",
         "policy": "Privacy Policy",
         "contactus": "You can contact us 24 hours a day",
-        "maplocation": "Map Location",
-        "mobdwon": "This website was developed with creativity and passion by DMC team.",
-        "mobdwon_link": " Click here to contact us (DMC)"
+        "maplocation": "Map Location"
     }
 }

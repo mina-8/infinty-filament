@@ -38,7 +38,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
     const { socialicons } = usePage<CustomBrand>().props;
     const { office_reginal } = usePage<CustomBrand>().props;
-    const { site_setting }: string | any = usePage().props;
+    const { email_website } = usePage<CustomBrand>().props;
 
 
 
@@ -78,7 +78,7 @@ const Footer = () => {
                                     </h3>
 
                                     <ul className="space-y-4">
-                                        
+
                                         <li className="flex items-center gap-3">
                                             <FaPhoneAlt className="text-primary-color text-xl flex-shrink-0" />
                                             <p className="text-gray-700 text-nowrap">{office_reginal[0].phone}</p>
@@ -183,15 +183,7 @@ const Footer = () => {
 
                             className="text-xl text-black font-bold">{t('footer.information')}</p>
                         <ul className="space-y-1 whitespace-nowrap text-gray-400 ">
-                            <li>
 
-                                <a
-                                    href={site_setting.about_us || '#'}
-                                >
-                                    {t('footer.about_us')}
-                                </a>
-
-                            </li>
                             <li>
                                 <Link
                                     href={route('delivery', { lang: i18n.language })}
@@ -235,18 +227,19 @@ const Footer = () => {
                     <div className="flex flex-col gap-4">
                         <p
                             className="text-xl text-black font-bold"
-                        >{t('footer.customer_service')}</p>
+                        >{t('footer.email')}</p>
                         <ul className="space-y-1 whitespace-nowrap text-gray-400">
 
                             <li>
                                 <a
                                     target='_blank'
-                                    href={site_setting.contact_us || '#'}
+                                    href={`mailto:${email_website}` || '#'}
                                     className='hover:text-primary-color'
-                                >{t('footer.contact_us')}
+                                >
+                                    {email_website as unknown as string}
                                 </a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a
                                     target='_blank'
                                     href={site_setting.map_link || '#'}
@@ -254,7 +247,7 @@ const Footer = () => {
                                     className='hover:text-primary-color'
                                 >{t('footer.map')}
                                 </a>
-                            </li>
+                            </li> */}
 
                         </ul>
                     </div>
@@ -267,25 +260,15 @@ const Footer = () => {
                     {t('footer.copyright')} © {currentYear}
                 </div>
                 <div>
-                    <a
+                    {/* <a
                         href={site_setting.map_link || '#'}
                         rel="noopener noreferrer"
                         target='__blank' className='hover:text-primary-color'>
                         {t('footer.maplocation')}
 
-                    </a>
+                    </a> */}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-400 text-center lg:flex-row flex-col">
-                    <a href="https://direct.me/dmcreators" target="_blank" rel="noopener noreferrer">
-                        <img loading="lazy" src={mobawon} className="object-cover h-8" alt="Mobdwon" />
-                    </a>
-                    <span>
-                        {t('footer.mobdwon')}
-                        <a href="https://maps.app.goo.gl/vepPfgHWTj1e4L5z7?g_st=ic" target="_blank" rel="noopener noreferrer" className="hover:text-primary-color ml-1 ">
-                            {t('footer.mobdwon_link')}
-                        </a>
-                    </span>
-                </div>
+
             </div>
         </footer>
     )

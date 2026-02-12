@@ -21,7 +21,7 @@ class CategoryController extends Controller
 
         $slugs = $Category->getTranslations('slug');
 
-        $products = $Category->allProducts()->paginate(12);
+        $products = $Category->products()->paginate(12);
         $products->getCollection()->transform(function ($product) use ($lang) {
             return [
                 'id' => $product->id,
@@ -47,7 +47,7 @@ class CategoryController extends Controller
             'content' => $Category->getTranslation('content', $lang),
             'image' => Storage::url($Category->image),
             'slug' => $Category->getTranslation('slug', $lang),
-            'subcategory' => $Category->subcategory->map(fn($subcat) => [
+            'subcategory' => $Category->subcategories->map(fn($subcat) => [
                 'id' => $subcat->id,
                 'title' => $subcat->getTranslation('title', $lang),
                 'product_count' =>  $subcat->products->count(),
@@ -88,11 +88,12 @@ class CategoryController extends Controller
                 'rate' => $product->rate,
                 'main_image' => Storage::url($product->main_image),
                 'images' => array_map(fn($image) => Storage::url($image), $product->images ?? []),
-                'product_option' => $product->productoption->map(fn($option) => [
+                'product_option' => $product->productoption ?
+                $product->productoption->map(fn($option) => [
                     'id' => $option->id,
                     'title' => $option->getTranslation('title', $lang),
                     'price' => $option->price
-                ]),
+                ]): collect(),
                 'slug' => $product->getTranslation('slug', $lang)
             ];
         });

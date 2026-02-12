@@ -6,11 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class SettingSite extends Model
 {
-    protected $fillable = [
-        'shop_link',
-        'about_us',
-        'contact_us',
-        'map_link',
-        'whats_app'
-    ];
+    protected $fillable = ['key', 'value'];
+
+    public static function setValue($key, $value)
+    {
+        return static::updateOrCreate(
+            ['key' => $key],
+            ['value' => $value]
+        );
+    }
+
+    public static function getValue($key, $default = null)
+    {
+        return static::where('key', $key)->value('value') ?? $default;
+    }
 }

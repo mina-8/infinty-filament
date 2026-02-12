@@ -17,25 +17,7 @@ class ContactUsController extends Controller
     public function index()
     {
         $appLang = app()->getLocale();
-
-        $contact_us = ContactUs::first();
-
-        if(!$contact_us){
-            return Inertia::render('Welcome/NotFound/NotFound');
-        }
-
-
-        $datacotantcus = [
-            'id' => $contact_us->id,
-            'title' => $contact_us->getTranslation('title', $appLang),
-            'addres' => $contact_us->addres,
-            'phone' => $contact_us->phone,
-            'fax' => $contact_us->fax,
-            'map' => $contact_us->map,
-            'banner' => Storage::url($contact_us->banner),
-        ];
-
-        return Inertia::render('Welcome/ContactUs/Index', ['contactus' => $datacotantcus]);
+        return Inertia::render('Welcome/ContactUs/Index');
     }
 
     public function store(string $lang, Request $request)

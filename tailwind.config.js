@@ -26,7 +26,7 @@ export default {
 
             },
             colors: {
-                'primary-color': '#df1111'
+                'primary-color': 'rgb(40, 40, 41)'
             },
             animation: {
                 'fadeup': 'fadeup 1s 0s both',

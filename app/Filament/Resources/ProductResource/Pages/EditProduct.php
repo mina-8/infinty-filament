@@ -70,6 +70,10 @@ class EditProduct extends EditRecord
                             ->label(__('filament-panels::resources/pages/product.fields.subcategory_id'))
                             ->relationship('subcategory', 'title')
                             ->required(),
+                        Components\Select::make('category_id')
+                            ->label(__('filament-panels::resources/pages/product.fields.category_id'))
+                            ->relationship('category', 'title')
+                            ->required(),
 
                         LanguageTabs::make([
                             Components\TextInput::make('title')
