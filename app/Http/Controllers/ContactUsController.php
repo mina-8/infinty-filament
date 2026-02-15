@@ -26,7 +26,7 @@ class ContactUsController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email',
-            'phone' => 'required|string|regex:/^05\d{8}$/|max:10',
+            'phone' => 'required|string|max:15',
             'country' => 'required|string|max:100',
             'message' => 'required|string|max:2000',
         ]);

@@ -19,7 +19,7 @@ class ContactformResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function getNavigationGroup():string
+    public static function getNavigationGroup(): string
     {
         return __('filament-panels::layout.webist.control webiste');
     }
@@ -49,15 +49,18 @@ class ContactformResource extends Resource
     }
 
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('read_at', null)->count();
+    }
 
-
-    // public static function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             //
-    //         ]);
-    // }
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                //
+            ]);
+    }
 
     public static function table(Table $table): Table
     {
@@ -74,6 +77,10 @@ class ContactformResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('filament-panels::resources/pages/contactform.fields.email'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('read_at')
+                    ->label(__('filament-panels::resources/pages/contactform.fields.read_at'))
+                    ->color(fn($record) => $record->read_at ? 'success' : 'danger')
+                    ->dateTime('M d, Y H:i'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('filament-panels::resources/pages/contactform.fields.created_at'))
@@ -104,7 +111,7 @@ class ContactformResource extends Resource
     {
         return [
             'index' => Pages\ListContactforms::route('/'),
-            'view' => Pages\ViewContactform::route('/view'),
+            'view' => Pages\ViewContactform::route('/{record}'),
             // 'create' => Pages\CreateContactform::route('/create'),
             // 'edit' => Pages\EditContactform::route('/{record}/edit'),
         ];

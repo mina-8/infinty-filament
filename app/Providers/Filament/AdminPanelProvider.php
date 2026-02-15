@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->profile()
             ->login() // Use default Filament login route (no argument)
             ->homeUrl('/admin')    // Explicitly set home/redirect after login
             ->colors([

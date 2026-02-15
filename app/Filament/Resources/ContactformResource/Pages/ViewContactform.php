@@ -11,6 +11,14 @@ use Filament\Infolists\Components\Fieldset;
 class ViewContactform extends ViewRecord
 {
     protected static string $resource = ContactformResource::class;
+
+    public function mount(int|string $record): void
+    {
+        parent::mount($record);
+
+        $this->record->markAsRead();
+    }
+
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -18,11 +26,12 @@ class ViewContactform extends ViewRecord
                 Fieldset::make('')
                 ->extraAttributes(['class' => 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-4 rounded shadow'])
                     ->schema([
-                        Infolists\Components\TextEntry::make('type')
-                            ->label(__('filament-panels::resources/pages/contactus.fields.type'))
-                            ->formatStateUsing(fn(string $state) => __('filament-panels::resources/pages/contactus.fields.' . $state)),
-                        Infolists\Components\TextEntry::make('name')
-                            ->label(__('filament-panels::resources/pages/contactus.fields.name')),
+                        // Infolists\Components\TextEntry::make('type')
+                        //     ->label(__('filament-panels::resources/pages/contactus.fields.type'))
+                        //     ->formatStateUsing(fn(string $state) => __('filament-panels::resources/pages/contactus.fields.' . $state)),
+                        Infolists\Components\TextEntry::make('first_name')
+                            ->label(__('filament-panels::resources/pages/contactus.fields.name'))
+                            ->formatStateUsing(fn ($record) => $record->first_name . ' ' . $record->last_name),
                         Infolists\Components\TextEntry::make('email')
                             ->label(__('filament-panels::resources/pages/contactus.fields.email')),
                         Infolists\Components\TextEntry::make('phone')

@@ -29,7 +29,7 @@ const CategoryNav = () => {
                         <div
                             // href={route('category', { lang: i18n.language, slug: item.slug })}
 
-                            className='flex items-center font-bold text-lg text-white'
+                            className='flex items-center font-bold text-lg text-white cursor-pointer'
                         >
 
                             {t('navbar-links.services')}

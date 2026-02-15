@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ContactformResource\Pages;
+namespace App\Filament\Resources\GuestResource\Pages;
 
-use App\Filament\Resources\ContactformResource;
+use App\Filament\Resources\GuestResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditContactform extends EditRecord
+class EditGuest extends EditRecord
 {
-    protected static string $resource = ContactformResource::class;
+    protected static string $resource = GuestResource::class;
 
     // protected function getHeaderActions(): array
     // {

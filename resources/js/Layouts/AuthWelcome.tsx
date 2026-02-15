@@ -138,7 +138,7 @@ export default function AuthWelcome({
                                         <button
                                             name='search'
                                             type="button"
-                                            className="inline-flex items-center rounded-full px-2 py-2 text-sm font-medium leading-4 transition duration-150 ease-in-out "
+                                            className="inline-flex items-center rounded-full px-2 py-2 text-sm font-medium leading-4 transition duration-150 ease-in-out text-white"
                                             onClick={() => setShowSearch(true)}
                                         >
                                             <IoSearch size={24} />
@@ -149,7 +149,7 @@ export default function AuthWelcome({
                                             triggerType="click"
                                         >
                                             <div
-                                                className='flex items-center gap-2 cursor-pointer group'
+                                                className='flex items-center gap-2 cursor-pointer group text-white'
                                             >
                                                 <FaRegUser size={24} className='group-hover:text-primary-color' />
                                                 {user ?
@@ -249,7 +249,7 @@ export default function AuthWelcome({
                                             triggerType="click"
                                         >
                                             <div
-                                                className='flex items-center gap-2 cursor-pointer group'
+                                                className='flex items-center gap-2 cursor-pointer group text-white'
                                             >
                                                 <BsCart4 size={24} className='group-hover:text-primary-color' />
                                                 <span>{CartCount}</span>
@@ -278,7 +278,7 @@ export default function AuthWelcome({
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <div
-                                                className='flex items-center gap-2 cursor-pointer group'
+                                                className='flex items-center gap-2 cursor-pointer group '
                                             >
                                                 <FaRegUser size={24} className='group-hover:text-primary-color' />
                                                 {user ?

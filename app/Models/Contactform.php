@@ -13,6 +13,7 @@ class Contactform extends Model
         'phone',
         'country',
         'message',
+        'read_at',
     ];
 
     public function setFirstNameAttribute($value)
@@ -28,5 +29,16 @@ class Contactform extends Model
     public function setMessageAttribute($value)
     {
         $this->attributes['message'] = strip_tags($value);
+    }
+
+    protected $casts = [
+        'read_at' => 'datetime',
+    ];
+
+    public function markAsRead()
+    {
+        $this->update([
+            'read_at' => now(),
+        ]);
     }
 }

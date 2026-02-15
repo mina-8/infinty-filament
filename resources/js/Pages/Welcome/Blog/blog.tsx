@@ -21,7 +21,7 @@ const Blog = ({ blogs }: Props) => {
                 </div>
                 <p>{t("blog.content")}</p>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 lg:px-0">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 lg:px-0 w-full">
                 {blogs.length > 0 &&
                     blogs.map((blog) => (
                         <div

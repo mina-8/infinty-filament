@@ -20,6 +20,7 @@ return [
         'phone' => 'Phone',
         'country' => 'Country',
         'message' => 'Message',
+        'read_at' => 'Read At',
         'created_at' => 'Created At',
     ],
 ];
