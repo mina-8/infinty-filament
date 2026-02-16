@@ -13,6 +13,7 @@ import Category from './Welcome/Category/Category';
 
 
 
+
 export default function Welcome({
     slides = [],
     categories = [],

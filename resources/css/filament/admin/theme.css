@@ -1,0 +1,15 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+
+
+.fi-simple-layout {
+    background-image: url('/public/images/29.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.fi-simple-main{
+    @apply bg-white/70
+}
