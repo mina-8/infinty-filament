@@ -6,7 +6,7 @@ interface Results {
     id: number;
     title: string;
     slug: string;
-    type: 'product' | 'blog';
+    type: 'product' | 'blog' | 'category';
     route:string;
 }
 interface Props {
@@ -15,18 +15,18 @@ interface Props {
 }
 const Index = ({ results, query }: Props) => {
     const { t, i18n } = useTranslation()
-    const typesearch = ['blog', 'product'];
+    const typesearch = ['blog', 'product', 'category'];
 
     const filteredResults = results?.filter(item => typesearch.includes(item.type)) || [];
 
     return (
         <>
             <Head title="Search" />
-            <div className=" bg-gray-50 flex flex-col" >
+            <div className="" >
                 {/* Top Banner */}
-                <div className="w-full h-32 bg-primary-color bg-cover bg-center" />
+                {/* <div className="w-full h-32 bg-primary-color bg-cover bg-center" /> */}
                 <div
-                    className='w-full max-w-7xl mx-auto my-12 flex flex-col justify-center items-center gap-4'
+                    className='w-full max-w-7xl mx-auto my-12 flex flex-col justify-center items-center gap-4 h-svh'
                 >
                     {/* عنوان البحث */}
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">
@@ -43,9 +43,9 @@ const Index = ({ results, query }: Props) => {
                                     className="bg-white p-4 rounded-xl shadow-md border border-gray-200 "
 
                                 >
-                                    <p className="text-sm text-gray-500 capitalize">
+                                    {/* <p className="text-sm text-gray-500 capitalize">
                                         النوع: <span className="font-semibold">{item.type}</span>
-                                    </p>
+                                    </p> */}
                                     <h2 className="text-lg font-bold text-gray-800">{item.title}</h2>
 
                                 </Link>

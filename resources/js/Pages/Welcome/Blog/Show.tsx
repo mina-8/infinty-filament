@@ -16,7 +16,7 @@ const Index = ({ blog }: Props) => {
   return (
     <>
     <Head title={t("blog.title")}/>
-        <section className="my-8 flex flex-col items-center justify-center gap-4 w-full max-w-7xl mx-auto ">
+        <section className="my-8 flex flex-col items-center justify-center gap-4 w-full max-w-7xl mx-auto h-svh">
             <h2 className="text-3xl self-center font-bold text-primary-color">
                 {blog.title}
             </h2>

@@ -1,12 +1,13 @@
 {
     "home": {
         "home": "Home",
-        "about": "About Orca",
-        "how_build": "How it's made",
+        "about": "About Us",
+        "shop_now": "Shop Now",
         "contact_us": "Contact Us",
         "products": "Products",
         "contactform": "Contact form",
         "carreer": "Careers",
+        "categories": "solution for your business",
         "testimonials": "Testimonials",
         "faq": "FAQ",
         "privacy_policy": "Privacy Policy",
@@ -134,13 +135,7 @@
         "title-news": "BSCO is a leading Saudi company in the manufacture of building finishing materials and prefabricated construction supplies, offering innovative solutions that meet the requirements of government and private projects in Saudi Arabia and the Gulf.",
         "content-news": "We manufacture a wide range of cement-based prefabricated products designed to withstand the region's harsh climatic conditions. These products include more than 40 finishing materials, insulation, putties, and ceramic and marble adhesives. We don't just offer building materials... we offer Saudi industry with engineering confidence that keeps pace with the future."
     },
-    "aboutus": {
-        "header": "About Orca",
-        "stories": "What our customers are saying (a testimonial we're proud of)",
-        "products": "Featured Products",
-        "certifcate": "Certificates",
-        "readmore": "Read More"
-    },
+
     "blogcards": {
         "readmore": "Read More",
         "otherblogs": "Explore More"
@@ -195,32 +190,8 @@
         "title": "Our Commitment",
         "ourvalues": "Our Values"
     },
-    "ourculture": {
-        "title": "Our Culture",
-        "stories": "\"BSCO\" Community Stories"
-    },
-    "ourmainplairs": {
-        "ourstory": {
-            "title": "About Us",
-            "content": "BSCO | A Saudi Finishing and Building Materials Factory with Global Standards",
-            "description": "BSCO (Binary Specialized Industries Company) is a leading Saudi industrial company specializing in the manufacture and supply of cement-based precast building materials. It was established to serve national projects and meet the demands of the Saudi and Gulf markets through reliable, turnkey solutions built on engineering knowledge."
-        },
-        "ourservice": {
-            "title": "Our Mission at BSCO",
-            "content": "At BSCO, we are committed to providing high-performance pre-mixed building and finishing materials, designed with a cement base to meet the needs of the Saudi and Gulf markets with maximum efficiency.",
-            "description": "We place customer satisfaction and quality of work at the core of our work. We not only provide the best products at the best prices, but also deliver a reliable experience that begins at the factory and ends at the project site, with Saudi quality worthy of national projects."
-        },
-        "ourculture": {
-            "title": "Our Values",
-            "content": "At BSCO, we believe that true success is built on a foundation of solid values ​​that we adhere to at every stage of our work, most notably:",
-            "description": "Professionalism and Integrity. We operate to the highest standards of professionalism, and we deal with transparency and ethics in all our internal and external dealings. We are committed to quality and precision in delivery, and we believe that achievement is achieved through a team spirit."
-        },
-        "ourstyle": {
-            "title": "Our Vision at BSCO",
-            "content": "Quality and Sustainability in Every Detail",
-            "description": "To be the leading Saudi company in the field of pre-mixed building materials and finishing materials, and the premier provider of high-quality solutions in the Kingdom and the Gulf countries, through continuous innovation and technological development, keeping pace with the requirements of today's projects and creating a more efficient infrastructure for the nation's future."
-        }
-    },
+
+
     "reciveupdate": {
         "subscribeText": "Receive the latest updates",
         "placeholder": "Enter your email",

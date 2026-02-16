@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Delivery;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
 use App\Models\SettingSite;
 use App\Models\Slide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -73,10 +75,25 @@ class HomeController extends Controller
                 ];
             });
 
+        $categories = Cache::remember('categories', 60, function () use ($appLang) {
+            return Category::latest()
+                ->select('id', 'title', 'slug', 'image')
+                ->get()
+                ->map(function ($category) use ($appLang) {
+                    return [
+                        'id' => $category->id,
+                        'title' => $category->getTranslation('title', $appLang),
+                        'slug' => $category->getTranslation('slug', $appLang),
+                        'image' => $category->image ?  Storage::url($category->image) : null
+                    ];
+                });
+        });
+
         return Inertia::render('Welcome', [
             'slides' => $slides,
             'blogs' => $blogs,
-            'products' => $products
+            'products' => $products,
+            'categories' => $categories
         ]);
     }
 

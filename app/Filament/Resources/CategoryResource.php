@@ -22,7 +22,7 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cloud';
 
     public static function getNavigationGroup(): string
     {
@@ -48,7 +48,7 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(1)
                     ->schema([
-                        
+
                         LanguageTabs::make([
                             Forms\Components\TextInput::make('title')
                                 ->label(__('filament-panels::resources/pages/category.fields.title'))

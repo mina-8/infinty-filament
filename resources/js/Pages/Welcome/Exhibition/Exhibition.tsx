@@ -204,7 +204,7 @@ const Exhibition = ({ products }: props) => {
             {contextHolder}
 
             <h2
-                className='text-center my-4 font-bold text-3xl'
+                className='text-center my-4 font-bold text-3xl text-primary-color'
             >
                 {t('home.exhibition')}
             </h2>

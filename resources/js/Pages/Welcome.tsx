@@ -8,15 +8,17 @@ import Loading from '@/Components/Loading';
 import NewsLetter from '@/Components/NewsLetter';
 import Exhibition from './Welcome/Exhibition/Exhibition';
 import Blog from './Welcome/Blog/blog';
+import Category from './Welcome/Category/Category';
 
 
 
 
 export default function Welcome({
     slides = [],
+    categories = [],
     blogs = [],
     products = []
-}: PageProps<{  slides?: [] , products?:[] , blogs?: [];}>) {
+}: PageProps<{  slides?: [] , categories?: [] , products?:[] , blogs?: [];}>) {
 
 
     return (
@@ -24,7 +26,7 @@ export default function Welcome({
             <Head title="Home" />
 
             <Sliders slides={slides} />
-
+            <Category categories={categories} />
             <Exhibition products={products}/>
             <Blog blogs={blogs} />
             <NewsLetter />

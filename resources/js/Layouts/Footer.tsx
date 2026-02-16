@@ -58,7 +58,7 @@ const Footer = () => {
 
 
     return (
-        <footer className="bg-wheat  w-full">
+        <footer className="bg-primary-color text-white  w-full">
             <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-1 lg:grid-cols-[30%_1fr] gap-8">
 
                 {/* Logo & Description & Social */}
@@ -68,12 +68,12 @@ const Footer = () => {
                 >
                     <div className="flex flex-col md:flex-row justify-between gap-8 ">
                         {/* المكتب الرئيسي */}
-                        <div className="flex flex-col gap-4 md:w-1/2 text-gray-400">
-                            <h2 className="text-xl font-bold text-black text-nowrap">{t('footer.contact_us')}</h2>
+                        <div className="flex flex-col gap-4 md:w-1/2">
+                            <h2 className="text-xl font-bold text-nowrap">{t('footer.contact_us')}</h2>
 
                             {office_reginal.length > 0 && (
                                 <>
-                                    <h3 className="text-lg font-semibold text-nowrap">
+                                    <h3 className="text-lg font-semibold text-nowrap ">
                                         {office_reginal[0].state}
                                     </h3>
 
@@ -89,8 +89,8 @@ const Footer = () => {
                         </div>
 
                         {/* المكاتب الأخرى */}
-                        <div className="flex flex-col gap-4 md:w-1/2 text-gray-400">
-                            <h2 className="text-xl font-bold text-black text-nowrap">{t('footer.other_office')}</h2>
+                        <div className="flex flex-col gap-4 md:w-1/2 ">
+                            <h2 className="text-xl font-bold text-nowrap">{t('footer.other_office')}</h2>
 
                             <ul className="space-y-3">
                                 {office_reginal.length > 1 &&
@@ -100,15 +100,15 @@ const Footer = () => {
                                             <li key={idx} className="pb-3">
                                                 <h4
                                                     onClick={showModal}
-                                                    className="font-semibold underline cursor-pointer">{office.state}</h4>
+                                                    className="font-semibold underline cursor-pointer hover:text-secondary-color">{office.state}</h4>
 
                                                 <Modal
                                                     // title="Basic Modal"
                                                     // closable={{ 'aria-label': 'Custom Close Button' }}
                                                     open={isModalOpen}
                                                     onOk={handleOk}
-                                                    // closable={false}
-                                                    // closeIcon={false}
+                                                    closable={false}
+                                                    closeIcon={false}
                                                     // onCancel={handleCancel}
                                                     footer={[
                                                         <Button key="ok" type="primary" onClick={handleOk}>
@@ -173,20 +173,18 @@ const Footer = () => {
 
                 {/* Links Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {/* Section: About */}
-
-
 
                     {/* Section: Products */}
                     <div className="flex flex-col gap-4">
                         <p
 
-                            className="text-xl text-black font-bold">{t('footer.information')}</p>
-                        <ul className="space-y-1 whitespace-nowrap text-gray-400 ">
+                            className="text-xl  font-bold">{t('footer.information')}</p>
+                        <ul className="space-y-1 whitespace-nowrap text-third-color ">
 
                             <li>
                                 <Link
                                     href={route('delivery', { lang: i18n.language })}
+                                    className='hover:text-secondary-color'
                                 >
                                     {t('footer.delivery')}
                                 </Link>
@@ -194,6 +192,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href={route('privacy', { lang: i18n.language })}
+                                    className='hover:text-secondary-color'
                                 >
                                     {t('footer.policy')}
                                 </Link>
@@ -205,16 +204,15 @@ const Footer = () => {
                     {/* Section: Build */}
                     <div className="flex flex-col gap-4">
                         <p
-
-                            className="text-xl text-black font-bold">{t('footer.my_account')}</p>
-                        <ul className="space-y-1 whitespace-nowrap text-gray-400">
+                            className="text-xl font-bold">{t('footer.my_account')}</p>
+                        <ul className="space-y-1 whitespace-nowrap text-third-color">
                             <li><Link href={route('my-cart', { lang: i18n.language })}
-                                className="hover:text-primary-color">
+                                className="hover:text-secondary-color">
                                 {t('footer.mycart')}
                             </Link>
                             </li>
 
-                            <li><Link href={route('wish-list', { lang: i18n.language })} className="hover:text-primary-color ">
+                            <li><Link href={route('wish-list', { lang: i18n.language })} className="hover:text-secondary-color">
                                 {t('footer.wichlist')}
                             </Link>
                             </li>
@@ -226,28 +224,20 @@ const Footer = () => {
                     {/* Section: Quick Links */}
                     <div className="flex flex-col gap-4">
                         <p
-                            className="text-xl text-black font-bold"
+                            className="text-xl  font-bold"
                         >{t('footer.email')}</p>
-                        <ul className="space-y-1 whitespace-nowrap text-gray-400">
+                        <ul className="space-y-1 whitespace-nowrap text-third-color">
 
                             <li>
                                 <a
                                     target='_blank'
                                     href={`mailto:${email_website}` || '#'}
-                                    className='hover:text-primary-color'
+                                    className='hover:text-secondary-color'
                                 >
                                     {email_website as unknown as string}
                                 </a>
                             </li>
-                            {/* <li>
-                                <a
-                                    target='_blank'
-                                    href={site_setting.map_link || '#'}
-                                    rel="noopener noreferrer"
-                                    className='hover:text-primary-color'
-                                >{t('footer.map')}
-                                </a>
-                            </li> */}
+
 
                         </ul>
                     </div>
@@ -256,18 +246,10 @@ const Footer = () => {
 
             {/* Footer Bottom */}
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-gray-700 py-4 px-4 max-w-7xl mx-auto w-full">
-                <div className="text-gray-400 text-sm text-center md:text-left">
+                <div className="text-third-color text-sm text-center md:text-left">
                     {t('footer.copyright')} © {currentYear}
                 </div>
-                <div>
-                    {/* <a
-                        href={site_setting.map_link || '#'}
-                        rel="noopener noreferrer"
-                        target='__blank' className='hover:text-primary-color'>
-                        {t('footer.maplocation')}
-
-                    </a> */}
-                </div>
+                
 
             </div>
         </footer>

@@ -1,5 +1,5 @@
 import { ImgHTMLAttributes } from 'react';
-import logo from '@/../../public/logo-removebg-preview.png';
+import logo from '@/../../public/logo.png';
 
 interface ApplicationLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
 

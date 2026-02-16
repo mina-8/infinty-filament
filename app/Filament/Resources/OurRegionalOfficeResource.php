@@ -18,7 +18,7 @@ class OurRegionalOfficeResource extends Resource
 {
     protected static ?string $model = OurRegionalOffice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
     public static function getNavigationGroup():string
     {
         return __('filament-panels::layout.webist.control webiste');

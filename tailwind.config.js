@@ -26,7 +26,9 @@ export default {
 
             },
             colors: {
-                'primary-color': 'rgb(40, 40, 41)'
+                'primary-color': '#032366',
+                'secondary-color': '#E74231',
+                'third-color': '#6c757d',
             },
             animation: {
                 'fadeup': 'fadeup 1s 0s both',

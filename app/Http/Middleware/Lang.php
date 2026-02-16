@@ -35,7 +35,7 @@ class Lang
             URL::defaults(['lang' => $lang]);
         } else {
             // If the language is not supported, redirect to the default language
-            return redirect()->to('/en' . $request->getRequestUri());
+            return redirect()->to('/ar' . $request->getRequestUri());
         }
         return $next($request);
     }

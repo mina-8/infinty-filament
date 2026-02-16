@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "@/../../public/logo.png";
+import logo from "@/../../public/inf-removebg-preview.png";
 import { motion } from "framer-motion";
 
 interface LoadingProps {
@@ -15,7 +15,7 @@ const Loading: React.FC<LoadingProps> = ({ loading }) => {
           <img
             src={logo}
             alt="BSCO"
-            className="h-20 w-auto animate-pulse drop-shadow-lg"
+            className="h-48 w-auto animate-pulse drop-shadow-lg"
           />
         </div>
       )}

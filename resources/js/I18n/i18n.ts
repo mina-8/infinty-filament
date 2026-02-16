@@ -10,7 +10,7 @@ i18n.use(initReactI18next)
       en: { translation: enTranslation },
       ar: { translation : arTranslation}
     },
-    fallbackLng: 'en', // Default language
+    fallbackLng: 'ar', // Default language
     interpolation: {
       escapeValue: false,
     },

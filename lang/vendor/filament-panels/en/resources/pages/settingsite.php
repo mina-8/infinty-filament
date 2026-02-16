@@ -16,9 +16,16 @@ return [
     'fields' => [
         'shop_link' => 'store address',
         'contact_us' => 'contact link',
-        'about_us' => 'About Us',
+        'aboutus' => 'About Us',
         'map_link' => 'site map',
         'whats_app' => 'whats_app number',
         'created_at' => 'Created At',
     ],
+
+    'success' => 'Successfully updated',
+    'tabs' => [
+        'sitesetting' => 'Footer Content',
+        'whats_app_email' => 'Contact Numbers and Email',
+        'about_us' => 'About Us'
+    ]
 ];

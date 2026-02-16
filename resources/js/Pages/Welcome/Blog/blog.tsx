@@ -13,14 +13,11 @@ const Blog = ({ blogs }: Props) => {
     const { t, i18n } = useTranslation();
     return (
         <section className="my-8 flex flex-col items-center justify-center gap-4 w-full max-w-7xl mx-auto">
-            <div className="self-start">
-                <div className="flex">
-                    <h2 className="text-3xl self-center lg:self-start font-bold text-primary-color hover:bg-primary-color hover:text-third-color p-2 hover:rounded-full transition-all duration-500">
-                        {t("blog.title")}
-                    </h2>
-                </div>
-                <p>{t("blog.content")}</p>
-            </div>
+            <h2 className="text-3xl text-center font-bold text-primary-color ">
+                {t("blog.title")}
+            </h2>
+            <p>{t("blog.content")}</p>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 lg:px-0 w-full">
                 {blogs.length > 0 &&
                     blogs.map((blog) => (
@@ -33,8 +30,8 @@ const Blog = ({ blogs }: Props) => {
                                 alt={blog.title}
                                 className="w-full h-48 object-cover"
                             />
-                            <div className="p-4 flex flex-col gap-2 group hover:bg-primary-color hover:text-white">
-                                <h3 className="text-xl font-semibold text-primary-color group-hover:text-white">
+                            <div className="p-4 flex flex-col gap-2  ">
+                                <h3 className="text-xl font-semibold text-primary-color ">
                                     {blog.title}
                                 </h3>
 
@@ -43,7 +40,7 @@ const Blog = ({ blogs }: Props) => {
                                         lang: i18n.language,
                                         slug: blog.slug,
                                     })}
-                                    className="mt-2 text-third-color bg-primary-color rounded-md p-4 text-center shadow-md hover:shadow group-hover:bg-transparent group-hover:border-third-color border-2 border-transparent"
+                                    className="mt-2 text-white bg-primary-color rounded-md p-4 text-center shadow-md hover:shadow hover:bg-secondary-color"
                                 >
                                     {t("blog.read_more")}
                                 </Link>

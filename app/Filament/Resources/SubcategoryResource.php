@@ -22,7 +22,7 @@ class SubcategoryResource extends Resource
 {
     protected static ?string $model = Subcategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cloud-arrow-down';
 
        public static function getNavigationGroup():string
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -43,7 +44,21 @@ class SearchWebController extends Controller
                 'slug' => $blog->getTranslation('slug' , $lang),
             ]
         );
-        $results = $products->concat($blogs);
+        $categories = Category::where(function ($q) use($lang , $query){
+            $q->where("title->$lang" , 'like' , "%$query%");
+        })
+        ->limit(10)
+        ->get()
+        ->map(fn ($category) =>
+             [
+                'type' => 'category',
+                'route' => 'category',
+                'id' => $category->id,
+                'title' => $category->getTranslation('title' , $lang),
+                'slug' => $category->getTranslation('slug' , $lang),
+            ]
+        );
+        $results = $products->concat($blogs)->concat($categories);
 
         return Inertia::render('Welcome/SearchWeb/Index' , ['results'=>$results , 'query' => $query]);
     }

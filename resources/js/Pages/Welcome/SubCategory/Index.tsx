@@ -129,7 +129,7 @@ const { categories } = usePage<CustomProp>().props
                             <h2
                                 className='text-2xl pb-2'
                             >{subcategory.title}</h2>
-                            <img src={subcategory.image} alt={subcategory.title} className='object-cover h-full rounded-lg' />
+                            <img src={subcategory.image} alt={subcategory.title} className='object-contain h-24 rounded-lg' />
                         </div>
                         <div>
                             <ContentRenderer content={subcategory.content} />

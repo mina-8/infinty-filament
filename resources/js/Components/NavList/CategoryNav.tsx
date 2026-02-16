@@ -29,7 +29,7 @@ const CategoryNav = () => {
                         <div
                             // href={route('category', { lang: i18n.language, slug: item.slug })}
 
-                            className='flex items-center font-bold text-lg text-white cursor-pointer'
+                            className='flex items-center font-bold text-lg text-primary-color lg:text-white hover:text-secondary-color cursor-pointer'
                         >
 
                             {t('navbar-links.services')}
@@ -49,13 +49,13 @@ const CategoryNav = () => {
                         <Dropdown.Content
                             align='center'
                             width='w-60'
-                            contentClasses='flex flex-col bg-white'
+                            contentClasses='flex flex-col bg-white overflow-hidden'
                         >
                             {categories.map((subcat , index)=>
                             <Link
                             key={index}
                             href={route('category' , {lang:i18n.language , slug:subcat.slug,})}
-                            className='px-4 py-2 hover:bg-primary-color hover:text-white'
+                            className='px-4 py-2 hover:bg-secondary-color hover:text-white'
                             >
                                 {`${subcat.title}`}
                             </Link>

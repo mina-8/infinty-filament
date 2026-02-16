@@ -43,7 +43,7 @@ class SettingSite extends Page implements HasForms
     public $email_website;
     public $privacy_policies;
     public $deliveries;
-
+    public $aboutus;
     public function mount(): void
     {
         $this->form->fill([
@@ -51,6 +51,7 @@ class SettingSite extends Page implements HasForms
             'email_website' => SettingSiteModel::getValue('email_website'),
             'privacy_policies' => json_decode(SettingSiteModel::getValue('privacy_policies', '[]'), true),
             'deliveries' => json_decode(SettingSiteModel::getValue('deliveries', '[]'), true),
+            'aboutus' => json_decode(SettingSiteModel::getValue('aboutus', '[]'), true),
         ]);
     }
 
@@ -69,6 +70,16 @@ class SettingSite extends Page implements HasForms
                                     ->label(__('filament-panels::resources/pages/sitesetting.fields.privacy_policies')),
                                 QuillEditor::make('deliveries')
                                     ->label(__('filament-panels::resources/pages/sitesetting.fields.deliveries'))
+
+                            ]),
+                        ]),
+                    Tab::make('about_us')
+                        ->label(__('filament-panels::resources/pages/sitesetting.tabs.about_us'))
+                        ->schema([
+                            LanguageTabs::make([
+
+                                QuillEditor::make('aboutus')
+                                    ->label(__('filament-panels::resources/pages/sitesetting.fields.aboutus')),
 
                             ]),
                         ]),

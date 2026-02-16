@@ -129,7 +129,7 @@ const Index = ({ category }: props) => {
                         <h2
                             className='text-2xl pb-2'
                         >{category.title}</h2>
-                        <img src={category.image} alt={category.title} className='object-cover h-full rounded-lg' />
+                        <img src={category.image} alt={category.title} className='object-contain h-24 rounded-lg' />
                     </div>
                     <div>
                         <ContentRenderer content={category.content} />

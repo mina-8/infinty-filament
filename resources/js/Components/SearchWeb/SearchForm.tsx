@@ -36,7 +36,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onClose }) => {
                     <input
                         type="text"
                         placeholder={t('search-form.search-placeholder')}
-                        className={`${i18n.language === 'ar' ? 'rounded-tr-3xl' : 'rounded-tl-3xl'} px-4 py-2 focus:outline-none focus:ring-0  focus:ring-sky-500 w-1/2`}
+                        className={`${i18n.language === 'ar' ? 'rounded-tr-3xl' : 'rounded-tl-3xl'} px-4 py-2 focus:outline-none focus:ring-0  focus:ring-sky-500 lg:w-1/2`}
                         autoFocus
                         value={query}
                         onChange={e => setQuery(e.target.value)}
@@ -49,7 +49,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onClose }) => {
                         {t('search-form.search-btn')}
                     </button>
                 </form>
-                
+
             </div>
         </div>
     );
