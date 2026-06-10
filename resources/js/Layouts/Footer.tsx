@@ -160,7 +160,7 @@ const Footer = () => {
                                 rel="noopener noreferrer"
                                 className="rounded-full  bg-primary-color p-2 "
                             >
-                                <div className='w-5' dangerouslySetInnerHTML={{ __html: social.icon_path }} />
+                                <div className='w-8 fill-white' dangerouslySetInnerHTML={{ __html: social.icon_path }} />
                             </a>
                         ))}
 
@@ -249,7 +249,7 @@ const Footer = () => {
                 <div className="text-third-color text-sm text-center md:text-left">
                     {t('footer.copyright')} © {currentYear}
                 </div>
-                
+
 
             </div>
         </footer>

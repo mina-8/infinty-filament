@@ -20,13 +20,17 @@ return [
         'email_website' => 'الايميل',
         'address' => 'العنوان',
         'created_at' => 'تاريخ الإنشاء',
-
+        'primary_color' => 'اللون الأساسي',
+        'secondary_color' => 'اللون الثانوي',
+        'third_color' => 'اللون الثالث',
+        'logo_image' => 'صورة الشعار',
     ],
     'success' => 'تم التعديل بنجاح',
-
+    'cache_cleared' => 'تم مسح الكاش بنجاح',
     'tabs' => [
         'sitesetting' => 'محتوي التذيل',
         'whats_app_email' => 'ارقام التواصل و الايميل',
-        'about_us' => 'من نحن'
+        'about_us' => 'من نحن',
+        'colors' => 'الالوان',
     ]
 ];

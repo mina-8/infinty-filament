@@ -6,10 +6,15 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use App\Models\SettingSite as SettingSiteModel;
+use Filament\Actions\Action;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Pixelpeter\FilamentLanguageTabs\Forms\Components\LanguageTabs;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
@@ -25,6 +30,20 @@ class SettingSite extends Page implements HasForms
     //     return __('filament-panels::layout.webist.settingsite');
     // }
 
+    protected function getHeaderActions():array
+    {
+        return [
+            Action::make('clear_cache')
+            ->action(function () {
+                // Cache::forget('setting_site');
+                Artisan::call('cache:clear');
+                Notification::make()
+                    ->title(__('filament-panels::resources/pages/sitesetting.cache_cleared'))
+                    ->success()
+                    ->send();
+            })
+        ];
+    }
     public function getHeading(): string
     {
         return __('filament-panels::resources/pages/sitesetting.title');
@@ -44,6 +63,12 @@ class SettingSite extends Page implements HasForms
     public $privacy_policies;
     public $deliveries;
     public $aboutus;
+    public $primary_color;
+    public $secondary_color;
+    public $third_color;
+
+    public $logo_image;
+
     public function mount(): void
     {
         $this->form->fill([
@@ -52,6 +77,10 @@ class SettingSite extends Page implements HasForms
             'privacy_policies' => json_decode(SettingSiteModel::getValue('privacy_policies', '[]'), true),
             'deliveries' => json_decode(SettingSiteModel::getValue('deliveries', '[]'), true),
             'aboutus' => json_decode(SettingSiteModel::getValue('aboutus', '[]'), true),
+            'primary_color' => SettingSiteModel::getValue('primary_color'),
+            'secondary_color' => SettingSiteModel::getValue('secondary_color'),
+            'third_color' => SettingSiteModel::getValue('third_color'),
+            'logo_image' => SettingSiteModel::getValue('logo_image'),
         ]);
     }
 
@@ -95,6 +124,23 @@ class SettingSite extends Page implements HasForms
                                 ->email()
                                 ->maxLength(255),
                         ]),
+                    Tab::make('colors')
+                        ->label(__('filament-panels::resources/pages/sitesetting.tabs.colors'))
+                        ->schema([
+                            ColorPicker::make('primary_color')
+                                ->label(__('filament-panels::resources/pages/sitesetting.fields.primary_color')),
+                            ColorPicker::make('secondary_color')
+                                ->label(__('filament-panels::resources/pages/sitesetting.fields.secondary_color')),
+                            ColorPicker::make('third_color')
+                                ->label(__('filament-panels::resources/pages/sitesetting.fields.third_color')),
+                            FileUpload::make('logo_image')
+                                ->label(__('filament-panels::resources/pages/sitesetting.fields.logo_image'))
+                                ->directory('site-settings')
+                                ->disk('public')
+                                ->image()
+                                ->imageEditor()
+                                ->acceptedFileTypes(['image/png'])
+                        ])
                 ])
         ];
     }
@@ -103,7 +149,23 @@ class SettingSite extends Page implements HasForms
     {
         $data = $this->form->getState();
 
+        // handel image
+        foreach(['logo_image'] as $imageField) {
+            $oldImage = SettingSiteModel::getValue($imageField);
+            if(!empty($data[$imageField]) && $data[$imageField] != $oldImage) {
+                // delete old image
+                if($oldImage && Storage::disk('public')->exists($oldImage)) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+                SettingSiteModel::setValue($imageField, $data[$imageField]);
+            }
+        }
+
         foreach ($data as $key => $value) {
+            if(in_array($key, ['logo_image'])) {
+                continue; // already handled
+            }
+            
             if (is_array($value)) {
                 $value = json_encode($value, JSON_UNESCAPED_UNICODE);
             }

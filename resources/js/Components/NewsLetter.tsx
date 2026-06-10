@@ -35,7 +35,7 @@ const NewsLetter = () => {
                             style={{
                                 color: 'black' // لازم يكون اللون هنا مش fill
                             }}
-                            className="w-5"
+                            className="w-7"
                             dangerouslySetInnerHTML={{
                                 __html: social.icon_path.replace(/fill=".*?"/g, 'fill="currentColor"')
                             }}

@@ -8,7 +8,7 @@ import Loading from '@/Components/Loading';
 import NewsLetter from '@/Components/NewsLetter';
 import Exhibition from './Welcome/Exhibition/Exhibition';
 import Blog from './Welcome/Blog/blog';
-import Category from './Welcome/Category/Category';
+import Category from './Welcome/Category/category';
 
 
 

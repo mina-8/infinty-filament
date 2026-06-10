@@ -7,6 +7,7 @@ use App\Models\OurRegionalOffice;
 use App\Models\SettingSite;
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -65,6 +66,16 @@ class HandleInertiaRequests extends Middleware
                     ];
                 }),
             'socialicons' => fn() => SocialLink::get(),
+
+            'setting_site' => Cache::remember('setting_site' , now()->addDay() , function(){
+                $data = SettingSite::whereIn('key' , ['primary_color', 'secondary_color', 'third_color' , 'logo_image'])->pluck('value', 'key');
+                return [
+                    'primary_color' => $data['primary_color'] ?? null,
+                    'secondary_color' => $data['secondary_color'] ?? null,
+                    'third_color' => $data['third_color'] ?? null,
+                    'logo_image' => $data['logo_image'] ? Storage::url($data['logo_image']) : null,
+                ];
+            }),
 
             'flash' => function () {
                 return [

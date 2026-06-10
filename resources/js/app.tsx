@@ -29,8 +29,16 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
         const RootApp = () => {
+            const setting_site = props.initialPage.props.setting_site;
             const [loading, setLoading] = useState(false);
             const [showLoading, setShowLoading] = useState(false);
+            useEffect(() => {
+                if (setting_site) {
+                    document.documentElement.style.setProperty('--primary-color', setting_site.primary_color ?? '');
+                    document.documentElement.style.setProperty('--secondary-color', setting_site.secondary_color ?? '');
+                    document.documentElement.style.setProperty('--third-color', setting_site.third_color ?? '');
+                }
+            }, [setting_site]);
             useEffect(() => {
 
                 router.on('start', () => {

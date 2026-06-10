@@ -235,7 +235,7 @@ const Exhibition = ({ products }: props) => {
                     >
                         {Products.map((item, index) => {
                             // fetch select option
-                            const SelectedOptionId = selectedOptions[item.id] || item.product_option[0].id;
+                            const SelectedOptionId = selectedOptions[item.id] || item.product_option[0]?.id;
                             const filterOptionPrice = item.product_option.find(opt => opt.id === SelectedOptionId);
                             return (
                                 <div
@@ -284,10 +284,10 @@ const Exhibition = ({ products }: props) => {
                                             style={{
                                                 backgroundPosition: `${i18n.language == 'ar' ? 'left' : 'right'}`
                                             }}
-                                            defaultValue={item.product_option[0].title}
+                                            defaultValue={item.product_option[0]?.title}
                                             onChange={(e) => handelOptionPrice(item.id, Number(e.target.value))}
                                         >
-                                            {item.product_option.map((option, index) =>
+                                            {Array.isArray(item.product_option) && item.product_option.map((option, index) =>
                                                 <option
                                                     key={index}
                                                     value={option.id}

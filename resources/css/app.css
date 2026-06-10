@@ -8,6 +8,12 @@
   opacity: 0.6;
 } */
 
+:root{
+    --primary-color: #032366;
+    --secondary-color: #E74231;
+    --third-color: #6c757d;
+}
+
 /* Active dot */
 .ant-carousel .slick-dots li::after {
   background-color: #2f2f2f !important; /* Tailwind's yellow-400 */
